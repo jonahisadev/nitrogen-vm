@@ -19,5 +19,18 @@ namespace Nitrogen {
 		
 		return buf;
 	}
+	
+	bool Util::isNumber(char* str) {
+		int len = strlen(str);
+		for (int i = 0; i < len; i++) {
+			if (str[i] < '0' || str[i] > '9')
+				return false;
+		}
+		return true;
+	}
+	
+	int Util::convertNum(char* str, int base) {
+		return strtol(str, (char**)nullptr, base);
+	}
 
 }
