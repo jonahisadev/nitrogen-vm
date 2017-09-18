@@ -22,6 +22,8 @@ namespace Nitrogen {
 		int getSize() const { return ptr; }
 	};
 	
+	template class List<unsigned char>;
+	
 	template <class T>
 	List<T>::List(int size) {
 		this->data = (T*) malloc(sizeof(T) * size);
@@ -36,7 +38,7 @@ namespace Nitrogen {
 	
 	template <class T>
 	void List<T>::add(T data) {
-		if (ptr >= getSize()) {
+		if (this->ptr >= this->getSize()) {
 			this->alloc_size *= 2;
 			this->data = (T*) realloc(this->data, sizeof(T) * this->alloc_size);
 		}

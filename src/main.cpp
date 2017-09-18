@@ -13,6 +13,11 @@ int main(int argc, char** argv) {
 	Parser* p = new Parser(src);
 	p->start();
 	p->printTokens();
+	
+	Compiler* c = p->createCompiler();
+	c->start();
+	
+	delete c;
 	delete p;
 	
 	return 0;

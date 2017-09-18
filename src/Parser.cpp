@@ -60,5 +60,11 @@ namespace Nitrogen {
 	void Parser::printTokens() {
 		Token::printTokenList(tokens);
 	}
+	
+	Compiler* Parser::createCompiler() {
+		Compiler* c = new Compiler();
+		c->setTokens(this->tokens);
+		return c;
+	}
 
 }

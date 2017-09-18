@@ -1,13 +1,14 @@
 #ifndef NITROGEN_PARSER_H
 #define NITROGEN_PARSER_H
 
-#include <Nitrogen/Util.h>
-#include <Nitrogen/List.h>
-#include <Nitrogen/Token.h>
-
 #include <cstring>
 #include <cstdlib>
 #include <cstring>
+
+#include <Nitrogen/Util.h>
+#include <Nitrogen/List.h>
+#include <Nitrogen/Token.h>
+#include <Nitrogen/Compiler.h>
 
 namespace Nitrogen {
 
@@ -23,6 +24,8 @@ namespace Nitrogen {
 		
 		void start();
 		void printTokens();
+		
+		Compiler* createCompiler();
 	};
 
 }
