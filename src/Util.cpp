@@ -16,6 +16,7 @@ namespace Nitrogen {
 		char* buf = new char[size];
 		fread(buf, 1, size, file);
 		fclose(file);
+		buf[size] = '\0';
 		
 		return buf;
 	}
@@ -50,6 +51,15 @@ namespace Nitrogen {
 	
 	int Util::convertNum(char* str, int base) {
 		return strtol(str, (char**)nullptr, base);
+	}
+	
+	void Util::toUpper(char* str) {
+		int len = strlen(str);
+		for (int i = 0; i < len; i++) {
+			if (str[i] >= 'a' && str[i] <= 'z') {
+				str[i] -= ('a' - 'A');
+			}
+		}
 	}
 	
 	unsigned char* Util::itoa(int x) {

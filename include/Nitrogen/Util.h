@@ -14,6 +14,7 @@ namespace Nitrogen {
 		
 		static bool isNumber(char* str);
 		static int convertNum(char* str, int base);
+		static void toUpper(char* str);
 		
 		static unsigned char* itoa(int x);
 	};

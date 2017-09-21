@@ -4,7 +4,12 @@
 namespace Nitrogen {
 
 	enum ByteInst {
-		_ICONST = 0x01
+		_ICONST = 		0x01,
+		_ILOAD = 		0x02,
+	};
+	
+	enum ByteReg {
+		_EAX = 			0x01,
 	};
 
 }

@@ -19,9 +19,20 @@ namespace Nitrogen {
 			opcode = prog[pc];
 			
 			switch (opcode) {
+				// ICONST
 				case ByteInst::_ICONST: {
 					pushi(prog[pc+1], prog[pc+2], prog[pc+3], prog[pc+4]);
 					pc += 4;
+					break;
+				}
+				
+				// ILOAD
+				case ByteInst::_ILOAD: {
+					int x = popi();
+					unsigned int* reg = getRegister(prog[pc+1]);
+					*reg = x;
+					pc += 1;
+					printf("%d\n", *reg);
 					break;
 				}
 			}
@@ -42,6 +53,24 @@ namespace Nitrogen {
 		ram[--sp] = c;
 		ram[--sp] = b;
 		ram[--sp] = a;
+	}
+	
+	int Runtime::popi() {
+		unsigned char a = ram[sp++];
+		unsigned char b = ram[sp++];
+		unsigned char c = ram[sp++];
+		unsigned char d = ram[sp++];
+		
+		return (a << 24) | (b << 16) | (c << 8) | d;
+	}
+	
+	unsigned int* Runtime::getRegister(int code) {
+		switch (code) {
+			case _EAX:
+				return &eax;
+			default:
+				return nullptr;
+		}
 	}
 
 }

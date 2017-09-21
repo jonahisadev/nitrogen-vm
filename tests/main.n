@@ -1,1 +1,2 @@
 iconst 42
+iload eax

@@ -23,6 +23,13 @@ namespace Nitrogen {
 					buffer->add(data[2]);
 					buffer->add(data[3]);
 				}
+				
+				// ILOAD
+				else if (tokens->get(i)->getData() == ILOAD &&
+						tokens->get(i+1)->getType() == REG) {
+					buffer->add(_ILOAD);
+					buffer->add(tokens->get(i+1)->getData() + 1);
+				}
 			}
 		}
 		

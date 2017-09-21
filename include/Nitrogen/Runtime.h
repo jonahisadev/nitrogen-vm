@@ -12,12 +12,20 @@ namespace Nitrogen {
 
 	class Runtime {
 	private:
+		// Information
 		int bin_size;
 		unsigned char* prog;
 		
+		// CPU
 		unsigned char* ram;
 		int pc = 0;
 		int sp = STACK_START;
+		
+		// Registers
+		unsigned int eax;
+		unsigned int ebx;
+		unsigned int ecx;
+		unsigned int edx;
 		
 	public:
 		Runtime(unsigned char* prog, int bin_size);
@@ -27,6 +35,9 @@ namespace Nitrogen {
 		
 	private:
 		void pushi(unsigned char a, unsigned char b, unsigned char c, unsigned char d);
+		int popi();
+		
+		unsigned int* getRegister(int code);
 	};
 
 }

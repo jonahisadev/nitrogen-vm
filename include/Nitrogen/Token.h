@@ -4,16 +4,26 @@
 #include <cstdio>
 
 #include <Nitrogen/List.h>
+#include <Nitrogen/Util.h>
 
 namespace Nitrogen {
 
 	enum TokenType {
 		INST,
-		NUM
+		NUM,
+		REG
 	};
 	
 	enum TokenInst {
-		ICONST
+		ICONST,
+		ILOAD
+	};
+	
+	enum TokenReg {
+		EAX,
+		EBX,
+		ECX,
+		EDX
 	};
 
 	class Token;
@@ -30,6 +40,9 @@ namespace Nitrogen {
 		~Token();
 		
 		static void printTokenList(List<Token*>* tokens);
+		
+		static int isInstruction(char* str);
+		static int isRegister(char* str);
 		
 		int getType() const { return type; }
 		int getData() const { return data; }

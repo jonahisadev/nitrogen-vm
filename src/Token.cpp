@@ -18,21 +18,65 @@ namespace Nitrogen {
 		
 		for (int i = 0; i < tokens->getSize(); i++) {
 			t = tokens->get(i);
+			printf("(%d) ", t->getLine());
 			
+			// INST
 			if (t->getType() == INST) {
 				printf("INST: ");
 				switch (t->getData()) {
-					case ICONST: {
+					case ICONST:
 						printf("ICONST"); break;
-					}
+					case ILOAD:
+						printf("ILOAD"); break;
 				}
 				printf("\n");
 			}
 			
+			//REG
+			else if (t->getType() == REG) {
+				printf("REG: ");
+				switch (t->getData()) {
+					case EAX:
+						printf("EAX"); break;
+					case EBX:
+						printf("EBX"); break;
+					case ECX:
+						printf("ECX"); break;
+					case EDX:
+						printf("EDX"); break;
+				}
+				printf("\n");
+			}
+			
+			// NUM
 			else if (t->getType() == NUM) {
 				printf("NUM: %d\n", t->getData());
 			}
 		}
+	}
+	
+	int Token::isInstruction(char* str) {
+		Util::toUpper(str);
+		if (!strcmp(str, "ICONST"))
+			return ICONST;
+		else if (!strcmp(str, "ILOAD"))
+			return ILOAD;
+		else
+			return -1;
+	}
+	
+	int Token::isRegister(char* str) {
+		Util::toUpper(str);
+		if (!strcmp(str, "EAX"))
+			return EAX;
+		else if (!strcmp(str, "EBX"))
+			return EBX;
+		else if (!strcmp(str, "ECX"))
+			return ECX;
+		else if (!strcmp(str, "EDX"))
+			return EDX;
+		else
+			return -1;
 	}
 
 }

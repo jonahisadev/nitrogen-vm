@@ -13,7 +13,7 @@ namespace Nitrogen {
 	}
 	
 	void Parser::start() {
-		char lex[256];
+		char* lex = new char[256];
 		int lexi = 0;
 		int i = 0;
 		int line = 1;
@@ -30,15 +30,23 @@ namespace Nitrogen {
 			lex[lexi++] = source[i++];
 		}
 		
+		int token;
+		
 		// NUMBERS
 		if (Util::isNumber(lex)) {
 			tokens->add(new Token(NUM, Util::convertNum(lex, 10), line));
 			goto end;
 		}
 		
+		// REGISTER
+		else if ((token = Token::isRegister(lex)) != -1) {
+			tokens->add(new Token(REG, token, line));
+			goto end;
+		}
+		
 		// INST
-		else if (!strcmp(lex, "iconst")) {
-			tokens->add(new Token(INST, ICONST, line));
+		else if ((token = Token::isInstruction(lex)) != -1) {
+			tokens->add(new Token(INST, token, line));
 			goto end;
 		}
 		
