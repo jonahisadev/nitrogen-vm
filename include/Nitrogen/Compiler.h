@@ -6,6 +6,7 @@
 #include <Nitrogen/List.h>
 #include <Nitrogen/Token.h>
 #include <Nitrogen/Bytecode.h>
+#include <Nitrogen/Util.h>
 
 namespace Nitrogen {
 

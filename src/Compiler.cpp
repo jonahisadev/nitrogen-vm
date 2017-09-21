@@ -17,7 +17,11 @@ namespace Nitrogen {
 				if (tokens->get(i)->getData() == ICONST &&
 						tokens->get(i+1)->getType() == NUM) {
 					buffer->add(_ICONST);
-					buffer->add(tokens->get(i+1)->getData());
+					unsigned char* data = Util::itoa(tokens->get(i+1)->getData());
+					buffer->add(data[0]);
+					buffer->add(data[1]);
+					buffer->add(data[2]);
+					buffer->add(data[3]);
 				}
 			}
 		}

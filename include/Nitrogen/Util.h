@@ -10,8 +10,12 @@ namespace Nitrogen {
 	class Util {
 	public:
 		static char* readFile(const char* path);
+		static unsigned char* readBinaryFile(const char* path, int* fsize);
+		
 		static bool isNumber(char* str);
 		static int convertNum(char* str, int base);
+		
+		static unsigned char* itoa(int x);
 	};
 
 }

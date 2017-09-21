@@ -21,4 +21,4 @@ to a separate document later.
 | ICONST 	| N			| Push a 4 byte number to the stack |
 | ILOAD		| R			| Pop a 4 byte number to a register |
 | ISTORE 	| R			| Push a 4 byte number from a register |
-| IMOV		| R / N		| Move a constant or register value to register|
+| IMOV		| R , R / N	| Move a constant or register value to register|

@@ -20,6 +20,25 @@ namespace Nitrogen {
 		return buf;
 	}
 	
+	unsigned char* Util::readBinaryFile(const char* path, int* fsize) {
+		FILE* file = fopen(path, "rb");
+		if (!file) {
+			printf("Could not open file '%s'\n", path);
+			return nullptr;
+		}
+		
+		fseek(file, 0, SEEK_END);
+		int size = ftell(file);
+		fseek(file, 0, SEEK_SET);
+		
+		unsigned char* buf = new unsigned char[size];
+		fread(buf, 1, size, file);
+		fclose(file);
+		
+		*fsize = size;
+		return buf;
+	}
+	
 	bool Util::isNumber(char* str) {
 		int len = strlen(str);
 		for (int i = 0; i < len; i++) {
@@ -31,6 +50,17 @@ namespace Nitrogen {
 	
 	int Util::convertNum(char* str, int base) {
 		return strtol(str, (char**)nullptr, base);
+	}
+	
+	unsigned char* Util::itoa(int x) {
+		unsigned char* arr = new unsigned char[4];
+		
+		arr[0] = (x >> 24) & 0xFF;
+		arr[1] = (x >> 16) & 0xFF;
+		arr[2] = (x >> 8)  & 0xFF;
+		arr[3] = (x >> 0)  & 0xFF;
+		
+		return arr;
 	}
 
 }
