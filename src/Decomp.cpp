@@ -27,6 +27,11 @@ namespace Nitrogen {
 					printf("ILOAD \t%s", Bytecode::getRegister(getNext()));
 					break;
 				}
+				
+				case _ISTORE: {
+					printf("ISTORE \t%s", Bytecode::getRegister(getNext()));
+					break;
+				}
 			}
 			printf("\n");
 			

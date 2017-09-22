@@ -9,12 +9,21 @@ Yet another VM language
 This will eventually be moved to a separate document, but for now,
 this will remain easy to access.
 
+### Adding Opcodes
+
+* Add to ```TokenInst``` in Token.h
+* Add to ```isInstruction``` in Token.cpp
+	* If desired, add to ```printTokenList``` 
+* Add bytecode to Bytecode.h
+* Implement in Compiler.cpp
+* Add to Decomp.cpp
+* Implement behavior in Runtime.cpp
+
 ### To Do
 
 This will always stay in README. Everything below this should move
 to a separate document later.
 
-* Decompiler
 * Add more of the opcodes listed below
 
 ### Instructions

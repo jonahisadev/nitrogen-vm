@@ -36,6 +36,7 @@ namespace Nitrogen {
 		
 	private:
 		void pushi(unsigned char a, unsigned char b, unsigned char c, unsigned char d);
+		void pushi(int x);
 		int popi();
 		
 		unsigned char getNext();

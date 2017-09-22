@@ -6,6 +6,7 @@ namespace Nitrogen {
 	enum ByteInst {
 		_ICONST = 		0x01,
 		_ILOAD = 		0x02,
+		_ISTORE = 		0x03,
 	};
 	
 	enum ByteReg {

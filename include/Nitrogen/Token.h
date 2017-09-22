@@ -16,7 +16,8 @@ namespace Nitrogen {
 	
 	enum TokenInst {
 		ICONST,
-		ILOAD
+		ILOAD,
+		ISTORE
 	};
 	
 	enum TokenReg {

@@ -31,6 +31,13 @@ namespace Nitrogen {
 					*reg = popi();
 					break;
 				}
+				
+				// ISTORE
+				case ByteInst::_ISTORE: {
+					unsigned int* reg = getRegister(getNext());
+					pushi(*reg);
+					break;
+				}
 			}
 			
 			//printf("STACK: [%d, %d, %d, %d]\n", ram[sp], ram[sp+1], ram[sp+2], ram[sp+3]);
@@ -49,6 +56,12 @@ namespace Nitrogen {
 		ram[--sp] = c;
 		ram[--sp] = b;
 		ram[--sp] = a;
+	}
+	
+	void Runtime::pushi(int x) {
+		unsigned char* arr = Util::itoa(x);
+		pushi(arr[0], arr[1], arr[2], arr[3]);
+		delete[] arr;
 	}
 	
 	int Runtime::popi() {

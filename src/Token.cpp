@@ -12,6 +12,32 @@ namespace Nitrogen {
 		// Nothing
 	}
 	
+	int Token::isInstruction(char* str) {
+		Util::toUpper(str);
+		if (!strcmp(str, "ICONST"))
+			return ICONST;
+		else if (!strcmp(str, "ILOAD"))
+			return ILOAD;
+		else if (!strcmp(str, "ISTORE"))
+			return ISTORE;
+		else
+			return -1;
+	}
+	
+	int Token::isRegister(char* str) {
+		Util::toUpper(str);
+		if (!strcmp(str, "EAX"))
+			return EAX;
+		else if (!strcmp(str, "EBX"))
+			return EBX;
+		else if (!strcmp(str, "ECX"))
+			return ECX;
+		else if (!strcmp(str, "EDX"))
+			return EDX;
+		else
+			return -1;
+	}
+	
 	void Token::printTokenList(List<Token*>* tokens) {
 		Token* t;
 		printf("Printing %d tokens...\n", tokens->getSize());
@@ -28,6 +54,8 @@ namespace Nitrogen {
 						printf("ICONST"); break;
 					case ILOAD:
 						printf("ILOAD"); break;
+					case ISTORE:
+						printf("ISTORE"); break;
 				}
 				printf("\n");
 			}
@@ -53,30 +81,6 @@ namespace Nitrogen {
 				printf("NUM: %d\n", t->getData());
 			}
 		}
-	}
-	
-	int Token::isInstruction(char* str) {
-		Util::toUpper(str);
-		if (!strcmp(str, "ICONST"))
-			return ICONST;
-		else if (!strcmp(str, "ILOAD"))
-			return ILOAD;
-		else
-			return -1;
-	}
-	
-	int Token::isRegister(char* str) {
-		Util::toUpper(str);
-		if (!strcmp(str, "EAX"))
-			return EAX;
-		else if (!strcmp(str, "EBX"))
-			return EBX;
-		else if (!strcmp(str, "ECX"))
-			return ECX;
-		else if (!strcmp(str, "EDX"))
-			return EDX;
-		else
-			return -1;
 	}
 
 }

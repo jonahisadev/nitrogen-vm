@@ -26,6 +26,13 @@ namespace Nitrogen {
 					buffer->add(_ILOAD);
 					buffer->add(tokens->get(i+1)->getData() + 1);
 				}
+				
+				// ISTORE
+				else if (tokens->get(i)->getData() == ISTORE &&
+						tokens->get(i+1)->getType() == REG) {
+					buffer->add(_ISTORE);
+					buffer->add(tokens->get(i+1)->getData() + 1);
+				}
 			}
 		}
 		
