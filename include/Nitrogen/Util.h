@@ -22,6 +22,7 @@ namespace Nitrogen {
 		
 		// Data Conversion
 		static unsigned char* itoa(int x);
+		static unsigned int atoi(unsigned char a, unsigned char b, unsigned char c, unsigned char d);
 		
 		// Buffers
 		static void writeInt(List<unsigned char>* list, int data);

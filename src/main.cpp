@@ -5,6 +5,8 @@
 #include <Nitrogen/Util.h>
 #include <Nitrogen/Parser.h>
 #include <Nitrogen/Runtime.h>
+#include <Nitrogen/Compiler.h>
+#include <Nitrogen/Decomp.h>
 
 using namespace Nitrogen;
 
@@ -33,6 +35,15 @@ int main(int argc, char** argv) {
 		int ret = r->start();
 		
 		return ret;
+	}
+	
+	else if (!strcmp(argv[1], "-d")) {
+		int size;
+		unsigned char* prog = Util::readBinaryFile(argv[2], &size);
+		
+		Decomp* d = new Decomp(prog, size);
+		d->start();
+		delete d;
 	}
 	
 	else {

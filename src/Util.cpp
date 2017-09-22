@@ -73,6 +73,10 @@ namespace Nitrogen {
 		return arr;
 	}
 	
+	unsigned int Util::atoi(unsigned char a, unsigned char b, unsigned char c, unsigned char d)  {
+		return (a << 24) | (b << 16) | (c << 8) | d;
+	}
+	
 	void Util::writeInt(List<unsigned char>* list, int data) {
 		unsigned char* arr = itoa(data);
 		list->add(arr[0]);

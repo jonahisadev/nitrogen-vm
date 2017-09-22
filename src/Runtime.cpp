@@ -57,7 +57,7 @@ namespace Nitrogen {
 		unsigned char c = ram[sp++];
 		unsigned char d = ram[sp++];
 		
-		return (a << 24) | (b << 16) | (c << 8) | d;
+		return Util::atoi(a, b, c, d);
 	}
 	
 	unsigned int* Runtime::getRegister(int code) {

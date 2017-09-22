@@ -4,6 +4,7 @@
 #include <cstdio>
 
 #include <Nitrogen/Bytecode.h>
+#include <Nitrogen/Util.h>
 
 #define RAM_SIZE 0x8000000			// 128 MB
 #define STACK_START (RAM_SIZE - 0x1000 + 1)

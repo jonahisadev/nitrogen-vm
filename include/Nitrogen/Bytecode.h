@@ -14,6 +14,11 @@ namespace Nitrogen {
 		_ECX = 			0x03,
 		_EDX = 			0x04,
 	};
+	
+	class Bytecode {
+	public:
+		static const char* getRegister(int code);
+	};
 
 }
 
