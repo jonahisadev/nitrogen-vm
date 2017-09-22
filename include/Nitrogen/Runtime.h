@@ -37,6 +37,8 @@ namespace Nitrogen {
 		void pushi(unsigned char a, unsigned char b, unsigned char c, unsigned char d);
 		int popi();
 		
+		unsigned char getNext();
+		
 		unsigned int* getRegister(int code);
 	};
 

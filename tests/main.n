@@ -1,2 +1,2 @@
-iconst 42
-iload eax
+iconst 12
+iload ebx

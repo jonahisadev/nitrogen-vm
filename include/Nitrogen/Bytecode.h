@@ -10,6 +10,9 @@ namespace Nitrogen {
 	
 	enum ByteReg {
 		_EAX = 			0x01,
+		_EBX = 			0x02,
+		_ECX = 			0x03,
+		_EDX = 			0x04,
 	};
 
 }

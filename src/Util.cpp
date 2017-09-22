@@ -72,5 +72,14 @@ namespace Nitrogen {
 		
 		return arr;
 	}
+	
+	void Util::writeInt(List<unsigned char>* list, int data) {
+		unsigned char* arr = itoa(data);
+		list->add(arr[0]);
+		list->add(arr[1]);
+		list->add(arr[2]);
+		list->add(arr[3]);
+		delete[] arr;
+	}
 
 }

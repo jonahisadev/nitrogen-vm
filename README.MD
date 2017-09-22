@@ -14,9 +14,8 @@ this will remain easy to access.
 This will always stay in README. Everything below this should move
 to a separate document later.
 
-* Function for writing ints to buffers
-* Implement the rest of the general purpose registers
-* Better PC in runtime
+* Decompiler
+* Add more of the opcodes listed below
 
 ### Instructions
 

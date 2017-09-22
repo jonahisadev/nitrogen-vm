@@ -21,18 +21,14 @@ namespace Nitrogen {
 			switch (opcode) {
 				// ICONST
 				case ByteInst::_ICONST: {
-					pushi(prog[pc+1], prog[pc+2], prog[pc+3], prog[pc+4]);
-					pc += 4;
+					pushi(getNext(), getNext(), getNext(), getNext());
 					break;
 				}
 				
 				// ILOAD
 				case ByteInst::_ILOAD: {
-					int x = popi();
-					unsigned int* reg = getRegister(prog[pc+1]);
-					*reg = x;
-					pc += 1;
-					printf("%d\n", *reg);
+					unsigned int* reg = getRegister(getNext());
+					*reg = popi();
 					break;
 				}
 			}
@@ -45,7 +41,7 @@ namespace Nitrogen {
 				break;
 		}
 		
-		return 0;
+		return ebx;
 	}
 	
 	void Runtime::pushi(unsigned char a, unsigned char b, unsigned char c, unsigned char d) {
@@ -68,9 +64,19 @@ namespace Nitrogen {
 		switch (code) {
 			case _EAX:
 				return &eax;
+			case _EBX:
+				return &ebx;
+			case _ECX:
+				return &ecx;
+			case _EDX:
+				return &edx;
 			default:
 				return nullptr;
 		}
+	}
+	
+	unsigned char Runtime::getNext() {
+		return prog[++pc];
 	}
 
 }
