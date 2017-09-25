@@ -26,7 +26,16 @@ namespace Nitrogen {
 		while (source[i] != ' ') {
 			if (source[i] == '\n' || source[i] == '\0')
 				break;
-				
+			else if (source[i] == '\t') {
+				i++;
+				continue;
+			}
+			else if (source[i] == ';') {
+				while (source[i] != '\n' && source[i] != '\0')
+					i++;
+				break;
+			}
+			
 			lex[lexi++] = source[i++];
 		}
 		
@@ -48,6 +57,11 @@ namespace Nitrogen {
 		else if ((token = Token::isInstruction(lex)) != -1) {
 			tokens->add(new Token(INST, token, line));
 			goto end;
+		}
+		
+		else {
+			printf("Invalid token: '%s'\n", lex);
+			exit(1);
 		}
 		
 		end:

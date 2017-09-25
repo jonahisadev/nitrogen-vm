@@ -1,3 +1,3 @@
-imov eax 42
-istore eax
-iload ebx
+imov eax 42				; Move 42 to EAX
+istore eax				; Push EAX
+iload ebx				; Load 42 back into EBX
