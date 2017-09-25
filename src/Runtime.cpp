@@ -38,6 +38,19 @@ namespace Nitrogen {
 					pushi(*reg);
 					break;
 				}
+				
+				// IMOV
+				case ByteInst::_IMOV_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					*a = *b;
+					break;
+				}
+				case ByteInst::_IMOV_N: {
+					unsigned int* reg = getRegister(getNext());
+					*reg = (unsigned int) Util::atoi(getNext(), getNext(), getNext(), getNext());
+					break;
+				}
 			}
 			
 			//printf("STACK: [%d, %d, %d, %d]\n", ram[sp], ram[sp+1], ram[sp+2], ram[sp+3]);

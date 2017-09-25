@@ -20,6 +20,8 @@ namespace Nitrogen {
 			return ILOAD;
 		else if (!strcmp(str, "ISTORE"))
 			return ISTORE;
+		else if (!strcmp(str, "IMOV"))
+			return IMOV;
 		else
 			return -1;
 	}
@@ -56,6 +58,8 @@ namespace Nitrogen {
 						printf("ILOAD"); break;
 					case ISTORE:
 						printf("ISTORE"); break;
+					case IMOV:
+						printf("IMOV"); break;
 				}
 				printf("\n");
 			}

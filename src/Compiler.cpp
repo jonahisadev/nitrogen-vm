@@ -33,6 +33,20 @@ namespace Nitrogen {
 					buffer->add(_ISTORE);
 					buffer->add(tokens->get(i+1)->getData() + 1);
 				}
+				
+				// IMOV
+				else if (tokens->get(i)->getData() == IMOV &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_IMOV_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_IMOV_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+					}
+				}
 			}
 		}
 		

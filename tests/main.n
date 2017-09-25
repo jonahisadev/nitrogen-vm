@@ -1,4 +1,3 @@
-iconst 42
-iload eax
+imov eax 42
 istore eax
 iload ebx
