@@ -9,6 +9,8 @@ namespace Nitrogen {
 		_ISTORE = 		0x03,
 		_IMOV_R = 		0x04,
 		_IMOV_N = 		0x05,
+		
+		_JMP = 			0x1D,
 	};
 	
 	enum ByteReg {

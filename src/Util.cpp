@@ -62,6 +62,16 @@ namespace Nitrogen {
 		}
 	}
 	
+	char* Util::strDupX(char* str, int start, int end) {
+		char* buf = new char[end - start + 1];
+		int x = 0;
+		for (int i = start; i < end; i++) {
+			buf[x++] = str[i];
+		}
+		buf[end-start] = '\0';
+		return buf;
+	}
+	
 	unsigned char* Util::itoa(int x) {
 		unsigned char* arr = new unsigned char[4];
 		

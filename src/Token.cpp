@@ -22,6 +22,9 @@ namespace Nitrogen {
 			return ISTORE;
 		else if (!strcmp(str, "IMOV"))
 			return IMOV;
+		
+		else if (!strcmp(str, "JMP"))
+			return JMP;
 		else
 			return -1;
 	}
@@ -60,6 +63,9 @@ namespace Nitrogen {
 						printf("ISTORE"); break;
 					case IMOV:
 						printf("IMOV"); break;
+					
+					case JMP:
+						printf("JMP"); break;
 				}
 				printf("\n");
 			}
@@ -83,6 +89,14 @@ namespace Nitrogen {
 			// NUM
 			else if (t->getType() == NUM) {
 				printf("NUM: %d\n", t->getData());
+			}
+			
+			// JUMP/LABEL
+			else if (t->getType() == LABEL) {
+				printf("LABEL: %d\n", t->getData());
+			}
+			else if (t->getType() == JUMP) {
+				printf("JUMP: %d\n", t->getData());
 			}
 		}
 	}

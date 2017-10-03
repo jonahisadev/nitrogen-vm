@@ -18,11 +18,14 @@ namespace Nitrogen {
 		
 		void add(T data);
 		T get(int ptr);
+		void set(int ptr, T data);
 		
 		int getSize() const { return ptr; }
 	};
 	
 	template class List<unsigned char>;
+	template class List<char*>;
+	template class List<int>;
 	
 	template <class T>
 	List<T>::List(int size) {
@@ -49,6 +52,11 @@ namespace Nitrogen {
 	template <class T>
 	T List<T>::get(int ptr) {
 		return this->data[ptr];
+	}
+	
+	template <class T>
+	void List<T>::set(int ptr, T data) {
+		this->data[ptr] = data;
 	}
 
 }

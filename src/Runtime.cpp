@@ -51,6 +51,12 @@ namespace Nitrogen {
 					*reg = (unsigned int) Util::atoi(getNext(), getNext(), getNext(), getNext());
 					break;
 				}
+				
+				// JMP
+				case ByteInst::_JMP: {
+					this->pc = Util::atoi(getNext(), getNext(), getNext(), getNext()) - 1;
+					break;
+				}
 			}
 			
 			//printf("STACK: [%d, %d, %d, %d]\n", ram[sp], ram[sp+1], ram[sp+2], ram[sp+3]);

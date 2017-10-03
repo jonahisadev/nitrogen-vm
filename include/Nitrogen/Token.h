@@ -11,7 +11,9 @@ namespace Nitrogen {
 	enum TokenType {
 		INST,
 		NUM,
-		REG
+		REG,
+		LABEL,
+		JUMP
 	};
 	
 	enum TokenInst {
@@ -19,6 +21,8 @@ namespace Nitrogen {
 		ILOAD,
 		ISTORE,
 		IMOV,
+		
+		JMP
 	};
 	
 	enum TokenReg {
@@ -49,6 +53,8 @@ namespace Nitrogen {
 		int getType() const { return type; }
 		int getData() const { return data; }
 		int getLine() const { return line; }
+		
+		void setData(int data) { this->data = data; }
 	};
 
 }

@@ -24,9 +24,9 @@ this will remain easy to access.
 This will always stay in README. Everything below this should move
 to a separate document later.
 
-* Implement jumping
-	* Then implement calling and returning
+* Implement calling
 	* Write out a call frame standard
+* Fix some parsing bugs with new-lines
 * Add more of the opcodes listed below
 
 ### Instructions
@@ -38,3 +38,5 @@ to a separate document later.
 | ISTORE 	| R			| Push a 4 byte number from a register |
 | IMOV		| R , R / N	| Move a constant or register value to register|
 | JMP		| LBL		| Jump to a label |
+| CALL		| LBL		| Call a label |
+| RET		|			| Return from a call |

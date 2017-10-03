@@ -9,6 +9,7 @@
 #include <Nitrogen/List.h>
 #include <Nitrogen/Token.h>
 #include <Nitrogen/Compiler.h>
+#include <Nitrogen/Type.h>
 
 namespace Nitrogen {
 
@@ -17,6 +18,8 @@ namespace Nitrogen {
 		char* source;
 		
 		List<Token*>* tokens;
+		List<Label*>* labels;
+		List<char*>* jumps;
 		
 	public:
 		Parser(char* src);

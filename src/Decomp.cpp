@@ -45,6 +45,12 @@ namespace Nitrogen {
 					printf("IMOV \t\t%s, %d", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
 					break;
 				}
+				
+				// JMP
+				case _JMP: {
+					printf("JMP \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
 			}
 			printf("\n");
 			

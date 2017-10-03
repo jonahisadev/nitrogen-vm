@@ -4,7 +4,10 @@ namespace Nitrogen {
 
 	Parser::Parser(char* source) {
 		this->source = strdup(source);
+		
 		this->tokens = new List<Token*>(1);
+		this->labels = new List<Label*>(1);
+		this->jumps = new List<char*>(1);
 	}
 	
 	Parser::~Parser() {
@@ -47,6 +50,20 @@ namespace Nitrogen {
 			goto end;
 		}
 		
+		// LABELS
+		if (lex[strlen(lex)-1] == ':') {
+			labels->add(new Label(Util::strDupX(lex, 0, strlen(lex)-1), 0));
+			tokens->add(new Token(LABEL, labels->getSize()-1, line));
+			goto end;
+		}
+		
+		// JUMP
+		if (lex[0] == '@') {
+			jumps->add(Util::strDupX(lex, 1, strlen(lex)));
+			tokens->add(new Token(JUMP, jumps->getSize()-1, line));
+			goto end;
+		}
+		
 		// REGISTER
 		else if ((token = Token::isRegister(lex)) != -1) {
 			tokens->add(new Token(REG, token, line));
@@ -86,6 +103,8 @@ namespace Nitrogen {
 	Compiler* Parser::createCompiler() {
 		Compiler* c = new Compiler();
 		c->setTokens(this->tokens);
+		c->setLabels(this->labels);
+		c->setJumps(this->jumps);
 		return c;
 	}
 

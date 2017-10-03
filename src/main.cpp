@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
 		
 		Parser* p = new Parser(src);
 		p->start();
-		//p->printTokens();
+		p->printTokens();
 		
 		Compiler* c = p->createCompiler();
 		c->start();

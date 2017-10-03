@@ -7,6 +7,7 @@
 #include <Nitrogen/Token.h>
 #include <Nitrogen/Bytecode.h>
 #include <Nitrogen/Util.h>
+#include <Nitrogen/Type.h>
 
 namespace Nitrogen {
 
@@ -15,6 +16,10 @@ namespace Nitrogen {
 		List<Token*>* tokens;
 		List<unsigned char>* buffer;
 		
+		List<Label*>* labels;
+		List<char*>* jumps;
+		List<int>* jmpAddr;
+		
 	public:
 		Compiler();
 		~Compiler();
@@ -22,6 +27,8 @@ namespace Nitrogen {
 		void start();
 		
 		void setTokens(List<Token*>* tokens);
+		void setLabels(List<Label*>* labels);
+		void setJumps(List<char*>* jumps);
 	};
 
 }
