@@ -11,6 +11,8 @@ namespace Nitrogen {
 		_IMOV_N = 		0x05,
 		
 		_JMP = 			0x1D,
+		_CALL = 		0x30,
+		_RET = 			0x31,
 	};
 	
 	enum ByteReg {
@@ -18,6 +20,9 @@ namespace Nitrogen {
 		_EBX = 			0x02,
 		_ECX = 			0x03,
 		_EDX = 			0x04,
+		
+		_ESP = 			0x10,
+		_EBP = 			0x11,
 	};
 	
 	class Bytecode {

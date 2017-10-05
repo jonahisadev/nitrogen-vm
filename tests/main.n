@@ -1,6 +1,15 @@
 imov eax 32
-jmp @skip
-imov eax 42
-skip:
+call @foo
 istore eax
 iload ebx
+jmp @end
+
+foo:
+	call @nest
+	ret
+	
+nest:
+	imov eax 42
+	ret
+
+end:

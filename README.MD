@@ -24,9 +24,8 @@ this will remain easy to access.
 This will always stay in README. Everything below this should move
 to a separate document later.
 
-* Implement calling
-	* Write out a call frame standard
-* Fix some parsing bugs with new-lines
+* Do some address things
+* Work on implementing native calls
 * Add more of the opcodes listed below
 
 ### Instructions
@@ -40,3 +39,29 @@ to a separate document later.
 | JMP		| LBL		| Jump to a label |
 | CALL		| LBL		| Call a label |
 | RET		|			| Return from a call |
+
+### Call Frame
+
+Below is the specification for calling subroutines
+
+#### Calling
+
+* Push arguments in reverse
+* Push address of next instruction (done by runtime)
+* Push base pointer, and set it to the stack pointer (done by runtime)
+
+#### Returning
+
+* Clean stack from allocated local variables
+* Set base pointer back to original (done by runtime)
+* Set the program counter to the return address (done by runtime)
+
+| Stack |
+| ----- |
+| Local variable 2
+| Local variable 1 |
+| EBP |
+| Return address |
+| 1st argument |
+| 2nd argument |
+| 3rd argument |

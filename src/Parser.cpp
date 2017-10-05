@@ -44,6 +44,10 @@ namespace Nitrogen {
 		
 		int token;
 		
+		// Ignore empty lines
+		if (lex[0] == '\0')
+			goto end;
+		
 		// NUMBERS
 		if (Util::isNumber(lex)) {
 			tokens->add(new Token(NUM, Util::convertNum(lex, 10), line));

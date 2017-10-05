@@ -57,6 +57,20 @@ namespace Nitrogen {
 					tokens->get(i)->setData(this->buffer->getSize());	// Set data to address of jump addr
 					Util::writeInt(buffer, 0);							// Write placeholder
 				}
+				
+				// CALL
+				else if (tokens->get(i)->getData() == CALL &&
+						tokens->get(i+1)->getType() == JUMP) {
+					buffer->add(_CALL);
+					jmpAddr->add(i);
+					tokens->get(i)->setData(this->buffer->getSize());
+					Util::writeInt(buffer, 0);
+				}
+				
+				// RET
+				else if (tokens->get(i)->getData() == RET) {
+					buffer->add(_RET);
+				}
 			}
 			
 			// Labels

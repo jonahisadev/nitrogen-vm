@@ -20,7 +20,8 @@ namespace Nitrogen {
 		// CPU
 		unsigned char* ram;
 		int pc = 0;
-		int sp = STACK_START;
+		unsigned int sp = STACK_START;
+		unsigned int bp = STACK_START;
 		
 		// Registers
 		unsigned int eax;

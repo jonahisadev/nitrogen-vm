@@ -51,6 +51,21 @@ namespace Nitrogen {
 					printf("JMP \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
 					break;
 				}
+				
+				// CALL
+				case _CALL: {
+					printf("CALL \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// RET
+				case _RET: {
+					printf("RET");
+					break;
+				}
+				
+				default:
+					printf("???\n"); break;
 			}
 			printf("\n");
 			

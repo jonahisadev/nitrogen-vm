@@ -57,6 +57,22 @@ namespace Nitrogen {
 					this->pc = Util::atoi(getNext(), getNext(), getNext(), getNext()) - 1;
 					break;
 				}
+				
+				// CALL
+				case ByteInst::_CALL: {
+					pushi(this->pc + 4);		// Push return address
+					pushi(this->bp);			// Push old base pointer
+					this->bp = this->sp;		// Update base pointer
+					this->pc = Util::atoi(getNext(), getNext(), getNext(), getNext()) - 1;
+					break;
+				}
+				
+				// RET
+				case ByteInst::_RET: {
+					this->bp = popi();			// Get the old base pointer back
+					this->pc = popi();			// Go back to the return address
+					break;
+				}
 			}
 			
 			//printf("STACK: [%d, %d, %d, %d]\n", ram[sp], ram[sp+1], ram[sp+2], ram[sp+3]);
@@ -102,6 +118,10 @@ namespace Nitrogen {
 				return &ecx;
 			case _EDX:
 				return &edx;
+			case _ESP:
+				return &sp;
+			case _EBP:
+				return &bp;
 			default:
 				return nullptr;
 		}

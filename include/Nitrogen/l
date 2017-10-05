@@ -23,17 +23,14 @@ namespace Nitrogen {
 		IMOV,
 		
 		JMP,
-		CALL,
-		RET,
+		CAL
 	};
 	
 	enum TokenReg {
 		EAX,
 		EBX,
 		ECX,
-		EDX,
-		ESP,
-		EBP
+		EDX
 	};
 
 	class Token;

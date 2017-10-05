@@ -11,6 +11,11 @@
 using namespace Nitrogen;
 
 int main(int argc, char** argv) {
+	if (argc < 3) {
+		printf("Too few arguments!\nTODO: show help\n");
+		return 1;
+	}
+	
 	if (!strcmp(argv[1], "-c")) {
 		char* src = Util::readFile(argv[2]);
 		

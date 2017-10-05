@@ -25,6 +25,10 @@ namespace Nitrogen {
 		
 		else if (!strcmp(str, "JMP"))
 			return JMP;
+		else if (!strcmp(str, "CALL"))
+			return CALL;
+		else if (!strcmp(str, "RET"))
+			return RET;
 		else
 			return -1;
 	}
@@ -39,6 +43,10 @@ namespace Nitrogen {
 			return ECX;
 		else if (!strcmp(str, "EDX"))
 			return EDX;
+		else if (!strcmp(str, "ESP"))
+			return ESP;
+		else if (!strcmp(str, "EBP"))
+			return EBP;
 		else
 			return -1;
 	}
@@ -66,6 +74,10 @@ namespace Nitrogen {
 					
 					case JMP:
 						printf("JMP"); break;
+					case CALL:
+						printf("CALL"); break;
+					case RET:
+						printf("RET"); break;
 				}
 				printf("\n");
 			}
@@ -82,6 +94,10 @@ namespace Nitrogen {
 						printf("ECX"); break;
 					case EDX:
 						printf("EDX"); break;
+					case ESP:
+						printf("ESP"); break;
+					case EBP:
+						printf("EBP"); break;
 				}
 				printf("\n");
 			}

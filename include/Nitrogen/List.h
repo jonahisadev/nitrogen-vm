@@ -41,7 +41,7 @@ namespace Nitrogen {
 	
 	template <class T>
 	void List<T>::add(T data) {
-		if (this->ptr >= this->getSize()) {
+		if (this->ptr >= this->alloc_size) {
 			this->alloc_size *= 2;
 			this->data = (T*) realloc(this->data, sizeof(T) * this->alloc_size);
 		}
