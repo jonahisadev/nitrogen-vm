@@ -20,6 +20,8 @@ namespace Nitrogen {
 		List<char*>* jumps;
 		List<int>* jmpAddr;
 		
+		List<char*>* strings;
+		
 	public:
 		Compiler();
 		~Compiler();
@@ -29,6 +31,7 @@ namespace Nitrogen {
 		void setTokens(List<Token*>* tokens);
 		void setLabels(List<Label*>* labels);
 		void setJumps(List<char*>* jumps);
+		void setStrings(List<char*>* strings);
 	};
 
 }

@@ -8,6 +8,7 @@ namespace Nitrogen {
 		this->tokens = new List<Token*>(1);
 		this->labels = new List<Label*>(1);
 		this->jumps = new List<char*>(1);
+		this->strings = new List<char*>(1);
 	}
 	
 	Parser::~Parser() {
@@ -20,26 +21,48 @@ namespace Nitrogen {
 		int lexi = 0;
 		int i = 0;
 		int line = 1;
+		char delim = ' ';
 		
 		resetLex:
 		for (int x = 0; x < 256; x++)
 			lex[x] = '\0';
 		lexi = 0;
 		
-		while (source[i] != ' ') {
+		while (source[i] != delim) {
+			// Preprocessors
+			if (source[i] == '#' && lexi == 0) {
+				while (source[i] != '\n' && source[i] != '\0') {
+					lex[lexi++] = source[i++];
+				}
+				lex[lexi] = '\0';
+				handlePreProc(lex, line);
+				goto resetLex;
+			}
+			
+			// End of something
 			if (source[i] == '\n' || source[i] == '\0')
 				break;
 			else if (source[i] == '\t') {
 				i++;
 				continue;
 			}
+			
+			// Comments
 			else if (source[i] == ';') {
 				while (source[i] != '\n' && source[i] != '\0')
 					i++;
 				break;
 			}
 			
+			else if (source[i] == '"') {
+				delim = '"';
+			}
+			
 			lex[lexi++] = source[i++];
+		}
+		
+		if (delim == '"') {
+			delim = ' ';
 		}
 		
 		int token;
@@ -65,6 +88,13 @@ namespace Nitrogen {
 		if (lex[0] == '@') {
 			jumps->add(Util::strDupX(lex, 1, strlen(lex)));
 			tokens->add(new Token(JUMP, jumps->getSize()-1, line));
+			goto end;
+		}
+		
+		// NATIVE
+		if (lex[0] == '%') {
+			strings->add(Util::strDupX(lex, 1, strlen(lex)));
+			tokens->add(new Token(JUMP, strings->getSize()-1, line));
 			goto end;
 		}
 		
@@ -109,7 +139,36 @@ namespace Nitrogen {
 		c->setTokens(this->tokens);
 		c->setLabels(this->labels);
 		c->setJumps(this->jumps);
+		c->setStrings(this->strings);
 		return c;
+	}
+	
+	void Parser::handlePreProc(char* str, int line) {
+		char* lex = new char[256];
+		int lexi = 0;
+		int i = 0;
+		
+		while (str[i] == ' ') {
+			if (str[i] == '\0')
+				goto end;
+			
+			lex[lexi++] = str[i++];
+		}
+		
+		// LOAD
+		if (!strcmp(str, "#load")) {
+			char* path = new char[strlen(str) - 5];
+			int z = 0;
+			for (int x = 5; i < strlen(str); i++) {
+				path[z++] = str[x];
+			}
+			path[z] = '\0';
+			strings->add(path);
+			tokens->add(new Token(LIB_LOAD, strings->getSize()-1, line));
+		}
+		
+		end:
+		return;
 	}
 
 }

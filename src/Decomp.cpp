@@ -64,6 +64,15 @@ namespace Nitrogen {
 					break;
 				}
 				
+				case _NCALL: {
+					printf("NCALL \t");
+					char c;
+					while ((c = getNext()) != '\0') {
+						printf("%c", c);
+					}
+					break;
+				}
+				
 				default:
 					printf("???\n"); break;
 			}

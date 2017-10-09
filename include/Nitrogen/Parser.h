@@ -21,12 +21,15 @@ namespace Nitrogen {
 		List<Label*>* labels;
 		List<char*>* jumps;
 		
+		List<char*>* strings;
+		
 	public:
 		Parser(char* src);
 		~Parser();
 		
 		void start();
 		void printTokens();
+		void handlePreProc(char* str, int line);
 		
 		Compiler* createCompiler();
 	};

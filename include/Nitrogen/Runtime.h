@@ -5,6 +5,8 @@
 
 #include <Nitrogen/Bytecode.h>
 #include <Nitrogen/Util.h>
+#include <Nitrogen/Native.h>
+#include <api/nitrogen.h>
 
 #define RAM_SIZE 0x8000000			// 128 MB
 #define STACK_START (RAM_SIZE - 0x1000 + 1)
@@ -28,6 +30,10 @@ namespace Nitrogen {
 		unsigned int ebx;
 		unsigned int ecx;
 		unsigned int edx;
+		
+		// Native
+		Env* env;
+		NativeLib* lsystem;
 		
 	public:
 		Runtime(unsigned char* prog, int bin_size);

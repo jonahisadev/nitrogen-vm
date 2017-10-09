@@ -24,8 +24,13 @@ this will remain easy to access.
 This will always stay in README. Everything below this should move
 to a separate document later.
 
-* Do some address things
+* Implement includes, loads, etc
+	* Include separate source files
+	* Load external libraries
 * Work on implementing native calls
+	* First be able to load libraries from NSM
+	* Create a sort of API for external C code
+* Do some address things
 * Add more of the opcodes listed below
 
 ### Instructions

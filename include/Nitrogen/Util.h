@@ -27,6 +27,7 @@ namespace Nitrogen {
 		
 		// Buffers
 		static void writeInt(List<unsigned char>* list, int data);
+		static void writeString(List<unsigned char>* list, char* str);
 	};
 
 }

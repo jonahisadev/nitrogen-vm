@@ -29,6 +29,9 @@ namespace Nitrogen {
 			return CALL;
 		else if (!strcmp(str, "RET"))
 			return RET;
+			
+		else if (!strcmp(str, "NCALL"))
+			return NCALL;
 		else
 			return -1;
 	}
@@ -78,6 +81,9 @@ namespace Nitrogen {
 						printf("CALL"); break;
 					case RET:
 						printf("RET"); break;
+						
+					case NCALL:
+						printf("NCALL"); break;
 				}
 				printf("\n");
 			}

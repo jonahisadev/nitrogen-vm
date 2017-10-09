@@ -13,7 +13,8 @@ namespace Nitrogen {
 		NUM,
 		REG,
 		LABEL,
-		JUMP
+		JUMP,
+		PREPROC,
 	};
 	
 	enum TokenInst {
@@ -25,6 +26,8 @@ namespace Nitrogen {
 		JMP,
 		CALL,
 		RET,
+		
+		NCALL,
 	};
 	
 	enum TokenReg {
@@ -34,6 +37,10 @@ namespace Nitrogen {
 		EDX,
 		ESP,
 		EBP
+	};
+	
+	enum TokenPreProc {
+		LIB_LOAD,
 	};
 
 	class Token;

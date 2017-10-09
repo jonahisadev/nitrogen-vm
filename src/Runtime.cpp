@@ -6,6 +6,18 @@ namespace Nitrogen {
 		this->prog = prog;
 		this->bin_size = bin_size;
 		this->ram = new unsigned char[RAM_SIZE];
+		
+		this->env = createEnvironment(
+			ram,
+			&sp,
+			&bp,
+			&eax,
+			&ebx,
+			&ecx,
+			&edx
+		);
+		this->lsystem = new NativeLib("native/system.dylib");
+		this->lsystem->bind(this->env);
 	}
 	
 	Runtime::~Runtime() {
@@ -71,6 +83,18 @@ namespace Nitrogen {
 				case ByteInst::_RET: {
 					this->bp = popi();			// Get the old base pointer back
 					this->pc = popi();			// Go back to the return address
+					break;
+				}
+				
+				// NCALL
+				case ByteInst::_NCALL: {
+					char* name = new char[256];
+					char c;
+					int x = 0;
+					while ((c = getNext()) != '\0')
+						name[x++] = c;
+					this->edx = lsystem->callFunction(name);
+					delete[] name;
 					break;
 				}
 			}

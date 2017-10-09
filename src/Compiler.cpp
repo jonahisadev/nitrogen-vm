@@ -71,6 +71,12 @@ namespace Nitrogen {
 				else if (tokens->get(i)->getData() == RET) {
 					buffer->add(_RET);
 				}
+				
+				// NCALL
+				else if (tokens->get(i)->getData() == NCALL) {
+					buffer->add(_NCALL);
+					Util::writeString(buffer, strings->get(tokens->get(++i)->getData()));
+				}
 			}
 			
 			// Labels
@@ -115,6 +121,10 @@ namespace Nitrogen {
 	
 	void Compiler::setJumps(List<char*>* jumps) {
 		this->jumps = jumps;
+	}
+	
+	void Compiler::setStrings(List<char*>* strings) {
+		this->strings = strings;
 	}
 
 }
