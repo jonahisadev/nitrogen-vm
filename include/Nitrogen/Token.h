@@ -22,6 +22,9 @@ namespace Nitrogen {
 		ILOAD,
 		ISTORE,
 		IMOV,
+		IADD,
+		
+		IADDR,
 		
 		JMP,
 		CALL,

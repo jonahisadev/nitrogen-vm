@@ -78,23 +78,29 @@ namespace Nitrogen {
 		}
 		
 		// LABELS
-		if (lex[strlen(lex)-1] == ':') {
+		else if (lex[strlen(lex)-1] == ':') {
 			labels->add(new Label(Util::strDupX(lex, 0, strlen(lex)-1), 0));
 			tokens->add(new Token(LABEL, labels->getSize()-1, line));
 			goto end;
 		}
 		
 		// JUMP
-		if (lex[0] == '@') {
+		else if (lex[0] == '@') {
 			jumps->add(Util::strDupX(lex, 1, strlen(lex)));
 			tokens->add(new Token(JUMP, jumps->getSize()-1, line));
 			goto end;
 		}
 		
 		// NATIVE
-		if (lex[0] == '%') {
+		else if (lex[0] == '%') {
 			strings->add(Util::strDupX(lex, 1, strlen(lex)));
 			tokens->add(new Token(JUMP, strings->getSize()-1, line));
+			goto end;
+		}
+		
+		// ADDRESSES
+		else if (lex[0] == '(') {
+			handleAddress(lex, line);
 			goto end;
 		}
 		
@@ -169,6 +175,49 @@ namespace Nitrogen {
 		
 		end:
 		return;
+	}
+	
+	void Parser::handleAddress(char* str, int line) {
+		enum AddrMode {
+			REG
+		};
+		
+		char* lex = new char[256];
+		int lexi = 0;
+		int i = 1;
+		
+		while (str[i] != ')') {
+			lex[lexi++] = str[i++];
+		}
+		
+		if (!strcmp(lex, "ebp")) {
+			tokens->add(new Token(TokenType::REG, EBP, line));
+		} else if (!strcmp(lex, "esp")) {
+			tokens->add(new Token(TokenType::REG, ESP, line));
+		} else {
+			printf("%d: Invalid address! '%s'\n", line, lex);
+		}
+		
+		i++;
+		if (str[i] == '+' || str[i] == '-') {
+			char c = str[i++];
+			for (int x = 0; x < 256; x++)
+				lex[x] = '\0';
+			lexi = 0;
+			
+			while (str[i] != '\0') {
+				lex[lexi++] = str[i++];
+			}
+			
+			int num = Util::convertNum(lex, 10);
+			if (c == '+') {
+				tokens->add(new Token(NUM, num, line));
+			} else if (c == '-') {
+				tokens->add(new Token(NUM, -num, line));
+			}
+		} else {
+			tokens->add(new Token(NUM, 0, line));
+		}
 	}
 
 }

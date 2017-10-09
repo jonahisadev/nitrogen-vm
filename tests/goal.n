@@ -1,4 +1,0 @@
-imov ebx 3
-ncall %square
-imov ebx edx
-ncall %printNum

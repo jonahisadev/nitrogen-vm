@@ -30,6 +30,7 @@ namespace Nitrogen {
 		void start();
 		void printTokens();
 		void handlePreProc(char* str, int line);
+		void handleAddress(char* str, int line);
 		
 		Compiler* createCompiler();
 	};

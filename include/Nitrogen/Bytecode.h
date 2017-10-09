@@ -9,6 +9,12 @@ namespace Nitrogen {
 		_ISTORE = 		0x03,
 		_IMOV_R = 		0x04,
 		_IMOV_N = 		0x05,
+		_IADD_R = 		0x06,
+		_IADD_N = 		0x07,
+		
+		_IADDR_RA = 	0x10,
+		_IADDR_RS =		0x11,
+		
 		
 		_JMP = 			0x1D,
 		_CALL = 		0x30,

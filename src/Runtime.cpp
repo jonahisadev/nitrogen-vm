@@ -64,6 +64,37 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// IADD
+				case ByteInst::_IADD_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					*a += *b;
+					break;
+				}
+				case ByteInst::_IADD_N: {
+					unsigned int* reg = getRegister(getNext());
+					*reg += (unsigned int)Util::atoi(getNext(), getNext(), getNext(), getNext());
+					break;
+				}
+				
+				// IADDR
+				case ByteInst::_IADDR_RA: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int* src = getRegister(getNext());
+					int off = getNext();
+					// printf("%d, %d, %d, %d\n", ram[*src + off + 0], ram[*src + off + 1], ram[*src + off + 2], ram[*src + off + 3]);
+					*dest = Util::atoi(ram[*src + off + 0], ram[*src + off + 1], ram[*src + off + 2], ram[*src + off + 3]);
+					break;
+				}
+				case ByteInst::_IADDR_RS: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int* src = getRegister(getNext());
+					int off = getNext();
+					// printf("%d, %d, %d, %d\n", ram[*src - off + 0], ram[*src - off + 1], ram[*src - off + 2], ram[*src - off + 3]);
+					*dest = (unsigned int)Util::atoi(ram[*src - off + 0], ram[*src - off + 1], ram[*src - off + 2], ram[*src - off + 3]);
+					break;
+				}
+				
 				// JMP
 				case ByteInst::_JMP: {
 					this->pc = Util::atoi(getNext(), getNext(), getNext(), getNext()) - 1;
@@ -99,7 +130,7 @@ namespace Nitrogen {
 				}
 			}
 			
-			//printf("STACK: [%d, %d, %d, %d]\n", ram[sp], ram[sp+1], ram[sp+2], ram[sp+3]);
+			// printf("STACK: [%d, %d, %d, %d]\n", ram[bp], ram[bp-1], ram[bp-2], ram[bp-3]);
 			
 			pc++;
 			

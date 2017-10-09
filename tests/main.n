@@ -1,10 +1,11 @@
 main:
-	imov eax 32
-	call @thing
-	call @end
+	iconst 40
+	iconst 2
+	call @add
+	ncall %kill
 	
-thing:
-	imov ebx esp
+add:
+	iaddr ebx (ebp)+8
+	iaddr ecx (ebp)+12
+	iadd ebx ecx
 	ret
-	
-end:

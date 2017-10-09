@@ -46,6 +46,30 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// IADD
+				case _IADD_R: {
+					printf("IADD \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _IADD_N: {
+					printf("IADD \t\t%s, %d", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// ASTORE
+				case _IADDR_RA: {
+					printf("IADDR \t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					int x;
+					if ((x = getNext()) != 0) {
+						printf("+%d", x);
+					}
+					break;
+				}
+				case _IADDR_RS: {
+					printf("IADDR \t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), getNext());
+					break;
+				}
+				
 				// JMP
 				case _JMP: {
 					printf("JMP \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
@@ -64,6 +88,7 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// NCALL
 				case _NCALL: {
 					printf("NCALL \t");
 					char c;

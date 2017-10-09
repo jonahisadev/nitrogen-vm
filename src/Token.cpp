@@ -22,6 +22,11 @@ namespace Nitrogen {
 			return ISTORE;
 		else if (!strcmp(str, "IMOV"))
 			return IMOV;
+		else if (!strcmp(str, "IADD"))
+			return IADD;
+			
+		else if (!strcmp(str, "IADDR"))
+			return IADDR;
 		
 		else if (!strcmp(str, "JMP"))
 			return JMP;
@@ -74,6 +79,11 @@ namespace Nitrogen {
 						printf("ISTORE"); break;
 					case IMOV:
 						printf("IMOV"); break;
+					case IADD:
+						printf("IADD"); break;
+					
+					case IADDR:
+						printf("IADDR"); break;
 					
 					case JMP:
 						printf("JMP"); break;

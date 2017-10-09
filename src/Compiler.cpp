@@ -49,6 +49,37 @@ namespace Nitrogen {
 					}
 				}
 				
+				// IADD
+				else if (tokens->get(i)->getData() == IADD &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_IADD_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_IADD_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+					}
+				}
+				
+				// IADDR
+				else if (tokens->get(i)->getData() == IADDR &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						int offset = tokens->get(i+3)->getData();
+						if (offset < 0) {
+							buffer->add(_IADDR_RS);
+							tokens->get(i+3)->setData(-offset);
+						} else {
+							buffer->add(_IADDR_RA);
+						}
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+						buffer->add(tokens->get(i+3)->getData());
+					}
+				}
+				
 				// JMP
 				else if (tokens->get(i)->getData() == JMP &&
 						tokens->get(i+1)->getType() == JUMP) {
@@ -76,6 +107,11 @@ namespace Nitrogen {
 				else if (tokens->get(i)->getData() == NCALL) {
 					buffer->add(_NCALL);
 					Util::writeString(buffer, strings->get(tokens->get(++i)->getData()));
+				}
+				
+				else {
+					printf("Serious compiler error! (Line %d)\n", tokens->get(i)->getLine());
+					exit(1);
 				}
 			}
 			

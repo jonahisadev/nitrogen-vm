@@ -30,7 +30,7 @@ to a separate document later.
 * Work on implementing native calls
 	* First be able to load libraries from NSM
 	* Create a sort of API for external C code
-* Do some address things
+* Do some address things for variables
 * Add more of the opcodes listed below
 
 ### Instructions
@@ -40,7 +40,9 @@ to a separate document later.
 | ICONST 	| N			| Push a 4 byte number to the stack |
 | ILOAD		| R			| Pop a 4 byte number to a register |
 | ISTORE 	| R			| Push a 4 byte number from a register |
-| IMOV		| R , R / N	| Move a constant or register value to register|
+| IMOV		| R , R / N	| Move a constant or register value to register |
+| IADD		| R , R / N | Add a constant or register value to register |
+| IADDR		| R, A		| Move an address to a register |
 | JMP		| LBL		| Jump to a label |
 | CALL		| LBL		| Call a label |
 | RET		|			| Return from a call |
