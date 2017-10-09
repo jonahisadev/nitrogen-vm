@@ -24,6 +24,12 @@ namespace Nitrogen {
 			return IMOV;
 		else if (!strcmp(str, "IADD"))
 			return IADD;
+		else if (!strcmp(str, "ISUB"))
+			return ISUB;
+		else if (!strcmp(str, "IMUL"))
+			return IMUL;
+		else if (!strcmp(str, "IDIV"))
+			return IDIV;
 			
 		else if (!strcmp(str, "IADDR"))
 			return IADDR;
@@ -51,6 +57,8 @@ namespace Nitrogen {
 			return ECX;
 		else if (!strcmp(str, "EDX"))
 			return EDX;
+		else if (!strcmp(str, "ERM"))
+			return ERM;
 		else if (!strcmp(str, "ESP"))
 			return ESP;
 		else if (!strcmp(str, "EBP"))
@@ -81,6 +89,10 @@ namespace Nitrogen {
 						printf("IMOV"); break;
 					case IADD:
 						printf("IADD"); break;
+					case ISUB:
+						printf("ISUB"); break;
+					case IMUL:
+						printf("IMUL"); break;
 					
 					case IADDR:
 						printf("IADDR"); break;

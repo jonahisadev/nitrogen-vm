@@ -56,6 +56,36 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// ISUB
+				case _ISUB_R: {
+					printf("ISUB \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _ISUB_N: {
+					printf("ISUB \t\t%s, %d", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// IMUL
+				case _IMUL_R: {
+					printf("IMUL \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _IMUL_N: {
+					printf("IMUL \t\t%s, %d", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// IDIV
+				case _IDIV_R: {
+					printf("IDIV \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _IDIV_N: {
+					printf("IDIV \t\t%s, %d", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
 				// ASTORE
 				case _IADDR_RA: {
 					printf("IADDR \t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));

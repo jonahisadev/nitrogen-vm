@@ -23,6 +23,9 @@ namespace Nitrogen {
 		ISTORE,
 		IMOV,
 		IADD,
+		ISUB,
+		IMUL,
+		IDIV,
 		
 		IADDR,
 		
@@ -38,6 +41,7 @@ namespace Nitrogen {
 		EBX,
 		ECX,
 		EDX,
+		ERM,
 		ESP,
 		EBP
 	};

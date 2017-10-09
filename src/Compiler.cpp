@@ -63,6 +63,48 @@ namespace Nitrogen {
 					}
 				}
 				
+				// ISUB
+				else if (tokens->get(i)->getData() == ISUB &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_ISUB_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_ISUB_N);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+					}
+				}
+				
+				// IMUL
+				else if (tokens->get(i)->getData() == IMUL &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_IMUL_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_IMUL_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+					}
+				}
+				
+				// IDIV
+				else if (tokens->get(i)->getData() == IDIV &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_IDIV_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_IDIV_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+					}
+				}
+				
 				// IADDR
 				else if (tokens->get(i)->getData() == IADDR &&
 						tokens->get(i+1)->getType() == REG) {

@@ -77,6 +77,44 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// ISUB
+				case ByteInst::_ISUB_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					*a -= *b;
+					break;
+				}
+				case ByteInst::_ISUB_N: {
+					unsigned int* reg = getRegister(getNext());
+					*reg -= (unsigned int)Util::atoi(getNext(), getNext(), getNext(), getNext());
+					break;
+				}
+				
+				// IMUL
+				case ByteInst::_IMUL_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					*a *= *b;
+					break;
+				}
+				case ByteInst::_IMUL_N: {
+					unsigned int* reg = getRegister(getNext());
+					*reg *= (unsigned int)Util::atoi(getNext(), getNext(), getNext(), getNext());
+					break;
+				}
+				
+				// IDIV
+				case ByteInst::_IDIV_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					
+					unsigned int r = (unsigned int)floor(*a % *b);
+					
+					*a /= *b;
+					this->erm = r;
+					break;
+				}
+				
 				// IADDR
 				case ByteInst::_IADDR_RA: {
 					unsigned int* dest = getRegister(getNext());

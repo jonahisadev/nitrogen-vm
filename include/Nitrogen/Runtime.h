@@ -2,6 +2,7 @@
 #define NITROGEN_RUNTIME_H
 
 #include <cstdio>
+#include <cmath>
 
 #include <Nitrogen/Bytecode.h>
 #include <Nitrogen/Util.h>
@@ -30,6 +31,7 @@ namespace Nitrogen {
 		unsigned int ebx;
 		unsigned int ecx;
 		unsigned int edx;
+		unsigned int erm;
 		
 		// Native
 		Env* env;

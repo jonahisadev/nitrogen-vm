@@ -11,6 +11,12 @@ namespace Nitrogen {
 		_IMOV_N = 		0x05,
 		_IADD_R = 		0x06,
 		_IADD_N = 		0x07,
+		_ISUB_R = 		0x08,
+		_ISUB_N = 		0x09,
+		_IMUL_R = 		0x0A,
+		_IMUL_N = 		0x0B,
+		_IDIV_R = 		0x0C,
+		_IDIV_N = 		0x0D,
 		
 		_IADDR_RA = 	0x10,
 		_IADDR_RS =		0x11,
@@ -28,9 +34,10 @@ namespace Nitrogen {
 		_EBX = 			0x02,
 		_ECX = 			0x03,
 		_EDX = 			0x04,
+		_ERM = 			0x05,
 		
-		_ESP = 			0x05,
-		_EBP = 			0x06,
+		_ESP = 			0x06,
+		_EBP = 			0x07,
 	};
 	
 	class Bytecode {
