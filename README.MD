@@ -24,16 +24,26 @@ this will remain easy to access.
 This will always stay in README. Everything below this should move
 to a separate document later.
 
+* Add instructions:
+	* Different sized instructions
+	* Branching instructions
+	* Variable declarations
+* Heap allocation
+* Better semantics and error handling
 * Implement includes, loads, etc
 	* Include separate source files
 	* Load external libraries
+* Variables
+* Move documentation
 * Work on implementing native calls
 	* First be able to load libraries from NSM
 	* Create a sort of API for external C code
-* Do some address things for variables
-* Add more of the opcodes listed below
 
 ### Instructions
+
+I: Integer, 4 bytes
+W: Word, 2 bytes
+B: Byte, 1 byte
 
 | Opcode 	| Arguments | Explanation |
 | --------- | --------- | ----------- |
@@ -43,6 +53,7 @@ to a separate document later.
 | IMOV		| R , R / N	| Move a constant or register value to register |
 | IADD		| R , R / N | Add a constant or register value to register |
 | IADDR		| R, A		| Move an address to a register |
+| IPOP		|			| Pop an integer off of the stack |
 | JMP		| LBL		| Jump to a label |
 | CALL		| LBL		| Call a label |
 | RET		|			| Return from a call |

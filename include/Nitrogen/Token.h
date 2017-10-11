@@ -26,14 +26,19 @@ namespace Nitrogen {
 		ISUB,
 		IMUL,
 		IDIV,
-		
 		IADDR,
 		
-		JMP,
+		WCONST,
+		WLOAD,
+		WSTORE,
+		
 		CALL,
 		RET,
+		JMP,
 		
 		NCALL,
+		
+		EXIT
 	};
 	
 	enum TokenReg {

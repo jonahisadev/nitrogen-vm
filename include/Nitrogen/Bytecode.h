@@ -4,6 +4,7 @@
 namespace Nitrogen {
 
 	enum ByteInst {
+		// 4 Byte Instructions
 		_ICONST = 		0x01,
 		_ILOAD = 		0x02,
 		_ISTORE = 		0x03,
@@ -17,16 +18,23 @@ namespace Nitrogen {
 		_IMUL_N = 		0x0B,
 		_IDIV_R = 		0x0C,
 		_IDIV_N = 		0x0D,
+		_IADDR_RA = 	0x0E,
+		_IADDR_RS =		0x0F,
 		
-		_IADDR_RA = 	0x10,
-		_IADDR_RS =		0x11,
+		// 2 Byte Instructions
+		_WCONST = 		0x11,
+		_WLOAD = 		0x12,
+		_WSTORE = 		0x13,
 		
+		// Other Instructions
 		
-		_JMP = 			0x1D,
-		_CALL = 		0x30,
-		_RET = 			0x31,
+		_CALL = 		0x10,
+		_RET = 			0x20,
+		_NCALL = 		0x88,
 		
-		_NCALL = 		0x63,
+		_JMP = 			0x90,
+		
+		_EXIT = 		0xFF,
 	};
 	
 	enum ByteReg {

@@ -86,7 +86,7 @@ namespace Nitrogen {
 					break;
 				}
 				
-				// ASTORE
+				// IADDR
 				case _IADDR_RA: {
 					printf("IADDR \t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
 					int x;
@@ -97,6 +97,24 @@ namespace Nitrogen {
 				}
 				case _IADDR_RS: {
 					printf("IADDR \t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), getNext());
+					break;
+				}
+				
+				// WCONST
+				case _WCONST: {
+					printf("WCONST \t%d", Util::atow(getNext(), getNext()));
+					break;
+				}
+				
+				// WLOAD
+				case _WLOAD: {
+					printf("WLOAD \t%s", Bytecode::getRegister(getNext()));
+					break;
+				}
+				
+				// WSTORE
+				case _WSTORE: {
+					printf("WSTORE \t%s", Bytecode::getRegister(getNext()));
 					break;
 				}
 				
@@ -125,6 +143,12 @@ namespace Nitrogen {
 					while ((c = getNext()) != '\0') {
 						printf("%c", c);
 					}
+					break;
+				}
+				
+				// EXIT
+				case _EXIT: {
+					printf("EXIT");
 					break;
 				}
 				

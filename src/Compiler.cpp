@@ -122,6 +122,27 @@ namespace Nitrogen {
 					}
 				}
 				
+				// WCONST
+				else if (tokens->get(i)->getData() == WCONST &&
+						tokens->get(i+1)->getType() == NUM) {
+					buffer->add(_WCONST);
+					Util::writeWord(buffer, tokens->get(i+1)->getData());
+				}
+				
+				// WLOAD
+				else if (tokens->get(i)->getData() == WLOAD &&
+						tokens->get(i+1)->getType() == REG) {
+					buffer->add(_WLOAD);
+					buffer->add(tokens->get(i+1)->getData() + 1);
+				}
+				
+				// WSTORE
+				else if (tokens->get(i)->getData() == WSTORE &&
+						tokens->get(i+1)->getType() == REG) {
+					buffer->add(_WSTORE);
+					buffer->add(tokens->get(i+1)->getData() + 1);
+				}
+				
 				// JMP
 				else if (tokens->get(i)->getData() == JMP &&
 						tokens->get(i+1)->getType() == JUMP) {
@@ -149,6 +170,11 @@ namespace Nitrogen {
 				else if (tokens->get(i)->getData() == NCALL) {
 					buffer->add(_NCALL);
 					Util::writeString(buffer, strings->get(tokens->get(++i)->getData()));
+				}
+				
+				// EXIT
+				else if (tokens->get(i)->getData() == EXIT) {
+					buffer->add(_EXIT);
 				}
 				
 				else {

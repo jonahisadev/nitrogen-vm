@@ -30,9 +30,15 @@ namespace Nitrogen {
 			return IMUL;
 		else if (!strcmp(str, "IDIV"))
 			return IDIV;
-			
 		else if (!strcmp(str, "IADDR"))
 			return IADDR;
+			
+		else if (!strcmp(str, "WCONST"))
+			return WCONST;
+		else if (!strcmp(str, "WLOAD"))
+			return WLOAD;
+		else if (!strcmp(str, "WSTORE"))
+			return WSTORE;
 		
 		else if (!strcmp(str, "JMP"))
 			return JMP;
@@ -43,6 +49,9 @@ namespace Nitrogen {
 			
 		else if (!strcmp(str, "NCALL"))
 			return NCALL;
+			
+		else if (!strcmp(str, "EXIT"))
+			return EXIT;
 		else
 			return -1;
 	}

@@ -87,12 +87,32 @@ namespace Nitrogen {
 		return (a << 24) | (b << 16) | (c << 8) | d;
 	}
 	
+	unsigned char* Util::wtoa(short x) {
+		unsigned char* arr = new unsigned char[2];
+		
+		arr[0] = (x >> 8) & 0xFF;
+		arr[1] = (x >> 0) & 0xFF;
+		
+		return arr;
+	}
+	
+	unsigned short Util::atow(unsigned char a, unsigned char b) {
+		return (a << 8) | b;
+	}
+	
 	void Util::writeInt(List<unsigned char>* list, int data) {
 		unsigned char* arr = itoa(data);
 		list->add(arr[0]);
 		list->add(arr[1]);
 		list->add(arr[2]);
 		list->add(arr[3]);
+		delete[] arr;
+	}
+	
+	void Util::writeWord(List<unsigned char>* list, short data) {
+		unsigned char* arr = wtoa(data);
+		list->add(arr[0]);
+		list->add(arr[1]);
 		delete[] arr;
 	}
 	

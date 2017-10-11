@@ -1,11 +1,6 @@
 main:
-	iconst 2
-	iconst 40
-	call @test
-	ncall %kill
-	
-test:
-	iaddr ebx (ebp)+8
-	iaddr ecx (ebp)+12
-	idiv ebx ecx
-	ret
+	wconst 2
+	wload eax
+	wstore eax
+	wload ebx
+	exit

@@ -133,6 +133,26 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// WCONST
+				case ByteInst::_WCONST: {
+					pushw(getNext(), getNext());
+					break;
+				}
+				
+				// WLOAD
+				case ByteInst::_WLOAD: {
+					unsigned int* reg = getRegister(getNext());
+					*reg = popw();
+					break;
+				}
+				
+				// WSTORE
+				case ByteInst::_WSTORE: {
+					unsigned int* reg = getRegister(getNext());
+					pushw((unsigned short)*reg);
+					break;
+				}
+				
 				// JMP
 				case ByteInst::_JMP: {
 					this->pc = Util::atoi(getNext(), getNext(), getNext(), getNext()) - 1;
@@ -166,6 +186,11 @@ namespace Nitrogen {
 					delete[] name;
 					break;
 				}
+				
+				// EXIT
+				case ByteInst::_EXIT: {
+					goto exit;
+				}
 			}
 			
 			// printf("STACK: [%d, %d, %d, %d]\n", ram[bp], ram[bp-1], ram[bp-2], ram[bp-3]);
@@ -176,6 +201,7 @@ namespace Nitrogen {
 				break;
 		}
 		
+		exit:
 		return ebx;
 	}
 	
@@ -199,6 +225,24 @@ namespace Nitrogen {
 		unsigned char d = ram[sp++];
 		
 		return Util::atoi(a, b, c, d);
+	}
+	
+	void Runtime::pushw(unsigned char a, unsigned char b) {
+		ram[--sp] = b;
+		ram[--sp] = a;
+	}
+	
+	void Runtime::pushw(short x) {
+		unsigned char* arr = Util::wtoa(x);
+		pushw(arr[0], arr[1]);
+		delete[] arr;
+	}
+	
+	short Runtime::popw() {
+		unsigned char a = ram[sp++];
+		unsigned char b = ram[sp++];
+		
+		return Util::atow(a, b);
 	}
 	
 	unsigned int* Runtime::getRegister(int code) {

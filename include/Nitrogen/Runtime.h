@@ -48,6 +48,10 @@ namespace Nitrogen {
 		void pushi(int x);
 		int popi();
 		
+		void pushw(unsigned char a, unsigned char b);
+		void pushw(short x);
+		short popw();
+		
 		unsigned char getNext();
 		
 		unsigned int* getRegister(int code);
