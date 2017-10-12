@@ -159,6 +159,60 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// CMP
+				case ByteInst::_CMP_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					
+					compare(*a, *b);
+					break;
+				}
+				case ByteInst::_CMP_N: {
+					unsigned int* reg = getRegister(getNext());
+					unsigned int val = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					
+					compare(*reg, val);
+					break;
+				}
+				
+				// BRANCHES
+				case ByteInst::_JL: {
+					unsigned int go = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					if (getCompare(1))
+						this->pc = go - 1;
+					break;
+				}
+				case ByteInst::_JG: {
+					unsigned int go = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					if (getCompare(2))
+						this->pc = go - 1;
+					break;
+				}
+				case ByteInst::_JLE: {
+					unsigned int go = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					if (getCompare(1) || getCompare(3))
+						this->pc = go - 1;
+					break;
+				}
+				case ByteInst::_JGE: {
+					unsigned int go = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					if (getCompare(2) || getCompare(3))
+						this->pc = go - 1;
+					break;
+				}
+				case ByteInst::_JE: {
+					unsigned int go = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					if (getCompare(3))
+						this->pc = go - 1;
+					break;
+				}
+				case ByteInst::_JNE: {
+					unsigned int go = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					if (!getCompare(3))
+						this->pc = go - 1;
+					break;
+				}
+				
 				// CALL
 				case ByteInst::_CALL: {
 					pushi(this->pc + 4);		// Push return address
@@ -262,6 +316,31 @@ namespace Nitrogen {
 			default:
 				return nullptr;
 		}
+	}
+	
+	// Less = 		0001
+	// Greater =	0010
+	// Equal = 		0100
+	
+	bool Runtime::getCompare(int place) {
+		return (this->cmpflag >> (place - 1)) & 0x1;
+	}
+	
+	void Runtime::compare(int a, int b) {
+		if (a == b)
+			this->cmpflag |= 0b100;
+		else
+			this->cmpflag &= 0b011;
+		
+		if (a < b)
+			this->cmpflag |= 0b001;
+		else
+			this->cmpflag &= 0b110;
+			
+		if (a > b)
+			this->cmpflag |= 0b010;
+		else	
+			this->cmpflag &= 0b101;
 	}
 	
 	unsigned char Runtime::getNext() {

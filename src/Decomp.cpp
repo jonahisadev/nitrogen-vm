@@ -118,6 +118,16 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// WMOV
+				case _WMOV_R: {
+					printf("WMOV \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _WMOV_N: {
+					printf("WMOV \t\t%s, %d", Bytecode::getRegister(getNext()), Util::atow(getNext(), getNext()));
+					break;
+				}
+				
 				// JMP
 				case _JMP: {
 					printf("JMP \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
@@ -143,6 +153,42 @@ namespace Nitrogen {
 					while ((c = getNext()) != '\0') {
 						printf("%c", c);
 					}
+					break;
+				}
+				
+				// CMP
+				case _CMP_R: {
+					printf("CMP \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _CMP_N: {
+					printf("CMP \t\t%s, %d", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// BRANCHES
+				case _JL: {
+					printf("JL \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				case _JG: {
+					printf("JG \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				case _JLE: {
+					printf("JLE \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				case _JGE: {
+					printf("JGE \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				case _JE: {
+					printf("JE \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				case _JNE: {
+					printf("JNE \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
 					break;
 				}
 				

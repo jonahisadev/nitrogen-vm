@@ -26,7 +26,6 @@ to a separate document later.
 
 * Add instructions:
 	* Different sized instructions
-	* Branching instructions
 	* Variable declarations
 * Heap allocation
 * Better semantics and error handling
@@ -34,6 +33,7 @@ to a separate document later.
 	* Include separate source files
 	* Load external libraries
 * Variables
+* Runtime debugger
 * Move documentation
 * Work on implementing native calls
 	* First be able to load libraries from NSM

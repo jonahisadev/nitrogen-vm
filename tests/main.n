@@ -1,6 +1,16 @@
 main:
-	wconst 2
-	wload eax
-	wstore eax
-	wload ebx
+	imov eax 0
+	imov ebx 0
+	call @loop
 	exit
+	
+loop:
+	cmp eax 10
+	jl @math
+	jmp @end
+math:
+	iadd ebx 1
+	iadd eax 1
+	jmp @loop
+end:
+	ret

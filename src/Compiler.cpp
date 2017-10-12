@@ -143,6 +143,20 @@ namespace Nitrogen {
 					buffer->add(tokens->get(i+1)->getData() + 1);
 				}
 				
+				// WMOV
+				else if (tokens->get(i)->getData() == WMOV &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_WMOV_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_WMOV_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeWord(buffer, tokens->get(i+2)->getData());
+					}
+				}
+				
 				// JMP
 				else if (tokens->get(i)->getData() == JMP &&
 						tokens->get(i+1)->getType() == JUMP) {
@@ -170,6 +184,43 @@ namespace Nitrogen {
 				else if (tokens->get(i)->getData() == NCALL) {
 					buffer->add(_NCALL);
 					Util::writeString(buffer, strings->get(tokens->get(++i)->getData()));
+				}
+				
+				// CMP
+				else if (tokens->get(i)->getData() == CMP &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_CMP_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_CMP_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+					}
+				}
+				
+				// BRANCHES
+				else if (tokens->get(i)->getData() >= JL &&
+						tokens->get(i)->getData() <= JNE) {
+					switch (tokens->get(i)->getData()) {
+						case JL:
+							buffer->add(_JL); break;
+						case JG:
+							buffer->add(_JG); break;
+						case JLE:
+							buffer->add(_JLE); break;
+						case JGE:
+							buffer->add(_JGE); break;
+						case JE:
+							buffer->add(_JE); break;
+						case JNE:
+							buffer->add(_JNE); break;
+					}
+					
+					jmpAddr->add(i);									// Set index of list for token
+					tokens->get(i)->setData(this->buffer->getSize());	// Set data to address of jump addr
+					Util::writeInt(buffer, 0);							// Write placeholder
 				}
 				
 				// EXIT

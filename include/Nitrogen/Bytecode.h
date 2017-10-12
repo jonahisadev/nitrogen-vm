@@ -25,14 +25,27 @@ namespace Nitrogen {
 		_WCONST = 		0x11,
 		_WLOAD = 		0x12,
 		_WSTORE = 		0x13,
+		_WMOV_R = 		0x14,
+		_WMOV_N = 		0x15,
+		
+		// Jump Instructions
+		
+		_JMP = 			0x90,
+		_JL = 			0x91,
+		_JG = 			0x92,
+		_JLE = 			0x93,
+		_JGE = 			0x94,
+		_JE = 			0x95,
+		_JNE = 			0x96,
+		
+		_CMP_R = 		0xA0,
+		_CMP_N = 		0xA1,
 		
 		// Other Instructions
 		
 		_CALL = 		0x10,
 		_RET = 			0x20,
 		_NCALL = 		0x88,
-		
-		_JMP = 			0x90,
 		
 		_EXIT = 		0xFF,
 	};

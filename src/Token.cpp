@@ -39,6 +39,8 @@ namespace Nitrogen {
 			return WLOAD;
 		else if (!strcmp(str, "WSTORE"))
 			return WSTORE;
+		else if (!strcmp(str, "WMOV"))
+			return WMOV;
 		
 		else if (!strcmp(str, "JMP"))
 			return JMP;
@@ -49,6 +51,21 @@ namespace Nitrogen {
 			
 		else if (!strcmp(str, "NCALL"))
 			return NCALL;
+			
+		else if (!strcmp(str, "CMP"))
+			return CMP;
+		else if (!strcmp(str, "JL"))
+			return JL;
+		else if (!strcmp(str, "JG"))
+			return JG;
+		else if (!strcmp(str, "JLE"))
+			return JLE;
+		else if (!strcmp(str, "JGE"))
+			return JGE;
+		else if (!strcmp(str, "JE"))
+			return JE;
+		else if (!strcmp(str, "JNE"))
+			return JNE;
 			
 		else if (!strcmp(str, "EXIT"))
 			return EXIT;

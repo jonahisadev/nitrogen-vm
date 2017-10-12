@@ -32,6 +32,7 @@ namespace Nitrogen {
 		unsigned int ecx;
 		unsigned int edx;
 		unsigned int erm;
+		unsigned int cmpflag;
 		
 		// Native
 		Env* env;
@@ -53,6 +54,8 @@ namespace Nitrogen {
 		short popw();
 		
 		unsigned char getNext();
+		bool getCompare(int place);
+		void compare(int a, int b);
 		
 		unsigned int* getRegister(int code);
 	};

@@ -31,12 +31,20 @@ namespace Nitrogen {
 		WCONST,
 		WLOAD,
 		WSTORE,
+		WMOV,
 		
 		CALL,
 		RET,
-		JMP,
-		
 		NCALL,
+		
+		JMP,
+		JL,			// 0001
+		JG,			// 0010
+		JLE,		// 0101
+		JGE,		// 0110
+		JE,			// 0100
+		JNE,		// x0xx
+		CMP,
 		
 		EXIT
 	};

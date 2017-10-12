@@ -117,7 +117,7 @@ namespace Nitrogen {
 		}
 		
 		else {
-			printf("Invalid token: '%s'\n", lex);
+			printf("%d: Invalid token: '%s'\n", line, lex);
 			exit(1);
 		}
 		
