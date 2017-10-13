@@ -45,6 +45,8 @@ namespace Nitrogen {
 		
 		_CALL = 		0x10,
 		_RET = 			0x20,
+		_INC = 			0x30,
+		_DEC = 			0x40,
 		_NCALL = 		0x88,
 		
 		_EXIT = 		0xFF,

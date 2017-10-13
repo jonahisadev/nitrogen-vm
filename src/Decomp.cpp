@@ -146,6 +146,18 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// INC
+				case _INC: {
+					printf("INC \t\t%s", Bytecode::getRegister(getNext()));
+					break;
+				}
+				
+				// DEC
+				case _DEC: {
+					printf("DEC \t\t%s", Bytecode::getRegister(getNext()));
+					break;
+				}
+				
 				// NCALL
 				case _NCALL: {
 					printf("NCALL \t");

@@ -229,6 +229,20 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// INC
+				case ByteInst::_INC: {
+					unsigned int* reg = getRegister(getNext());
+					*reg += 1;
+					break;
+				}
+				
+				// DEC
+				case ByteInst::_DEC: {
+					unsigned int* reg = getRegister(getNext());
+					*reg -= 1;
+					break;
+				}
+				
 				// NCALL
 				case ByteInst::_NCALL: {
 					char* name = new char[256];

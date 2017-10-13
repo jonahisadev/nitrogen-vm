@@ -48,7 +48,10 @@ namespace Nitrogen {
 			return CALL;
 		else if (!strcmp(str, "RET"))
 			return RET;
-			
+		else if (!strcmp(str, "INC"))
+			return INC;
+		else if (!strcmp(str, "DEC"))
+			return DEC;
 		else if (!strcmp(str, "NCALL"))
 			return NCALL;
 			

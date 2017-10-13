@@ -37,6 +37,9 @@ namespace Nitrogen {
 		RET,
 		NCALL,
 		
+		INC,
+		DEC,
+		
 		JMP,
 		JL,			// 0001
 		JG,			// 0010

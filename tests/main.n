@@ -9,8 +9,8 @@ loop:
 	jl @math
 	jmp @end
 math:
-	iadd ebx 1
-	iadd eax 1
+	inc eax
+	inc ebx
 	jmp @loop
 end:
 	ret

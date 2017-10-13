@@ -180,6 +180,20 @@ namespace Nitrogen {
 					buffer->add(_RET);
 				}
 				
+				// INC
+				else if (tokens->get(i)->getData() == INC &&
+						tokens->get(i+1)->getType() == REG) {
+					buffer->add(_INC);
+					buffer->add(tokens->get(i+1)->getData() + 1);
+				}
+				
+				// DEC
+				else if (tokens->get(i)->getData() == DEC &&
+						tokens->get(i+1)->getType() == REG) {
+					buffer->add(_DEC);
+					buffer->add(tokens->get(i+1)->getData() + 1);
+				}
+				
 				// NCALL
 				else if (tokens->get(i)->getData() == NCALL) {
 					buffer->add(_NCALL);
