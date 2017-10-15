@@ -128,6 +128,16 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// WADD
+				case _WADD_R: {
+					printf("WADD \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _WADD_N: {
+					printf("WADD \t\t%s, %d", Bytecode::getRegister(getNext()), Util::atow(getNext(), getNext()));
+					break;
+				}
+				
 				// JMP
 				case _JMP: {
 					printf("JMP \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));

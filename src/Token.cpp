@@ -41,6 +41,8 @@ namespace Nitrogen {
 			return WSTORE;
 		else if (!strcmp(str, "WMOV"))
 			return WMOV;
+		else if (!strcmp(str, "WADD"))
+			return WADD;
 		
 		else if (!strcmp(str, "JMP"))
 			return JMP;

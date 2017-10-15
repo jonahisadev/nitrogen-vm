@@ -32,6 +32,7 @@ namespace Nitrogen {
 		WLOAD,
 		WSTORE,
 		WMOV,
+		WADD,
 		
 		CALL,
 		RET,

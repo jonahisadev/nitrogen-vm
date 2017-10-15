@@ -1,16 +1,5 @@
 main:
-	imov eax 0
-	imov ebx 0
-	call @loop
+	wmov eax 40
+	wmov ebx 2
+	wadd ebx eax
 	exit
-	
-loop:
-	cmp eax 10
-	jl @math
-	jmp @end
-math:
-	inc eax
-	inc ebx
-	jmp @loop
-end:
-	ret

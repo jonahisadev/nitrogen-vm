@@ -157,6 +157,20 @@ namespace Nitrogen {
 					}
 				}
 				
+				// WADD
+				else if (tokens->get(i)->getData() == WADD &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_WADD_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_WADD_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeWord(buffer, tokens->get(i+2)->getData());
+					}
+				}
+				
 				// JMP
 				else if (tokens->get(i)->getData() == JMP &&
 						tokens->get(i+1)->getType() == JUMP) {

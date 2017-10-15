@@ -153,6 +153,32 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// WMOV
+				case ByteInst::_WMOV_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					*a = *b;
+					break;
+				}
+				case ByteInst::_WMOV_N: {
+					unsigned int* reg = getRegister(getNext());
+					*reg = (unsigned short)Util::atow(getNext(), getNext());
+					break;
+				}
+				
+				// WADD
+				case ByteInst::_WADD_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					*a += *b;
+					break;
+				}
+				case ByteInst::_WADD_N: {
+					unsigned int* reg = getRegister(getNext());
+					*reg += (unsigned short)Util::atow(getNext(), getNext());
+					break;
+				}
+				
 				// JMP
 				case ByteInst::_JMP: {
 					this->pc = Util::atoi(getNext(), getNext(), getNext(), getNext()) - 1;

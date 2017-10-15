@@ -27,6 +27,8 @@ namespace Nitrogen {
 		_WSTORE = 		0x13,
 		_WMOV_R = 		0x14,
 		_WMOV_N = 		0x15,
+		_WADD_R = 		0x16,
+		_WADD_N = 		0x17,
 		
 		// Jump Instructions
 		
