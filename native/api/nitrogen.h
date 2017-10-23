@@ -34,7 +34,9 @@ static Env* createEnvironment(
 
 static unsigned int getEnvRegister(Env* env, int reg);
 static void setEnvRegister(Env* env, int reg, unsigned int value);
-static int getArgument(Env* env, int bpOffset);
+static int getArgument(Env* env, int off);
+
+static unsigned int x_atoi(unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
 //
 // IMPLEMENTATIONS
@@ -92,10 +94,14 @@ void setEnvRegister(Env* env, int reg, unsigned int value) {
 	}
 }
 
-int getArgument(Env* env, int bpOffset) {
+int getArgument(Env* env, int off) {
 	int n = *(env->bp);
-	int x = (env->memory[n+bpOffset]) << 24 | (env->memory[n+bpOffset-1]) << 16 | (env->memory[n+bpOffset-2]) << 8 | (env->memory[n+bpOffset-3]);
+	int x = x_atoi(env->memory[n+off+0], env->memory[n+off+1], env->memory[n+off+2], env->memory[n+off+3]);
 	return x;
+}
+
+unsigned int x_atoi(unsigned int a, unsigned int b, unsigned int c, unsigned int d) {
+	return (a << 24) | (b << 16) | (c << 8) | d;
 }
 
 #endif // NITROGEN_H

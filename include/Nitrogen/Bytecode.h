@@ -29,6 +29,12 @@ namespace Nitrogen {
 		_WMOV_N = 		0x15,
 		_WADD_R = 		0x16,
 		_WADD_N = 		0x17,
+		_WSUB_R = 		0x18,
+		_WSUB_N = 		0x19,
+		_WMUL_R = 		0x1A,
+		_WMUL_N = 		0x1B,
+		_WDIV_R = 		0x1C,
+		_WDIV_N = 		0x1D,
 		
 		// Jump Instructions
 		

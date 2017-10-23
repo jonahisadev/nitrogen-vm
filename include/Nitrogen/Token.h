@@ -33,6 +33,10 @@ namespace Nitrogen {
 		WSTORE,
 		WMOV,
 		WADD,
+		WSUB,
+		WMUL,
+		WDIV,
+		WADDR,
 		
 		CALL,
 		RET,

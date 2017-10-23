@@ -108,9 +108,31 @@ namespace Nitrogen {
 					unsigned int* a = getRegister(getNext());
 					unsigned int* b = getRegister(getNext());
 					
+					if (*b == 0) {
+						printf("ERR: Div by 0");
+						this->ebx = 1;
+						goto exit;
+					}
+					
 					unsigned int r = (unsigned int)floor(*a % *b);
 					
 					*a /= *b;
+					this->erm = r;
+					break;
+				}
+				case ByteInst::_IDIV_N: {
+					unsigned int* reg = getRegister(getNext());
+					unsigned int num = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					
+					if (num == 0) {
+						printf("ERR: Div by 0");
+						this->ebx = 1;
+						goto exit;
+					}
+					
+					unsigned int r = (unsigned int)floor(*reg % num);
+					
+					*reg /= num;
 					this->erm = r;
 					break;
 				}
@@ -170,12 +192,78 @@ namespace Nitrogen {
 				case ByteInst::_WADD_R: {
 					unsigned int* a = getRegister(getNext());
 					unsigned int* b = getRegister(getNext());
-					*a += *b;
+					
+					*a = ((unsigned short)*a + (unsigned short)*b);
+					
 					break;
 				}
 				case ByteInst::_WADD_N: {
 					unsigned int* reg = getRegister(getNext());
-					*reg += (unsigned short)Util::atow(getNext(), getNext());
+					*reg = ((unsigned short)*reg + (unsigned short)Util::atow(getNext(), getNext()));
+					break;
+				}
+				
+				// WSUB
+				case ByteInst::_WSUB_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					
+					*a = ((unsigned short)*a - (unsigned short)*b);
+					
+					break;
+				}
+				case ByteInst::_WSUB_N: {
+					unsigned int* reg = getRegister(getNext());
+					*reg = ((unsigned short)*reg - (unsigned short)Util::atow(getNext(), getNext()));
+					break;
+				}
+				
+				// WMUL
+				case ByteInst::_WMUL_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					
+					*a = ((unsigned short)*a * (unsigned short)*b);
+					
+					break;
+				}
+				case ByteInst::_WMUL_N: {
+					unsigned int* reg = getRegister(getNext());
+					*reg = ((unsigned short)*reg * (unsigned short)Util::atow(getNext(), getNext()));
+					break;
+				}
+				
+				// WDIV
+				case ByteInst::_WDIV_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					
+					if (*b == 0) {
+						printf("ERR: Div by 0");
+						this->ebx = 1;
+						goto exit;
+					}
+					
+					unsigned int r = (unsigned int)floor(*a % *b);
+					
+					*a = ((unsigned short)*a / (unsigned short)*b);
+					this->erm = r;
+					break;
+				}
+				case ByteInst::_WDIV_N: {
+					unsigned int* reg = getRegister(getNext());
+					unsigned short num = Util::atow(getNext(), getNext());
+					
+					if (num == 0) {
+						printf("ERR: Div by 0");
+						this->ebx = 1;
+						goto exit;
+					}
+					
+					unsigned int r = (unsigned short)floor(*reg % num);
+					
+					*reg = (unsigned short)*reg/num;
+					this->erm = r;
 					break;
 				}
 				
@@ -276,7 +364,16 @@ namespace Nitrogen {
 					int x = 0;
 					while ((c = getNext()) != '\0')
 						name[x++] = c;
+					
+					pushi(this->pc);
+					pushi(this->bp);
+					this->bp = this->sp;
+					
 					this->edx = lsystem->callFunction(name);
+					
+					this->bp = popi();
+					this->pc = popi();
+					
 					delete[] name;
 					break;
 				}
@@ -349,6 +446,8 @@ namespace Nitrogen {
 				return &ecx;
 			case _EDX:
 				return &edx;
+			case _ERM: 
+				return &erm;
 			case _ESP:
 				return &sp;
 			case _EBP:

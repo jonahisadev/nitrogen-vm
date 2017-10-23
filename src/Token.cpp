@@ -43,6 +43,12 @@ namespace Nitrogen {
 			return WMOV;
 		else if (!strcmp(str, "WADD"))
 			return WADD;
+		else if (!strcmp(str, "WSUB"))
+			return WSUB;
+		else if (!strcmp(str, "WMUL"))
+			return WMUL;
+		else if (!strcmp(str, "WDIV"))
+			return WDIV;
 		
 		else if (!strcmp(str, "JMP"))
 			return JMP;

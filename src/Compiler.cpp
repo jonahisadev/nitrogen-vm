@@ -72,7 +72,7 @@ namespace Nitrogen {
 						buffer->add(tokens->get(i+2)->getData() + 1);
 					} else if (tokens->get(i+2)->getType() == NUM) {
 						buffer->add(_ISUB_N);
-						buffer->add(tokens->get(i+2)->getData() + 1);
+						buffer->add(tokens->get(i+1)->getData() + 1);
 						Util::writeInt(buffer, tokens->get(i+2)->getData());
 					}
 				}
@@ -166,6 +166,48 @@ namespace Nitrogen {
 						buffer->add(tokens->get(i+2)->getData() + 1);
 					} else if (tokens->get(i+2)->getType() == NUM) {
 						buffer->add(_WADD_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeWord(buffer, tokens->get(i+2)->getData());
+					}
+				}
+				
+				// WSUB
+				else if (tokens->get(i)->getData() == WSUB &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_WSUB_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_WSUB_N);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+						Util::writeWord(buffer, tokens->get(i+2)->getData());
+					}
+				}
+				
+				// WMUL
+				else if (tokens->get(i)->getData() == WMUL &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_WMUL_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_WMUL_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeWord(buffer, tokens->get(i+2)->getData());
+					}
+				}
+				
+				// WDIV
+				else if (tokens->get(i)->getData() == WDIV &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_WDIV_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_WDIV_N);
 						buffer->add(tokens->get(i+1)->getData() + 1);
 						Util::writeWord(buffer, tokens->get(i+2)->getData());
 					}

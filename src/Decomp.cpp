@@ -138,6 +138,36 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// WSUB
+				case _WSUB_R: {
+					printf("WSUB \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _WSUB_N: {
+					printf("WSUB \t\t%s, %d", Bytecode::getRegister(getNext()), Util::atow(getNext(), getNext()));
+					break;
+				}
+				
+				// WMUL
+				case _WMUL_R: {
+					printf("WMUL \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _WMUL_N: {
+					printf("WMUL \t\t%s, %d", Bytecode::getRegister(getNext()), Util::atow(getNext(), getNext()));
+					break;
+				}
+				
+				// WDIV
+				case _WDIV_R: {
+					printf("WDIV \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _WDIV_N: {
+					printf("WDIV \t\t%s, %d", Bytecode::getRegister(getNext()), Util::atow(getNext(), getNext()));
+					break;
+				}
+				
 				// JMP
 				case _JMP: {
 					printf("JMP \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
