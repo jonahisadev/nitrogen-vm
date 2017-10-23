@@ -1,19 +1,8 @@
 main:
-	imov eax 35				; Multiply numbers
-	imov ebx 5
-	wdiv eax ebx
-	istore eax				; Push result
-	call @printNum			; Call method
-	iadd esp 4				; Clean up arguments
-	imov ebx erm			; Move remainder to EBX
-	exit					; Exit
+	wconst 42
+	call @something
+	exit
 	
-printNum:
-	iaddr edx (ebp)+8		; Get argument
-	istore edx				; Push again for next call
-	ncall %print_num		; Print number
-	iadd esp 4				; Clean up arguments
-	iconst 10				; Push new-line
-	ncall %print_char		; Print character
-	iadd esp 4				; Clean up arguments
-	ret						; Return
+something:
+	waddr ebx (esp)+8
+	ret

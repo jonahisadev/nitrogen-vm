@@ -143,7 +143,7 @@ namespace Nitrogen {
 					unsigned int* src = getRegister(getNext());
 					int off = getNext();
 					// printf("%d, %d, %d, %d\n", ram[*src + off + 0], ram[*src + off + 1], ram[*src + off + 2], ram[*src + off + 3]);
-					*dest = Util::atoi(ram[*src + off + 0], ram[*src + off + 1], ram[*src + off + 2], ram[*src + off + 3]);
+					*dest = (unsigned int)Util::atoi(ram[*src + off + 0], ram[*src + off + 1], ram[*src + off + 2], ram[*src + off + 3]);
 					break;
 				}
 				case ByteInst::_IADDR_RS: {
@@ -264,6 +264,22 @@ namespace Nitrogen {
 					
 					*reg = (unsigned short)*reg/num;
 					this->erm = r;
+					break;
+				}
+				
+				// WADDR
+				case ByteInst::_WADDR_RA: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int* src = getRegister(getNext());
+					int off = getNext();
+					*dest = (unsigned short)Util::atow(ram[*src + off + 0], ram[*src + off + 1]);
+					break;
+				}
+				case ByteInst::_WADDR_RS: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int* src = getRegister(getNext());
+					int off = getNext();
+					*dest = (unsigned short)Util::atow(ram[*src - off + 0], ram[*src - off + 1]);
 					break;
 				}
 				

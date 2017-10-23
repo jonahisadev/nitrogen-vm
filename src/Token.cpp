@@ -49,6 +49,8 @@ namespace Nitrogen {
 			return WMUL;
 		else if (!strcmp(str, "WDIV"))
 			return WDIV;
+		else if (!strcmp(str, "WADDR"))
+			return WADDR;
 		
 		else if (!strcmp(str, "JMP"))
 			return JMP;

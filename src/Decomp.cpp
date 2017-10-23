@@ -168,6 +168,20 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// WADDR
+				case _WADDR_RA: {
+					printf("WADDR \t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					int x;
+					if ((x = getNext()) != 0) {
+						printf("+%d", x);
+					}
+					break;
+				}
+				case _WADDR_RS: {
+					printf("WADDR \t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), getNext());
+					break;
+				}
+				
 				// JMP
 				case _JMP: {
 					printf("JMP \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));

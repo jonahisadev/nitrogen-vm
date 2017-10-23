@@ -35,6 +35,8 @@ namespace Nitrogen {
 		_WMUL_N = 		0x1B,
 		_WDIV_R = 		0x1C,
 		_WDIV_N = 		0x1D,
+		_WADDR_RA = 	0x1E,
+		_WADDR_RS = 	0x1F,
 		
 		// Jump Instructions
 		

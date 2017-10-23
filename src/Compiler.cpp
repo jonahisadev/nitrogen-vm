@@ -213,6 +213,23 @@ namespace Nitrogen {
 					}
 				}
 				
+				// WADDR
+				else if (tokens->get(i)->getData() == WADDR &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						int offset = tokens->get(i+3)->getData();
+						if (offset < 0) {
+							buffer->add(_WADDR_RS);
+							tokens->get(i+3)->setData(-offset);
+						} else {
+							buffer->add(_WADDR_RA);
+						}
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+						buffer->add(tokens->get(i+3)->getData());
+					}
+				}
+				
 				// JMP
 				else if (tokens->get(i)->getData() == JMP &&
 						tokens->get(i+1)->getType() == JUMP) {
