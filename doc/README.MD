@@ -109,3 +109,13 @@ Below is the specification for calling subroutines
 | 1st argument |
 | 2nd argument |
 | 3rd argument |
+
+## Header
+
+The header for a nitrogen binary file goes as follows:
+
+* 2 byte "verification" number (0x4E37) which is 'N7' in ASCII
+
+Soon to come:
+* 4 byte variable loading address to call
+* 4 byte entry address to jump to

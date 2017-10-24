@@ -12,6 +12,14 @@ namespace Nitrogen {
 	}
 	
 	void Decomp::start() {
+		if (prog[0] == 'N' && prog[1] == '7') {
+			printf(":Nitrogen Binary\n");
+			pc += 2;
+		} else {
+			printf("Invalid Nitrogen Binary\n");
+			exit(1);
+		}
+		
 		int opcode;
 		while (this->pc < this->bin_size) {
 			opcode = prog[pc];

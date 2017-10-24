@@ -27,6 +27,13 @@ namespace Nitrogen {
 	int Runtime::start() {
 		int opcode;
 		
+		if (prog[0] == 'N' && prog[1] == '7') {
+			pc += 2;
+		} else {
+			printf("ERR: Invalid Nitrogen Binary\n");
+			exit(1);
+		}
+		
 		while (true) {
 			opcode = prog[pc];
 			

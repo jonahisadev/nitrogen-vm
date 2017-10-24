@@ -12,6 +12,11 @@ namespace Nitrogen {
 	}
 	
 	void Compiler::start() {
+		// Header
+		buffer->add('N');
+		buffer->add('7');
+		
+		// Instructions
 		for (int i = 0; i < tokens->getSize(); i++) {
 			if (tokens->get(i)->getType() == INST) {
 				// ICONST

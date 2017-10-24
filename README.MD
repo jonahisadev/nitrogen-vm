@@ -33,9 +33,7 @@ to a separate document later.
 * Implement includes, loads, etc
 	* Include separate source files
 	* Load external libraries
-* Variables
 * Runtime debugger
-* Move documentation
 * Work on implementing native calls
 	* First be able to load libraries from NSM
 	* Create a sort of API for external C code
