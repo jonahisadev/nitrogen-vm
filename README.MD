@@ -25,8 +25,9 @@ This will always stay in README. Everything below this should move
 to a separate document later.
 
 * Add instructions:
-	* Different sized instructions
+	* Byte instructions
 	* Variable declarations
+		* Strings
 * Heap allocation
 * Better semantics and error handling
 * Implement includes, loads, etc
@@ -38,48 +39,3 @@ to a separate document later.
 * Work on implementing native calls
 	* First be able to load libraries from NSM
 	* Create a sort of API for external C code
-
-### Instructions
-
-I: Integer, 4 bytes
-W: Word, 2 bytes
-B: Byte, 1 byte
-
-| Opcode 	| Arguments | Explanation |
-| --------- | --------- | ----------- |
-| ICONST 	| N			| Push a 4 byte number to the stack |
-| ILOAD		| R			| Pop a 4 byte number to a register |
-| ISTORE 	| R			| Push a 4 byte number from a register |
-| IMOV		| R , R / N	| Move a constant or register value to register |
-| IADD		| R , R / N | Add a constant or register value to register |
-| IADDR		| R, A		| Move an address to a register |
-| IPOP		|			| Pop an integer off of the stack |
-| JMP		| LBL		| Jump to a label |
-| CALL		| LBL		| Call a label |
-| RET		|			| Return from a call |
-
-### Call Frame
-
-Below is the specification for calling subroutines
-
-#### Calling
-
-* Push arguments in reverse
-* Push address of next instruction (done by runtime)
-* Push base pointer, and set it to the stack pointer (done by runtime)
-
-#### Returning
-
-* Clean stack from allocated local variables
-* Set base pointer back to original (done by runtime)
-* Set the program counter to the return address (done by runtime)
-
-| Stack |
-| ----- |
-| Local variable 2
-| Local variable 1 |
-| EBP |
-| Return address |
-| 1st argument |
-| 2nd argument |
-| 3rd argument |

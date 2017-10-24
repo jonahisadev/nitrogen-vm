@@ -14,23 +14,23 @@ namespace Nitrogen {
 	
 	int Token::isInstruction(char* str) {
 		Util::toUpper(str);
-		if (!strcmp(str, "ICONST"))
+		if (!strcmp(str, "ICONST") || !strcmp(str, "CONST"))
 			return ICONST;
-		else if (!strcmp(str, "ILOAD"))
+		else if (!strcmp(str, "ILOAD") || !strcmp(str, "LOAD"))
 			return ILOAD;
-		else if (!strcmp(str, "ISTORE"))
+		else if (!strcmp(str, "ISTORE") || !strcmp(str, "STORE"))
 			return ISTORE;
-		else if (!strcmp(str, "IMOV"))
+		else if (!strcmp(str, "IMOV") || !strcmp(str, "MOV"))
 			return IMOV;
-		else if (!strcmp(str, "IADD"))
+		else if (!strcmp(str, "IADD") || !strcmp(str, "ADD"))
 			return IADD;
-		else if (!strcmp(str, "ISUB"))
+		else if (!strcmp(str, "ISUB") || !strcmp(str, "SUB"))
 			return ISUB;
-		else if (!strcmp(str, "IMUL"))
+		else if (!strcmp(str, "IMUL") || !strcmp(str, "MUL"))
 			return IMUL;
-		else if (!strcmp(str, "IDIV"))
+		else if (!strcmp(str, "IDIV") || !strcmp(str, "DIV"))
 			return IDIV;
-		else if (!strcmp(str, "IADDR"))
+		else if (!strcmp(str, "IADDR") || !strcmp(str, "ADDR"))
 			return IADDR;
 			
 		else if (!strcmp(str, "WCONST"))

@@ -1,0 +1,15 @@
+main:
+	const 40
+	const 2
+	call @add_nums
+	mov ebx edx
+	sub esp 8
+	ncall %kill
+	
+; Add two numbers
+add_nums:
+	addr eax (ebp)+8
+	addr ebx (ebp)+12
+	add eax ebx
+	mov edx eax
+	ret
