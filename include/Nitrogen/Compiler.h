@@ -22,6 +22,8 @@ namespace Nitrogen {
 		
 		List<char*>* strings;
 		
+		const char* entry = "start";
+		
 	public:
 		Compiler();
 		~Compiler();
@@ -32,6 +34,7 @@ namespace Nitrogen {
 		void setLabels(List<Label*>* labels);
 		void setJumps(List<char*>* jumps);
 		void setStrings(List<char*>* strings);
+		void setEntry(const char* entry);
 	};
 
 }

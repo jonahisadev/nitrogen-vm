@@ -15,6 +15,9 @@ namespace Nitrogen {
 		// Header
 		buffer->add('N');
 		buffer->add('7');
+		// Entry Jump
+		buffer->add(_JMP);
+		Util::writeInt(buffer, 0);
 		
 		// Instructions
 		for (int i = 0; i < tokens->getSize(); i++) {
@@ -335,6 +338,7 @@ namespace Nitrogen {
 			}
 		}
 		
+		// Set Addresses of Jumps and Calls
 		for (int i = 0; i < jmpAddr->getSize(); i++) {
 			Token* jump = tokens->get(jmpAddr->get(i));
 			for (int j = 0; j < labels->getSize(); j++) {
@@ -350,6 +354,30 @@ namespace Nitrogen {
 			}
 		}
 		
+		// Set Header Entry Jump
+		for (int i = 0; i < labels->getSize(); i++) {
+			if (!strcmp(labels->get(i)->name, this->entry)) {
+				unsigned char* data = Util::itoa(labels->get(i)->addr);
+				for (int j = 0; j < 4; j++)
+					this->buffer->set(3 + j, data[j]);
+				delete[] data;
+				break;
+			}
+		}
+		
+		// Verify Header
+		if (buffer->get(0) != 'N' ||
+			buffer->get(1) != '7') {
+			printf("ERR: N7 Corrupt\n");
+			exit(1);
+		}
+		if (buffer->get(2) != _JMP ||
+			Util::atoi(buffer->get(3), buffer->get(4), buffer->get(5), buffer->get(6)) == 0) {
+			printf("ERR: Entry '%s' not found!\n", this->entry);
+			exit(2);
+		}
+		
+		// Write Binary
 		FILE* out = fopen("out.nc", "wb");
 		for (int i = 0; i < this->buffer->getSize(); i++) {
 			unsigned char b = this->buffer->get(i);
@@ -372,6 +400,10 @@ namespace Nitrogen {
 	
 	void Compiler::setStrings(List<char*>* strings) {
 		this->strings = strings;
+	}
+	
+	void Compiler::setEntry(const char* entry) {
+		this->entry = entry;
 	}
 
 }

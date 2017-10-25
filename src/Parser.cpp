@@ -146,6 +146,7 @@ namespace Nitrogen {
 		c->setLabels(this->labels);
 		c->setJumps(this->jumps);
 		c->setStrings(this->strings);
+		c->setEntry(this->entry);
 		return c;
 	}
 	
@@ -154,7 +155,7 @@ namespace Nitrogen {
 		int lexi = 0;
 		int i = 0;
 		
-		while (str[i] == ' ') {
+		while (str[i] != ' ') {
 			if (str[i] == '\0')
 				goto end;
 			
@@ -162,7 +163,8 @@ namespace Nitrogen {
 		}
 		
 		// LOAD
-		if (!strcmp(str, "#load")) {
+		// TODO: VERY BROKEN!!!
+		if (!strcmp(lex, "#load")) {
 			char* path = new char[strlen(str) - 5];
 			int z = 0;
 			for (int x = 5; i < strlen(str); i++) {
@@ -171,6 +173,17 @@ namespace Nitrogen {
 			path[z] = '\0';
 			strings->add(path);
 			tokens->add(new Token(LIB_LOAD, strings->getSize()-1, line));
+		}
+		
+		// ENTRY
+		else if (!strcmp(lex, "#entry")) {
+			char* label = new char[strlen(str) - 7];
+			int z = 0;
+			for (int x = 7; x < strlen(str); x++) {
+				label[z++] = str[x];
+			}
+			label[z] = '\0';
+			this->entry = strdup(label);
 		}
 		
 		end:

@@ -115,7 +115,7 @@ Below is the specification for calling subroutines
 The header for a nitrogen binary file goes as follows:
 
 * 2 byte "verification" number (0x4E37) which is 'N7' in ASCII
+* 5 byte entry address jump instruction
 
 Soon to come:
-* 4 byte variable loading address to call
-* 4 byte entry address to jump to
+* 5 byte variable loading address to call

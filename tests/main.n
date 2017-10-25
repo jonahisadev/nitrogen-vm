@@ -1,8 +1,10 @@
-main:
-	wconst 42
-	call @something
-	exit
+#entry main
 	
 something:
 	waddr ebx (esp)+8
 	ret
+	
+main:
+	wconst 42
+	call @something
+	exit

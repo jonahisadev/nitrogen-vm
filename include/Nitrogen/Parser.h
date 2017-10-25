@@ -23,6 +23,8 @@ namespace Nitrogen {
 		
 		List<char*>* strings;
 		
+		const char* entry = "start";
+		
 	public:
 		Parser(char* src);
 		~Parser();
