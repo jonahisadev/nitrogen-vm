@@ -238,6 +238,27 @@ namespace Nitrogen {
 					}
 				}
 				
+				// DB
+				else if (tokens->get(i)->getData() == DB &&
+						tokens->get(i+1)->getType() == NUM) {
+					buffer->add(_DB);
+					buffer->add(tokens->get(i+1)->getData());
+				}
+				
+				// DW
+				else if (tokens->get(i)->getData() == DW &&
+						tokens->get(i+1)->getType() == NUM) {
+					buffer->add(_DW);
+					Util::writeWord(buffer, tokens->get(i+1)->getData());
+				}
+				
+				// DD
+				else if (tokens->get(i)->getData() == DD &&
+						tokens->get(i+1)->getType() == NUM) {
+					buffer->add(_DD);
+					Util::writeInt(buffer, tokens->get(i+1)->getData());
+				}
+				
 				// JMP
 				else if (tokens->get(i)->getData() == JMP &&
 						tokens->get(i+1)->getType() == JUMP) {
@@ -324,8 +345,26 @@ namespace Nitrogen {
 				}
 				
 				else {
-					printf("Serious compiler error! (Line %d)\n", tokens->get(i)->getLine());
+					printf("ERR: (%d) Unkown AST token\n", tokens->get(i)->getLine());
 					exit(1);
+				}
+			}
+			
+			// Preprocessors
+			else if (tokens->get(i)->getType() == PREPROC) {
+				switch (tokens->get(i)->getData()) {
+					case SEC_TEXT: {
+						this->section = SEC_TEXT;
+						break;
+					}
+					case SEC_DATA: {
+						this->section = SEC_DATA;
+						break;
+					}
+					default: {
+						printf("ERR: (%d) Bad preprocessor token\n", tokens->get(i)->getLine());
+						exit(1);
+					}
 				}
 			}
 			
@@ -334,6 +373,35 @@ namespace Nitrogen {
 				Label* lbl = labels->get(tokens->get(i)->getData());
 				if (lbl->addr == 0) {
 					lbl->addr = this->buffer->getSize();
+				}
+			}
+			
+			// Variables
+			else if (tokens->get(i)->getType() == VAR) {
+				if (tokens->get(i+1)->getType() == INST &&
+				tokens->get(i+1)->getData() >= DB &&
+				tokens->get(i+1)->getData() <= DD &&
+				tokens->get(i+2)->getType() == NUM) {
+					Var* var = vars->get(tokens->get(i)->getData());
+					if (var->addr == 0) {
+						var->addr = this->buffer->getSize();
+					}
+					
+					switch (tokens->get(i+1)->getData()) {
+						case DB:
+							var->size = 1; break;
+						case DW:
+							var->size = 2; break;
+						case DD:
+							var->size = 4; break;
+					}
+					
+					var->data = tokens->get(i+2)->getData();
+					
+					printf("Variable: %s (addr 0x%08X, size %d, data %d)\n", var->name, var->addr, var->size, var->data);
+				} else {
+					printf("ERR: (%d) Global variable declared improperly\n", tokens->get(i)->getLine());
+					exit(1);
 				}
 			}
 		}
@@ -374,7 +442,7 @@ namespace Nitrogen {
 		if (buffer->get(2) != _JMP ||
 			Util::atoi(buffer->get(3), buffer->get(4), buffer->get(5), buffer->get(6)) == 0) {
 			printf("ERR: Entry '%s' not found!\n", this->entry);
-			exit(2);
+			exit(1);
 		}
 		
 		// Write Binary
@@ -392,6 +460,10 @@ namespace Nitrogen {
 	
 	void Compiler::setLabels(List<Label*>* labels) {
 		this->labels = labels;
+	}
+	
+	void Compiler::setVars(List<Var*>* vars) {
+		this->vars = vars;
 	}
 	
 	void Compiler::setJumps(List<char*>* jumps) {

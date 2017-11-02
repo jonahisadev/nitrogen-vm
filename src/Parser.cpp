@@ -7,6 +7,7 @@ namespace Nitrogen {
 		
 		this->tokens = new List<Token*>(1);
 		this->labels = new List<Label*>(1);
+		this->vars = new List<Var*>(1);
 		this->jumps = new List<char*>(1);
 		this->strings = new List<char*>(1);
 	}
@@ -79,8 +80,18 @@ namespace Nitrogen {
 		
 		// LABELS
 		else if (lex[strlen(lex)-1] == ':') {
-			labels->add(new Label(Util::strDupX(lex, 0, strlen(lex)-1), 0));
-			tokens->add(new Token(LABEL, labels->getSize()-1, line));
+			if (this->section == SEC_TEXT) {
+				labels->add(new Label(Util::strDupX(lex, 0, strlen(lex)-1), 0));
+				tokens->add(new Token(LABEL, labels->getSize()-1, line));
+			}
+			else if (this->section == SEC_DATA) {
+				vars->add(new Var(Util::strDupX(lex, 0, strlen(lex)-1), 0));
+				tokens->add(new Token(VAR, vars->getSize()-1, line));
+			}
+			else {
+				printf("ERR: (%d) No section defined. Symbols can not be created\n", line);
+				exit(1);
+			}
 			goto end;
 		}
 		
@@ -117,7 +128,7 @@ namespace Nitrogen {
 		}
 		
 		else {
-			printf("%d: Invalid token: '%s'\n", line, lex);
+			printf("ERR: (%d) Invalid token: '%s'\n", line, lex);
 			exit(1);
 		}
 		
@@ -144,6 +155,7 @@ namespace Nitrogen {
 		Compiler* c = new Compiler();
 		c->setTokens(this->tokens);
 		c->setLabels(this->labels);
+		c->setVars(this->vars);
 		c->setJumps(this->jumps);
 		c->setStrings(this->strings);
 		c->setEntry(this->entry);
@@ -186,6 +198,32 @@ namespace Nitrogen {
 			this->entry = strdup(label);
 		}
 		
+		// SECTION
+		else if (!strcmp(lex, "#section")) {
+			char* type = new char[strlen(str) - 9];
+			int z = 0;
+			for (int x = 9; x < strlen(str); x++) {
+				type[z++] = str[x];
+			}
+			type[z] = '\0';
+			if (!strcmp(type, "TEXT")) {
+				// tokens->add(new Token(PREPROC, SEC_TEXT, line));
+				this->section = SEC_TEXT;
+			} else if (!strcmp(type, "DATA")) {
+				// tokens->add(new Token(PREPROC, SEC_DATA, line));
+				this->section = SEC_DATA;
+			} else {
+				printf("ERR: (%d) Invalid section '%s'\n", line, type);
+				exit(1);
+			}
+		}
+		
+		// WHO KNOWS
+		else {
+			printf("ERR: (%d) Invalid preprocessor '%s'\n", line, str);
+			exit(1);
+		}
+		
 		end:
 		return;
 	}
@@ -208,7 +246,7 @@ namespace Nitrogen {
 		} else if (!strcmp(lex, "esp")) {
 			tokens->add(new Token(TokenType::REG, ESP, line));
 		} else {
-			printf("%d: Invalid address! '%s'\n", line, lex);
+			printf("ERR: (%d) Invalid address! '%s'\n", line, lex);
 		}
 		
 		i++;

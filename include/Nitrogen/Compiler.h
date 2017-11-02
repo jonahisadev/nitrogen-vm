@@ -17,12 +17,14 @@ namespace Nitrogen {
 		List<unsigned char>* buffer;
 		
 		List<Label*>* labels;
+		List<Var*>* vars;
 		List<char*>* jumps;
 		List<int>* jmpAddr;
 		
 		List<char*>* strings;
 		
 		const char* entry = "start";
+		int section = SEC_TEXT;
 		
 	public:
 		Compiler();
@@ -32,6 +34,7 @@ namespace Nitrogen {
 		
 		void setTokens(List<Token*>* tokens);
 		void setLabels(List<Label*>* labels);
+		void setVars(List<Var*>* vars);
 		void setJumps(List<char*>* jumps);
 		void setStrings(List<char*>* strings);
 		void setEntry(const char* entry);

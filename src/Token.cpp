@@ -51,6 +51,13 @@ namespace Nitrogen {
 			return WDIV;
 		else if (!strcmp(str, "WADDR"))
 			return WADDR;
+			
+		else if (!strcmp(str, "DB"))
+			return DB;
+		else if (!strcmp(str, "DW"))
+			return DW;
+		else if (!strcmp(str, "DD"))
+			return DD;
 		
 		else if (!strcmp(str, "JMP"))
 			return JMP;

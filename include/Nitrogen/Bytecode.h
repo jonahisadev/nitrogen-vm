@@ -38,6 +38,11 @@ namespace Nitrogen {
 		_WADDR_RA = 	0x1E,
 		_WADDR_RS = 	0x1F,
 		
+		// Variable Instructions
+		_DB = 			0x31,
+		_DW = 			0x32,
+		_DD = 			0x33,
+		
 		// Jump Instructions
 		
 		_JMP = 			0x90,

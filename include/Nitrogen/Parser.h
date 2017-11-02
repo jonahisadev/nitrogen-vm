@@ -19,11 +19,14 @@ namespace Nitrogen {
 		
 		List<Token*>* tokens;
 		List<Label*>* labels;
+		List<Var*>* vars;
 		List<char*>* jumps;
 		
 		List<char*>* strings;
 		
 		const char* entry = "start";
+		
+		int section = 0;
 		
 	public:
 		Parser(char* src);

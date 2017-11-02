@@ -1,5 +1,6 @@
 #entry main
-	
+
+#section TEXT
 something:
 	waddr ebx (esp)+8
 	ret
@@ -8,3 +9,7 @@ main:
 	wconst 42
 	call @something
 	exit
+
+#section DATA
+x: dd 1209
+y: db 42

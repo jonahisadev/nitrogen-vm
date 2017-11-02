@@ -13,6 +13,7 @@ namespace Nitrogen {
 		NUM,
 		REG,
 		LABEL,
+		VAR,
 		JUMP,
 		PREPROC,
 	};
@@ -37,6 +38,10 @@ namespace Nitrogen {
 		WMUL,
 		WDIV,
 		WADDR,
+		
+		DB,
+		DW,
+		DD,
 		
 		CALL,
 		RET,
@@ -69,6 +74,8 @@ namespace Nitrogen {
 	
 	enum TokenPreProc {
 		LIB_LOAD,
+		SEC_TEXT,
+		SEC_DATA,
 	};
 
 	class Token;

@@ -21,6 +21,23 @@ namespace Nitrogen {
 		}
 	};
 	template class List<Label*>;
+	
+	struct Var {
+		char* name;
+		int addr;
+		int data;
+		int size;
+		
+		Var(char* name, int addr) {
+			this->name = strdup(name);
+			this->addr = addr;
+		}
+		
+		~Var() {
+			free(this->name);
+		}
+	};
+	template class List<Var*>;
 
 }
 
