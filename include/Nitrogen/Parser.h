@@ -21,6 +21,7 @@ namespace Nitrogen {
 		List<Label*>* labels;
 		List<Var*>* vars;
 		List<char*>* jumps;
+		List<char*>* loads;
 		
 		List<char*>* strings;
 		

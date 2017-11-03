@@ -15,6 +15,7 @@ namespace Nitrogen {
 		LABEL,
 		VAR,
 		JUMP,
+		LOAD,
 		PREPROC,
 	};
 	
@@ -42,6 +43,9 @@ namespace Nitrogen {
 		DB,
 		DW,
 		DD,
+		LDB,
+		LDW,
+		LDD,
 		
 		CALL,
 		RET,

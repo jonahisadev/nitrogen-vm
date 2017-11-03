@@ -4,6 +4,8 @@
 namespace Nitrogen {
 
 	enum ByteInst {
+		_NOP = 			0x00,
+		
 		// 4 Byte Instructions
 		_ICONST = 		0x01,
 		_ILOAD = 		0x02,
@@ -42,6 +44,9 @@ namespace Nitrogen {
 		_DB = 			0x31,
 		_DW = 			0x32,
 		_DD = 			0x33,
+		_LDB = 			0x34,
+		_LDW = 			0x35,
+		_LDD = 			0x36,
 		
 		// Jump Instructions
 		

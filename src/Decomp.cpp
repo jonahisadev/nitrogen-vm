@@ -26,6 +26,12 @@ namespace Nitrogen {
 			
 			printf("%08X: ", pc);
 			switch (opcode) {
+				// NOP
+				case _NOP: {
+					printf("NOP");
+					break;
+				}
+				
 				// ICONST
 				case _ICONST: {
 					printf("ICONST \t%d", Util::atoi(getNext(), getNext(), getNext(), getNext()));
@@ -205,6 +211,24 @@ namespace Nitrogen {
 				// DD
 				case _DD: {
 					printf("DD \t\t%d", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// LDB
+				case _LDB: {
+					printf("LDB \t\t%s, %08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// LDW
+				case _LDW: {
+					printf("LDW \t\t%s, %08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// LDD
+				case _LDD: {
+					printf("LDD \t\t%s, %08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
 					break;
 				}
 				

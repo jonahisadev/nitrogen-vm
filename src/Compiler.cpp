@@ -5,6 +5,7 @@ namespace Nitrogen {
 	Compiler::Compiler() {
 		this->buffer = new List<unsigned char>(1);
 		this->jmpAddr = new List<int>(1);
+		this->ldAddr = new List<int>(1);
 	}
 	
 	Compiler::~Compiler() {
@@ -15,6 +16,9 @@ namespace Nitrogen {
 		// Header
 		buffer->add('N');
 		buffer->add('7');
+		// Data Load Call
+		buffer->add(_NOP);
+		Util::writeInt(buffer, 0);
 		// Entry Jump
 		buffer->add(_JMP);
 		Util::writeInt(buffer, 0);
@@ -259,6 +263,39 @@ namespace Nitrogen {
 					Util::writeInt(buffer, tokens->get(i+1)->getData());
 				}
 				
+				// LDB
+				else if (tokens->get(i)->getData() == LDB &&
+						tokens->get(i+1)->getType() == REG &&
+						tokens->get(i+2)->getType() == LOAD) {
+					buffer->add(_LDB);
+					buffer->add(tokens->get(i+1)->getData() + 1);
+					ldAddr->add(i);
+					tokens->get(i)->setData(this->buffer->getSize());
+					Util::writeInt(buffer, 0);
+				}
+				
+				// LDW
+				else if (tokens->get(i)->getData() == LDW &&
+						tokens->get(i+1)->getType() == REG &&
+						tokens->get(i+2)->getType() == LOAD) {
+					buffer->add(_LDW);
+					buffer->add(tokens->get(i+1)->getData() + 1);
+					ldAddr->add(i);
+					tokens->get(i)->setData(this->buffer->getSize());
+					Util::writeInt(buffer, 0);
+				}
+				
+				// LDD
+				else if (tokens->get(i)->getData() == LDD &&
+						tokens->get(i+1)->getType() == REG &&
+						tokens->get(i+2)->getType() == LOAD) {
+					buffer->add(_LDD);
+					buffer->add(tokens->get(i+1)->getData() + 1);
+					ldAddr->add(i);
+					tokens->get(i)->setData(this->buffer->getSize());
+					Util::writeInt(buffer, 0);
+				}
+				
 				// JMP
 				else if (tokens->get(i)->getData() == JMP &&
 						tokens->get(i+1)->getType() == JUMP) {
@@ -354,10 +391,13 @@ namespace Nitrogen {
 			else if (tokens->get(i)->getType() == PREPROC) {
 				switch (tokens->get(i)->getData()) {
 					case SEC_TEXT: {
+						if (this->section == SEC_DATA)
+							buffer->add(_RET);
 						this->section = SEC_TEXT;
 						break;
 					}
 					case SEC_DATA: {
+						this->dataAddr = this->buffer->getSize();
 						this->section = SEC_DATA;
 						break;
 					}
@@ -406,6 +446,9 @@ namespace Nitrogen {
 			}
 		}
 		
+		if (this->section == SEC_DATA)
+			buffer->add(_RET);
+		
 		// Set Addresses of Jumps and Calls
 		for (int i = 0; i < jmpAddr->getSize(); i++) {
 			Token* jump = tokens->get(jmpAddr->get(i));
@@ -422,15 +465,40 @@ namespace Nitrogen {
 			}
 		}
 		
+		// Set Addresses of Variable Loads
+		for (int i = 0; i < ldAddr->getSize(); i++) {
+			Token* load = tokens->get(ldAddr->get(i));
+			for (int j = 0; j < vars->getSize(); j++) {
+				if (!strcmp(vars->get(j)->name, loads->get(i))) {
+					printf("Found match for '%s'!\n", loads->get(i));
+					
+					int index = load->getData();
+					unsigned char* data = Util::itoa(vars->get(j)->addr);
+					for (int k = 0; k < 4; k++)
+						this->buffer->set(index + k, data[k]);
+					delete[] data;
+				}
+			}
+		}
+		
 		// Set Header Entry Jump
 		for (int i = 0; i < labels->getSize(); i++) {
 			if (!strcmp(labels->get(i)->name, this->entry)) {
 				unsigned char* data = Util::itoa(labels->get(i)->addr);
 				for (int j = 0; j < 4; j++)
-					this->buffer->set(3 + j, data[j]);
+					this->buffer->set(8 + j, data[j]);
 				delete[] data;
 				break;
 			}
+		}
+		
+		// Set Header Data Load
+		if (this->dataAddr != 0) {
+			unsigned char* data = Util::itoa(this->dataAddr);
+			this->buffer->set(2, _CALL);
+			for (int j = 0; j < 4; j++)
+				this->buffer->set(3 + j, data[j]);
+			delete[] data;
 		}
 		
 		// Verify Header
@@ -439,8 +507,8 @@ namespace Nitrogen {
 			printf("ERR: N7 Corrupt\n");
 			exit(1);
 		}
-		if (buffer->get(2) != _JMP ||
-			Util::atoi(buffer->get(3), buffer->get(4), buffer->get(5), buffer->get(6)) == 0) {
+		if (buffer->get(7) != _JMP ||
+			Util::atoi(buffer->get(8), buffer->get(9), buffer->get(10), buffer->get(11)) == 0) {
 			printf("ERR: Entry '%s' not found!\n", this->entry);
 			exit(1);
 		}
@@ -468,6 +536,10 @@ namespace Nitrogen {
 	
 	void Compiler::setJumps(List<char*>* jumps) {
 		this->jumps = jumps;
+	}
+	
+	void Compiler::setLoads(List<char*>* loads) {
+		this->loads = loads;
 	}
 	
 	void Compiler::setStrings(List<char*>* strings) {

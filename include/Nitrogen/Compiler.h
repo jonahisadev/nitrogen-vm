@@ -19,12 +19,16 @@ namespace Nitrogen {
 		List<Label*>* labels;
 		List<Var*>* vars;
 		List<char*>* jumps;
+		List<char*>* loads;
 		List<int>* jmpAddr;
+		List<int>* ldAddr;
 		
 		List<char*>* strings;
 		
 		const char* entry = "start";
 		int section = SEC_TEXT;
+		
+		int dataAddr = 0;
 		
 	public:
 		Compiler();
@@ -36,6 +40,7 @@ namespace Nitrogen {
 		void setLabels(List<Label*>* labels);
 		void setVars(List<Var*>* vars);
 		void setJumps(List<char*>* jumps);
+		void setLoads(List<char*>* loads);
 		void setStrings(List<char*>* strings);
 		void setEntry(const char* entry);
 	};

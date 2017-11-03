@@ -9,6 +9,7 @@ namespace Nitrogen {
 		this->labels = new List<Label*>(1);
 		this->vars = new List<Var*>(1);
 		this->jumps = new List<char*>(1);
+		this->loads = new List<char*>(1);
 		this->strings = new List<char*>(1);
 	}
 	
@@ -102,6 +103,13 @@ namespace Nitrogen {
 			goto end;
 		}
 		
+		// LOAD
+		else if (lex[0] == '$') {
+			loads->add(Util::strDupX(lex, 1, strlen(lex)));
+			tokens->add(new Token(LOAD, loads->getSize()-1, line));
+			goto end;
+		}
+		
 		// NATIVE
 		else if (lex[0] == '%') {
 			strings->add(Util::strDupX(lex, 1, strlen(lex)));
@@ -157,6 +165,7 @@ namespace Nitrogen {
 		c->setLabels(this->labels);
 		c->setVars(this->vars);
 		c->setJumps(this->jumps);
+		c->setLoads(this->loads);
 		c->setStrings(this->strings);
 		c->setEntry(this->entry);
 		return c;
@@ -207,10 +216,10 @@ namespace Nitrogen {
 			}
 			type[z] = '\0';
 			if (!strcmp(type, "TEXT")) {
-				// tokens->add(new Token(PREPROC, SEC_TEXT, line));
+				tokens->add(new Token(PREPROC, SEC_TEXT, line));
 				this->section = SEC_TEXT;
 			} else if (!strcmp(type, "DATA")) {
-				// tokens->add(new Token(PREPROC, SEC_DATA, line));
+				tokens->add(new Token(PREPROC, SEC_DATA, line));
 				this->section = SEC_DATA;
 			} else {
 				printf("ERR: (%d) Invalid section '%s'\n", line, type);
