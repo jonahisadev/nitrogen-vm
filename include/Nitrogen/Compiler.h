@@ -30,6 +30,8 @@ namespace Nitrogen {
 		
 		int dataAddr = 0;
 		
+		int vsize = 0;
+		
 	public:
 		Compiler();
 		~Compiler();

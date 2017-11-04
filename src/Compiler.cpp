@@ -423,9 +423,6 @@ namespace Nitrogen {
 				tokens->get(i+1)->getData() <= DD &&
 				tokens->get(i+2)->getType() == NUM) {
 					Var* var = vars->get(tokens->get(i)->getData());
-					if (var->addr == 0) {
-						var->addr = this->buffer->getSize();
-					}
 					
 					switch (tokens->get(i+1)->getData()) {
 						case DB:
@@ -436,9 +433,14 @@ namespace Nitrogen {
 							var->size = 4; break;
 					}
 					
+					if (var->addr == 0) {
+						var->addr = vsize;
+					}
+					vsize += var->size;
+					
 					var->data = tokens->get(i+2)->getData();
 					
-					printf("Variable: %s (addr 0x%08X, size %d, data %d)\n", var->name, var->addr, var->size, var->data);
+					// printf("Variable: %s (addr 0x%08X, size %d, data %d)\n", var->name, var->addr, var->size, var->data);
 				} else {
 					printf("ERR: (%d) Global variable declared improperly\n", tokens->get(i)->getLine());
 					exit(1);
@@ -470,7 +472,7 @@ namespace Nitrogen {
 			Token* load = tokens->get(ldAddr->get(i));
 			for (int j = 0; j < vars->getSize(); j++) {
 				if (!strcmp(vars->get(j)->name, loads->get(i))) {
-					printf("Found match for '%s'!\n", loads->get(i));
+					// printf("Found match for '%s'!\n", loads->get(i));
 					
 					int index = load->getData();
 					unsigned char* data = Util::itoa(vars->get(j)->addr);

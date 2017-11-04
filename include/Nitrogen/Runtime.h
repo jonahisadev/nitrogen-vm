@@ -11,6 +11,7 @@
 
 #define RAM_SIZE 0x8000000			// 128 MB
 #define STACK_START (RAM_SIZE - 0x1000 + 1)
+#define GLOBAL_START 0x1000
 
 namespace Nitrogen {
 
@@ -37,6 +38,9 @@ namespace Nitrogen {
 		// Native
 		Env* env;
 		NativeLib* lsystem;
+		
+		// Variables
+		int vsize = 0;
 		
 	public:
 		Runtime(unsigned char* prog, int bin_size);

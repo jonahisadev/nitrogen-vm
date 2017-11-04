@@ -4,8 +4,14 @@
 
 main:
 	ldd eax $x
-	ldb ebx $z
-	add ebx eax
+	ldw ebx $z
+	add eax ebx
+	store eax
+	ncall %print_num
+	sub esp 4
+	const 10
+	ncall %print_char
+	mov ebx 0
 	exit
 
 #section DATA

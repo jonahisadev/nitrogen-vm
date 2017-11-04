@@ -290,6 +290,55 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// DB
+				case ByteInst::_DB: {
+					ram[GLOBAL_START + vsize] = getNext();
+					vsize++;
+					break;
+				}
+				
+				// DW
+				case ByteInst::_DW: {
+					ram[GLOBAL_START + vsize + 0] = getNext();
+					ram[GLOBAL_START + vsize + 1] = getNext();
+					vsize += 2;
+					break;
+				}
+				
+				// DD
+				case ByteInst::_DD: {
+					ram[GLOBAL_START + vsize + 0] = getNext();
+					ram[GLOBAL_START + vsize + 1] = getNext();
+					ram[GLOBAL_START + vsize + 2] = getNext();
+					ram[GLOBAL_START + vsize + 3] = getNext();
+					vsize += 4;
+					break;
+				}
+				
+				// LDB
+				case ByteInst::_LDB: {
+					unsigned int* reg = getRegister(getNext());
+					int addr = GLOBAL_START + Util::atoi(getNext(), getNext(), getNext(), getNext());
+					*reg = ram[addr];
+					break;
+				}
+				
+				// LDW
+				case ByteInst::_LDW: {
+					unsigned int* reg = getRegister(getNext());
+					int addr = GLOBAL_START + Util::atoi(getNext(), getNext(), getNext(), getNext());
+					*reg = Util::atow(ram[addr], ram[addr + 1]);
+					break;
+				}
+				
+				// LDD
+				case ByteInst::_LDD: {
+					unsigned int* reg = getRegister(getNext());
+					int addr = GLOBAL_START + Util::atoi(getNext(), getNext(), getNext(), getNext());
+					*reg = Util::atoi(ram[addr], ram[addr + 1], ram[addr + 2], ram[addr + 3]);
+					break;
+				}
+				
 				// JMP
 				case ByteInst::_JMP: {
 					this->pc = Util::atoi(getNext(), getNext(), getNext(), getNext()) - 1;

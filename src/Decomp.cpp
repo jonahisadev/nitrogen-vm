@@ -216,19 +216,19 @@ namespace Nitrogen {
 				
 				// LDB
 				case _LDB: {
-					printf("LDB \t\t%s, %08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					printf("LDB \t\t%s, 0x%08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
 					break;
 				}
 				
 				// LDW
 				case _LDW: {
-					printf("LDW \t\t%s, %08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					printf("LDW \t\t%s, 0x%08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
 					break;
 				}
 				
 				// LDD
 				case _LDD: {
-					printf("LDD \t\t%s, %08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					printf("LDD \t\t%s, 0x%08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
 					break;
 				}
 				
