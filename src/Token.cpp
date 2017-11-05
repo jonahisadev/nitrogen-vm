@@ -64,6 +64,12 @@ namespace Nitrogen {
 			return LDW;
 		else if (!strcmp(str, "LDD"))
 			return LDD;
+		else if (!strcmp(str, "STB"))
+			return STB;
+		else if (!strcmp(str, "STW"))
+			return STW;
+		else if (!strcmp(str, "STD"))
+			return STD;
 		
 		else if (!strcmp(str, "JMP"))
 			return JMP;

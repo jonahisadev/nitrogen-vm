@@ -26,6 +26,7 @@ to a separate document later.
 * Add instructions:
 	* Byte instructions
 	* Strings
+* Export symbols
 * Heap allocation
 * Implement includes, loads, etc
 	* Include separate source files

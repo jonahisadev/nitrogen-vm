@@ -46,6 +46,9 @@ namespace Nitrogen {
 		LDB,
 		LDW,
 		LDD,
+		STB,
+		STW,
+		STD,
 		
 		CALL,
 		RET,

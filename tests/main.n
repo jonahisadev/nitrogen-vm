@@ -3,6 +3,7 @@
 #section TEXT
 
 main:
+	std $x 100
 	ldd eax $x
 	ldw ebx $z
 	add eax ebx

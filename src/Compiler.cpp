@@ -296,6 +296,60 @@ namespace Nitrogen {
 					Util::writeInt(buffer, 0);
 				}
 				
+				// STB
+				else if (tokens->get(i)->getData() == STB &&
+						tokens->get(i+1)->getType() == LOAD) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_STB_VR);
+						ldAddr->add(i);
+						tokens->get(i)->setData(this->buffer->getSize());
+						Util::writeInt(buffer, 0);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_STB_VN);
+						ldAddr->add(i);
+						tokens->get(i)->setData(this->buffer->getSize());
+						Util::writeInt(buffer, 0);
+						buffer->add(tokens->get(i+2)->getData());
+					}
+				}
+				
+				// STW
+				else if (tokens->get(i)->getData() == STW &&
+						tokens->get(i+1)->getType() == LOAD) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_STW_VR);
+						ldAddr->add(i);
+						tokens->get(i)->setData(this->buffer->getSize());
+						Util::writeInt(buffer, 0);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_STW_VN);
+						ldAddr->add(i);
+						tokens->get(i)->setData(this->buffer->getSize());
+						Util::writeInt(buffer, 0);
+						Util::writeWord(buffer, tokens->get(i+2)->getData());
+					}
+				}
+				
+				// STD
+				else if (tokens->get(i)->getData() == STD &&
+						tokens->get(i+1)->getType() == LOAD) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_STD_VR);
+						ldAddr->add(i);
+						tokens->get(i)->setData(this->buffer->getSize());
+						Util::writeInt(buffer, 0);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_STD_VN);
+						ldAddr->add(i);
+						tokens->get(i)->setData(this->buffer->getSize());
+						Util::writeInt(buffer, 0);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+					}
+				}
+				
 				// JMP
 				else if (tokens->get(i)->getData() == JMP &&
 						tokens->get(i+1)->getType() == JUMP) {

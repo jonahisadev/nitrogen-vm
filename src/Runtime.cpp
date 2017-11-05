@@ -339,6 +339,57 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// STB
+				case ByteInst::_STB_VR: {
+					int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					unsigned int* reg = getRegister(getNext());
+					ram[GLOBAL_START + addr] = *reg;
+					break;
+				}
+				case ByteInst::_STB_VN: {
+					int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					ram[GLOBAL_START + addr] = getNext();
+					break;
+				}
+				
+				// STW
+				case ByteInst::_STW_VR: {
+					int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					unsigned int* reg = getRegister(getNext());
+					unsigned char* data = Util::wtoa(*reg);
+					ram[GLOBAL_START + addr + 0] = data[0];
+					ram[GLOBAL_START + addr + 1] = data[1];
+					delete[] data;
+					break;
+				}
+				case ByteInst::_STW_VN: {
+					int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					ram[GLOBAL_START + addr + 0] = getNext();
+					ram[GLOBAL_START + addr + 1] = getNext();
+					break;
+				}
+				
+				// STD
+				case ByteInst::_STD_VR: {
+					int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					unsigned int* reg = getRegister(getNext());
+					unsigned char* data = Util::itoa(*reg);
+					ram[GLOBAL_START + addr + 0] = data[0];
+					ram[GLOBAL_START + addr + 1] = data[1];
+					ram[GLOBAL_START + addr + 2] = data[2];
+					ram[GLOBAL_START + addr + 3] = data[3];
+					delete[] data;
+					break;
+				}
+				case ByteInst::_STD_VN: {
+					int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					ram[GLOBAL_START + addr + 0] = getNext();
+					ram[GLOBAL_START + addr + 1] = getNext();
+					ram[GLOBAL_START + addr + 2] = getNext();
+					ram[GLOBAL_START + addr + 3] = getNext();
+					break;
+				}
+				
 				// JMP
 				case ByteInst::_JMP: {
 					this->pc = Util::atoi(getNext(), getNext(), getNext(), getNext()) - 1;

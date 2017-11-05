@@ -232,6 +232,36 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// STB
+				case _STB_VR: {
+					printf("STB \t\t0x%08X, %s", Util::atoi(getNext(), getNext(), getNext(), getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _STB_VN: {
+					printf("STB \t\t0x%08X, %d", Util::atoi(getNext(), getNext(), getNext(), getNext()), getNext());
+					break;
+				}
+				
+				// STW
+				case _STW_VR: {
+					printf("STW \t\t0x%08X, %s", Util::atoi(getNext(), getNext(), getNext(), getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _STW_VN: {
+					printf("STW \t\t0x%08X, %d", Util::atoi(getNext(), getNext(), getNext(), getNext()), Util::atow(getNext(), getNext()));
+					break;
+				}
+				
+				// STD
+				case _STD_VR: {
+					printf("STD \t\t0x%08X, %s", Util::atoi(getNext(), getNext(), getNext(), getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _STD_VN: {
+					printf("STD \t\t0x%08X, %d", Util::atoi(getNext(), getNext(), getNext(), getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
 				// JMP
 				case _JMP: {
 					printf("JMP \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
