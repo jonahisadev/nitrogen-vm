@@ -1,6 +1,12 @@
+#entry main
+
+#section TEXT
+
 main:
-	const 40
-	const 2
+	ldd eax $a
+	store eax
+	ldd eax $b
+	store eax
 	call @add_nums
 	mov ebx edx
 	sub esp 8
@@ -13,3 +19,8 @@ add_nums:
 	add eax ebx
 	mov edx eax
 	ret
+	
+#section DATA
+
+a: dd 40
+b: dd 2

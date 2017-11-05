@@ -8,17 +8,25 @@ This is **NOT** documentation for the Nitrogen Language.
 * 32-bit runtime/compiler
 * Instructions and data are big-endian
 * Program returns value in EBX
+* Only one data section is allowed
+* The default entry point is `start`
 
 ## Syntax
 
 Below is the contents of the `tests/doc.n`.
 
 ```
+#entry main
+
+#section TEXT
+
 main:
-	const 40
-	const 2
+	ldd eax $a
+	store eax
+	ldd eax $b
+	store eax
 	call @add_nums
-	mov edx ebx
+	mov ebx edx
 	sub esp 8
 	ncall %kill
 	
@@ -29,6 +37,11 @@ add_nums:
 	add eax ebx
 	mov edx eax
 	ret
+	
+#section DATA
+
+a: dd 40
+b: dd 2
 ```
 A few things to note:
 * The default `const` and `add` instructions default to 32-bit sized
@@ -38,16 +51,20 @@ that prefixes can be applied to specifize size of data. No prefix will default 3
 to the label name.
 * Calling a native function requires a `%` to be prepended to the label name.
 * Addresses are taken as such `(data)+offset` where the offset is
-the offset in memory
+the offset in memory.
 * Comments start with `;`
+* Variables are declared the same as labels but must be in the data section.
+* Variables are referenced by prepending a `$` to the name of the variable.
+* Sections are declared with the `#section` preprocessor.
+* Entry points are declared with the `#entry` preprocessor. The default entry label is `start`
 
-The above program pushes two numbers to the stack and then calls an
-adding sub routine. The sub routine gets the two arguments from the
-stack and puts them in registers. Using the `add` instruction, it
-adds the two arguments together, and sets `edx` as the return value.
-It then returns, where the result is moved into `ebx` to be returned
-by the program. A native call to `kill` (unnecessary with the `exit`
-instruction) ends the program.
+The above program loads two variables and pushes them to the stack 
+and then calls an adding sub routine. The sub routine gets the two 
+arguments from the stack and puts them in registers. Using the `add`
+instruction, it adds the two arguments together, and sets `edx` as 
+the return value. It then returns, where the result is moved into 
+`ebx` to be returned by the program. A native call to `kill` 
+(unnecessary with the `exit` instruction) ends the program.
 
 
 ## Instructions
@@ -71,6 +88,12 @@ The above table applies the first 9 instructions below
 | MUL		| R , R / N	| Multiply a constant or register value to register |
 | DIV		| R , R / N	| Subtract a constant or register value to register. Remainder goes in ERM |
 | ADDR		| R, A		| Move an address to a register |
+| DB		| N			| Store a byte in variable memory |
+| DW		| N			| Store a word in variable memory |
+| DD		| N			| Store an integer in variable memory |
+| LDB		| R, V		| Load a byte variable into a register |
+| LDW		| R, V		| Load a word variable into a register |
+| LDD		| R, V		| Load a integer variable into a register |
 | JMP		| LBL		| Jump to a label |
 | CALL		| LBL		| Call a label |
 | RET		|			| Return from a call |
@@ -115,7 +138,5 @@ Below is the specification for calling subroutines
 The header for a nitrogen binary file goes as follows:
 
 * 2 byte "verification" number (0x4E37) which is 'N7' in ASCII
-* 5 byte entry address jump instruction
-
-Soon to come:
 * 5 byte variable loading address to call
+* 5 byte entry address jump instruction

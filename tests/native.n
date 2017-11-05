@@ -1,3 +1,7 @@
-imov ebx 3
-ncall %square
-imov ebx edx
+#section TEXT
+
+start:
+	mov eax 2
+	mov ebx 5
+	mul ebx eax
+	exit

@@ -6,8 +6,7 @@ Yet another VM language
 
 ## Dev Notes
 
-This will eventually be moved to a separate document, but for now,
-this will remain easy to access.
+Language support for Atom is [here](https://atom.io/packages/language-nitrogen-vm)
 
 ### Adding Opcodes
 
@@ -26,10 +25,8 @@ to a separate document later.
 
 * Add instructions:
 	* Byte instructions
-	* Variable declarations
-		* Strings
+	* Strings
 * Heap allocation
-* Better semantics and error handling
 * Implement includes, loads, etc
 	* Include separate source files
 	* Load external libraries
