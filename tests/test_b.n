@@ -1,23 +1,28 @@
-#entry main
-
 #section TEXT
 
-main:
-	ldd eax $x
-	ldb ebx $y
-	ldw ecx $z
-	
-	add eax ebx
-	add eax ecx
-	
-	; Function Call Standard
+start:
+	mov eax 42
+
 	pusha
-	store eax
+	const 5
+	call @square
+	add esp 4
+	popa
+	
+	pusha
+	store edx
 	call @print_num
 	add esp 4
 	popa
 	
+	mov ebx eax
 	exit
+	
+square:
+	addr eax (ebp)+8
+	mul eax eax
+	mov edx eax
+	ret
 	
 print_num:
 	addr eax (ebp)+8
@@ -30,9 +35,3 @@ print_num:
 	add esp 4
 	
 	ret
-
-#section DATA
-
-x: dd 1209
-y: db 42
-z: dw 360

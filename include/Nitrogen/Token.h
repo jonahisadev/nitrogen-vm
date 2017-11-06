@@ -57,6 +57,9 @@ namespace Nitrogen {
 		INC,
 		DEC,
 		
+		PUSHA,
+		POPA,
+		
 		JMP,
 		JL,			// 0001
 		JG,			// 0010

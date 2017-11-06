@@ -292,6 +292,18 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// PUSHA
+				case _PUSHA: {
+					printf("PUSHA");
+					break;
+				}
+				
+				// POPA
+				case _POPA: {
+					printf("POPA");
+					break;
+				}
+				
 				// NCALL
 				case _NCALL: {
 					printf("NCALL \t");

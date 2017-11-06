@@ -387,6 +387,16 @@ namespace Nitrogen {
 					buffer->add(tokens->get(i+1)->getData() + 1);
 				}
 				
+				// PUSHA
+				else if (tokens->get(i)->getData() == PUSHA) {
+					buffer->add(_PUSHA);
+				}
+				
+				// POPA
+				else if (tokens->get(i)->getData() == POPA) {
+					buffer->add(_POPA);
+				}
+				
 				// NCALL
 				else if (tokens->get(i)->getData() == NCALL) {
 					buffer->add(_NCALL);

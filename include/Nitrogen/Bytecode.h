@@ -73,6 +73,8 @@ namespace Nitrogen {
 		_RET = 			0x20,
 		_INC = 			0x30,
 		_DEC = 			0x40,
+		_PUSHA = 		0x50,
+		_POPA = 		0x60,
 		_NCALL = 		0x88,
 		
 		_EXIT = 		0xFF,

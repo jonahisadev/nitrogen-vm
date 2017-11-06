@@ -480,6 +480,26 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// PUSHA
+				case ByteInst::_PUSHA: {
+					pushi(*(getRegister(_EAX)));
+					pushi(*(getRegister(_EBX)));
+					pushi(*(getRegister(_ECX)));
+					//pushi(*(getRegister(_EDX)));
+					pushi(*(getRegister(_ERM)));
+					break;
+				}
+				
+				// POPA
+				case ByteInst::_POPA: {
+					*(getRegister(_ERM)) = popi();
+					//*(getRegister(_EDX)) = popi();
+					*(getRegister(_ECX)) = popi();
+					*(getRegister(_EBX)) = popi();
+					*(getRegister(_EAX)) = popi();
+					break;
+				}
+				
 				// NCALL
 				case ByteInst::_NCALL: {
 					char* name = new char[256];

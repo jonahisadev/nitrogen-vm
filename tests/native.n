@@ -1,7 +1,0 @@
-#section TEXT
-
-start:
-	mov eax 2
-	mov ebx 5
-	mul ebx eax
-	exit

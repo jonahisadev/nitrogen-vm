@@ -84,6 +84,11 @@ namespace Nitrogen {
 		else if (!strcmp(str, "NCALL"))
 			return NCALL;
 			
+		else if (!strcmp(str, "PUSHA"))
+			return PUSHA;
+		else if (!strcmp(str, "POPA"))
+			return POPA;
+			
 		else if (!strcmp(str, "CMP"))
 			return CMP;
 		else if (!strcmp(str, "JL"))

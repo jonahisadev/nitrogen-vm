@@ -98,6 +98,10 @@ The above table applies the first 9 instructions below
 | CALL		| LBL		| Call a label |
 | RET		|			| Return from a call |
 | NCALL		| NLBL		| Call C function |
+| INC		| R			| Increment a register's value |
+| DEC		| R			| Decrement a register's value |
+| PUSHA		|			| Push all general registers except EDX |
+| POPA		|			| Pop all general registers except EDX |
 | CMP		| R , R / N | Compare two values |
 | JL		| LBL		| Jump if comparison is less than |
 | JLE		| LBL		| Jump if comparison is less than or equal |
