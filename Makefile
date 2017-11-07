@@ -7,7 +7,7 @@ C_SRC = $(wildcard src/*.c)
 HEAD = $(wildcard include/Nitrogen/*.h)
 OBJ = $(SRC:.cpp=.o)
 C_OBJ = $(C_SRC:.c=.o)
-EXEC = main
+EXEC = nvmc
 
 all: $(OBJ) $(EXEC) $(HEAD) $(C_OBJ)
 

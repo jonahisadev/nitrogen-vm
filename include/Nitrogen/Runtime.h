@@ -32,6 +32,7 @@ namespace Nitrogen {
 		unsigned int ebx;
 		unsigned int ecx;
 		unsigned int edx;
+		unsigned int erx;
 		unsigned int erm;
 		unsigned int cmpflag;
 		

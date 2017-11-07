@@ -12,6 +12,8 @@ namespace Nitrogen {
 				return "ECX";
 			case _EDX:
 				return "EDX";
+			case _ERX:
+				return "ERX";
 			case _ERM:
 				return "ERM";
 			case _ESP:

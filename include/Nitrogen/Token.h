@@ -78,6 +78,7 @@ namespace Nitrogen {
 		ECX,
 		EDX,
 		ERM,
+		ERX,
 		ESP,
 		EBP
 	};

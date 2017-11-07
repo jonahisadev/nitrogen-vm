@@ -122,6 +122,8 @@ namespace Nitrogen {
 			return EDX;
 		else if (!strcmp(str, "ERM"))
 			return ERM;
+		else if (!strcmp(str, "ERX"))
+			return ERX;
 		else if (!strcmp(str, "ESP"))
 			return ESP;
 		else if (!strcmp(str, "EBP"))
@@ -185,6 +187,8 @@ namespace Nitrogen {
 						printf("ECX"); break;
 					case EDX:
 						printf("EDX"); break;
+					case ERX:
+						printf("ERX"); break;
 					case ESP:
 						printf("ESP"); break;
 					case EBP:

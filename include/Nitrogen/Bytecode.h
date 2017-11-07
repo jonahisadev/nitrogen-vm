@@ -86,9 +86,10 @@ namespace Nitrogen {
 		_ECX = 			0x03,
 		_EDX = 			0x04,
 		_ERM = 			0x05,
+		_ERX = 			0x06,
 		
-		_ESP = 			0x06,
-		_EBP = 			0x07,
+		_ESP = 			0x07,
+		_EBP = 			0x08,
 	};
 	
 	class Bytecode {

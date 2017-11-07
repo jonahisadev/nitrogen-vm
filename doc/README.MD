@@ -7,7 +7,7 @@ This is **NOT** documentation for the Nitrogen Language.
 
 * 32-bit runtime/compiler
 * Instructions and data are big-endian
-* Program returns value in EBX
+* Program returns value in ERX
 * Only one data section is allowed
 * The default entry point is `start`
 
@@ -100,8 +100,8 @@ The above table applies the first 9 instructions below
 | NCALL		| NLBL		| Call C function |
 | INC		| R			| Increment a register's value |
 | DEC		| R			| Decrement a register's value |
-| PUSHA		|			| Push all general registers except EDX |
-| POPA		|			| Pop all general registers except EDX |
+| PUSHA		|			| Push all general registers except ERX |
+| POPA		|			| Pop all general registers except ERX |
 | CMP		| R , R / N | Compare two values |
 | JL		| LBL		| Jump if comparison is less than |
 | JLE		| LBL		| Jump if comparison is less than or equal |
