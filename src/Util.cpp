@@ -49,6 +49,23 @@ namespace Nitrogen {
 		return true;
 	}
 	
+	bool Util::isHex(char* str) {
+		if (str[0] == '0' && str[1] == 'x') {
+			// printf("valid with 0x\n");
+			int len = strlen(str);
+			for (int i = 2; i < len; i++) {
+				if ((str[i] < '0' || str[i] > '9') &&
+						(str[i] < 'A' || str[i] > 'F')) {
+					// printf("i don't like %c\n", str[i]);
+					return false;
+				}
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	int Util::convertNum(char* str, int base) {
 		return strtol(str, (char**)nullptr, base);
 	}

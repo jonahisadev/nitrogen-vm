@@ -11,6 +11,8 @@ typedef struct _Env {
 	unsigned int* ebx;
 	unsigned int* ecx;
 	unsigned int* edx;
+	unsigned int* erx;
+	unsigned int* erm;
 } Env;
 
 enum Registers {
@@ -19,7 +21,9 @@ enum Registers {
 	EAX,
 	EBX,
 	ECX,
-	EDX
+	EDX,
+	ERX,
+	ERM,
 };
 
 static Env* createEnvironment(
@@ -29,7 +33,9 @@ static Env* createEnvironment(
 	unsigned int* eax,
 	unsigned int* ebx,
 	unsigned int* ecx,
-	unsigned int* edx
+	unsigned int* edx,
+	unsigned int* erx,
+	unsigned int* erm
 );
 
 static unsigned int getEnvRegister(Env* env, int reg);
@@ -49,7 +55,9 @@ Env* createEnvironment(
 		unsigned int* eax,
 		unsigned int* ebx,
 		unsigned int* ecx,
-		unsigned int* edx
+		unsigned int* edx,
+		unsigned int* erx,
+		unsigned int* erm
 ) {
 	Env* env = (Env*) malloc(sizeof(Env));
 	env->memory = memory;
@@ -59,6 +67,8 @@ Env* createEnvironment(
 	env->ebx = ebx;
 	env->ecx = ecx;
 	env->edx = edx;
+	env->erx = erx;
+	env->erm = erm;
 	return env;
 }
 
@@ -76,6 +86,10 @@ unsigned int getEnvRegister(Env* env, int reg) {
 			return *(env->ecx);
 		case EDX:
 			return *(env->edx);
+		case ERX:
+			return *(env->erx);
+		case ERM:
+			return *(env->erm);
 		default:
 			return (unsigned int)-1;
 	}
@@ -91,6 +105,10 @@ void setEnvRegister(Env* env, int reg, unsigned int value) {
 			*(env->ecx) = value; break;
 		case EDX:
 			*(env->edx) = value; break;
+		case ERX:
+			*(env->erx) = value; break;
+		case ERM:
+			*(env->erm) = value; break;
 	}
 }
 

@@ -104,13 +104,13 @@ namespace Nitrogen {
 				case _IADDR_RA: {
 					printf("IADDR \t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
 					int x;
-					if ((x = getNext()) != 0) {
+					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
 						printf("+%d", x);
 					}
 					break;
 				}
 				case _IADDR_RS: {
-					printf("IADDR \t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), getNext());
+					printf("IADDR \t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
 					break;
 				}
 				
@@ -186,13 +186,95 @@ namespace Nitrogen {
 				case _WADDR_RA: {
 					printf("WADDR \t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
 					int x;
-					if ((x = getNext()) != 0) {
+					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
 						printf("+%d", x);
 					}
 					break;
 				}
 				case _WADDR_RS: {
-					printf("WADDR \t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), getNext());
+					printf("WADDR \t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// BCONST
+				case _BCONST: {
+					printf("BCONST \t%d", getNext());
+					break;
+				}
+				
+				// BLOAD
+				case _BLOAD: {
+					printf("BLOAD \t%s", Bytecode::getRegister(getNext()));
+					break;
+				}
+				
+				// WSTORE
+				case _BSTORE: {
+					printf("BSTORE \t%s", Bytecode::getRegister(getNext()));
+					break;
+				}
+				
+				// BMOV
+				case _BMOV_R: {
+					printf("BMOV \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _BMOV_N: {
+					printf("BMOV \t\t%s, %d", Bytecode::getRegister(getNext()), getNext());
+					break;
+				}
+				
+				// BADD
+				case _BADD_R: {
+					printf("BADD \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _BADD_N: {
+					printf("BADD \t\t%s, %d", Bytecode::getRegister(getNext()), getNext());
+					break;
+				}
+				
+				// BSUB
+				case _BSUB_R: {
+					printf("BSUB \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _BSUB_N: {
+					printf("BSUB \t\t%s, %d", Bytecode::getRegister(getNext()), getNext());
+					break;
+				}
+				
+				// BMUL
+				case _BMUL_R: {
+					printf("BMUL \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _BMUL_N: {
+					printf("BMUL \t\t%s, %d", Bytecode::getRegister(getNext()), getNext());
+					break;
+				}
+				
+				// BDIV
+				case _BDIV_R: {
+					printf("BDIV \t\t%s, %s", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _BDIV_N: {
+					printf("BDIV \t\t%s, %d", Bytecode::getRegister(getNext()), getNext());
+					break;
+				}
+				
+				// WADDR
+				case _BADDR_RA: {
+					printf("BADDR \t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					int x;
+					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
+						printf("+%d", x);
+					}
+					break;
+				}
+				case _BADDR_RS: {
+					printf("BADDR \t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
 					break;
 				}
 				

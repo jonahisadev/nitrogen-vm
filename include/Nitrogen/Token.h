@@ -40,6 +40,16 @@ namespace Nitrogen {
 		WDIV,
 		WADDR,
 		
+		BCONST,
+		BLOAD,
+		BSTORE,
+		BMOV,
+		BADD,
+		BSUB,
+		BMUL,
+		BDIV,
+		BADDR,
+		
 		DB,
 		DW,
 		DD,

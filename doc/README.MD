@@ -7,7 +7,7 @@ This is **NOT** documentation for the Nitrogen Language.
 
 * 32-bit runtime/compiler
 * Instructions and data are big-endian
-* Program returns value in ERX
+* Program returns value in EBX
 * Only one data section is allowed
 * The default entry point is `start`
 
@@ -35,7 +35,7 @@ add_nums:
 	addr eax (ebp)+8
 	addr ebx (ebp)+12
 	add eax ebx
-	mov edx eax
+	mov erx eax
 	ret
 	
 #section DATA
@@ -57,6 +57,7 @@ the offset in memory.
 * Variables are referenced by prepending a `$` to the name of the variable.
 * Sections are declared with the `#section` preprocessor.
 * Entry points are declared with the `#entry` preprocessor. The default entry label is `start`
+* Functions return their value in the `ERX` register.
 
 The above program loads two variables and pushes them to the stack 
 and then calls an adding sub routine. The sub routine gets the two 

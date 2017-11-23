@@ -79,6 +79,12 @@ namespace Nitrogen {
 			goto end;
 		}
 		
+		else if (Util::isHex(lex)) {
+			char* str = Util::strDupX(lex, 2, strlen(lex));
+			tokens->add(new Token(NUM, Util::convertNum(str, 16), line));
+			goto end;
+		}
+		
 		// LABELS
 		else if (lex[strlen(lex)-1] == ':') {
 			if (this->section == SEC_TEXT) {

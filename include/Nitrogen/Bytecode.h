@@ -40,6 +40,23 @@ namespace Nitrogen {
 		_WADDR_RA = 	0x1E,
 		_WADDR_RS = 	0x1F,
 		
+		// 1 Byte Instructions
+		_BCONST = 		0x21,
+		_BLOAD = 		0x22,
+		_BSTORE = 		0x23,
+		_BMOV_R = 		0x24,
+		_BMOV_N = 		0x25,
+		_BADD_R = 		0x26,
+		_BADD_N = 		0x27,
+		_BSUB_R = 		0x28,
+		_BSUB_N = 		0x29,
+		_BMUL_R = 		0x2A,
+		_BMUL_N = 		0x2B,
+		_BDIV_R = 		0x2C,
+		_BDIV_N = 		0x2D,
+		_BADDR_RA = 	0x2E,
+		_BADDR_RS = 	0x2F,
+		
 		// Variable Instructions
 		_DB = 			0x31,
 		_DW = 			0x32,

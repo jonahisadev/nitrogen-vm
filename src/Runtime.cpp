@@ -14,7 +14,9 @@ namespace Nitrogen {
 			&eax,
 			&ebx,
 			&ecx,
-			&edx
+			&edx,
+			&erx,
+			&erm
 		);
 		this->lsystem = new NativeLib("native/system.dylib");
 		this->lsystem->bind(this->env);
@@ -148,7 +150,7 @@ namespace Nitrogen {
 				case ByteInst::_IADDR_RA: {
 					unsigned int* dest = getRegister(getNext());
 					unsigned int* src = getRegister(getNext());
-					int off = getNext();
+					int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
 					// printf("%d, %d, %d, %d\n", ram[*src + off + 0], ram[*src + off + 1], ram[*src + off + 2], ram[*src + off + 3]);
 					*dest = (unsigned int)Util::atoi(ram[*src + off + 0], ram[*src + off + 1], ram[*src + off + 2], ram[*src + off + 3]);
 					break;
@@ -156,7 +158,7 @@ namespace Nitrogen {
 				case ByteInst::_IADDR_RS: {
 					unsigned int* dest = getRegister(getNext());
 					unsigned int* src = getRegister(getNext());
-					int off = getNext();
+					int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
 					// printf("%d, %d, %d, %d\n", ram[*src - off + 0], ram[*src - off + 1], ram[*src - off + 2], ram[*src - off + 3]);
 					*dest = (unsigned int)Util::atoi(ram[*src - off + 0], ram[*src - off + 1], ram[*src - off + 2], ram[*src - off + 3]);
 					break;
@@ -278,15 +280,143 @@ namespace Nitrogen {
 				case ByteInst::_WADDR_RA: {
 					unsigned int* dest = getRegister(getNext());
 					unsigned int* src = getRegister(getNext());
-					int off = getNext();
+					int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
 					*dest = (unsigned short)Util::atow(ram[*src + off + 0], ram[*src + off + 1]);
 					break;
 				}
 				case ByteInst::_WADDR_RS: {
 					unsigned int* dest = getRegister(getNext());
 					unsigned int* src = getRegister(getNext());
-					int off = getNext();
+					int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
 					*dest = (unsigned short)Util::atow(ram[*src - off + 0], ram[*src - off + 1]);
+					break;
+				}
+				
+				// BCONST
+				case ByteInst::_BCONST: {
+					pushb(getNext());
+					break;
+				}
+				
+				// BLOAD
+				case ByteInst::_BLOAD: {
+					unsigned int* reg = getRegister(getNext());
+					*reg = popb();
+					break;
+				}
+				
+				// BSTORE
+				case ByteInst::_BSTORE: {
+					unsigned int* reg = getRegister(getNext());
+					pushb((unsigned char)*reg);
+					break;
+				}
+				
+				// BMOV
+				case ByteInst::_BMOV_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					*a = *b;
+					break;
+				}
+				case ByteInst::_BMOV_N: {
+					unsigned int* reg = getRegister(getNext());
+					*reg = getNext();
+					break;
+				}
+				
+				// BADD
+				case ByteInst::_BADD_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					
+					*a = ((unsigned char)*a + (unsigned char)*b);
+					
+					break;
+				}
+				case ByteInst::_BADD_N: {
+					unsigned int* reg = getRegister(getNext());
+					*reg = ((unsigned char)*reg + getNext());
+					break;
+				}
+				
+				// BSUB
+				case ByteInst::_BSUB_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					
+					*a = ((unsigned char)*a - (unsigned char)*b);
+					
+					break;
+				}
+				case ByteInst::_BSUB_N: {
+					unsigned int* reg = getRegister(getNext());
+					*reg = ((unsigned char)*reg - getNext());
+					break;
+				}
+				
+				// BMUL
+				case ByteInst::_BMUL_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					
+					*a = ((unsigned char)*a * (unsigned char)*b);
+					
+					break;
+				}
+				case ByteInst::_BMUL_N: {
+					unsigned int* reg = getRegister(getNext());
+					*reg = ((unsigned char)*reg * getNext());
+					break;
+				}
+				
+				// BDIV
+				case ByteInst::_BDIV_R: {
+					unsigned int* a = getRegister(getNext());
+					unsigned int* b = getRegister(getNext());
+					
+					if (*b == 0) {
+						printf("ERR: Div by 0");
+						this->ebx = 1;
+						goto exit;
+					}
+					
+					unsigned int r = (unsigned int)floor(*a % *b);
+					
+					*a = ((unsigned char)*a / (unsigned char)*b);
+					this->erm = r;
+					break;
+				}
+				case ByteInst::_BDIV_N: {
+					unsigned int* reg = getRegister(getNext());
+					unsigned short num = getNext();
+					
+					if (num == 0) {
+						printf("ERR: Div by 0");
+						this->ebx = 1;
+						goto exit;
+					}
+					
+					unsigned int r = (unsigned short)floor(*reg % num);
+					
+					*reg = (unsigned char)*reg/num;
+					this->erm = r;
+					break;
+				}
+				
+				// BADDR
+				case ByteInst::_BADDR_RA: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int* src = getRegister(getNext());
+					int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					*dest = ram[*src + off];
+					break;
+				}
+				case ByteInst::_BADDR_RS: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int* src = getRegister(getNext());
+					int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					*dest = ram[*src - off];
 					break;
 				}
 				
@@ -512,7 +642,7 @@ namespace Nitrogen {
 					pushi(this->bp);
 					this->bp = this->sp;
 					
-					this->edx = lsystem->callFunction(name);
+					this->erx = lsystem->callFunction(name);
 					
 					this->bp = popi();
 					this->pc = popi();
@@ -577,6 +707,14 @@ namespace Nitrogen {
 		unsigned char b = ram[sp++];
 		
 		return Util::atow(a, b);
+	}
+	
+	void Runtime::pushb(unsigned char a) {
+		ram[--sp] = a;
+	}
+	
+	unsigned char Runtime::popb() {
+		return ram[sp++];
 	}
 	
 	unsigned int* Runtime::getRegister(int code) {

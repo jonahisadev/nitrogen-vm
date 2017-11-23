@@ -34,5 +34,5 @@ print_num:
 #section DATA
 
 x: dd 1209
-y: db 42
+y: db 0x2A
 z: dw 360

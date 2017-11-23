@@ -58,6 +58,9 @@ namespace Nitrogen {
 		void pushw(short x);
 		short popw();
 		
+		void pushb(unsigned char a);
+		unsigned char popb();
+		
 		unsigned char getNext();
 		bool getCompare(int place);
 		void compare(int a, int b);

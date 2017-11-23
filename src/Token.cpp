@@ -52,6 +52,25 @@ namespace Nitrogen {
 		else if (!strcmp(str, "WADDR"))
 			return WADDR;
 			
+		else if (!strcmp(str, "BCONST"))
+			return BCONST;
+		else if (!strcmp(str, "BLOAD"))
+			return BLOAD;
+		else if (!strcmp(str, "BSTORE"))
+			return BSTORE;
+		else if (!strcmp(str, "BMOV"))
+			return BMOV;
+		else if (!strcmp(str, "BADD"))
+			return BADD;
+		else if (!strcmp(str, "BSUB"))
+			return BSUB;
+		else if (!strcmp(str, "BMUL"))
+			return BMUL;
+		else if (!strcmp(str, "BDIV"))
+			return BDIV;
+		else if (!strcmp(str, "BADDR"))
+			return BADDR;
+			
 		else if (!strcmp(str, "DB"))
 			return DB;
 		else if (!strcmp(str, "DW"))

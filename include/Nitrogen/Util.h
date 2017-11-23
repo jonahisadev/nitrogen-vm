@@ -17,6 +17,7 @@ namespace Nitrogen {
 		
 		// String Manipulation
 		static bool isNumber(char* str);
+		static bool isHex(char* str);
 		static int convertNum(char* str, int base);
 		static void toUpper(char* str);
 		static char* strDupX(char* str, int start, int end);

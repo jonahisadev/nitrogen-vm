@@ -130,7 +130,7 @@ namespace Nitrogen {
 						}
 						buffer->add(tokens->get(i+1)->getData() + 1);
 						buffer->add(tokens->get(i+2)->getData() + 1);
-						buffer->add(tokens->get(i+3)->getData());
+						Util::writeInt(buffer, tokens->get(i+3)->getData());
 					}
 				}
 				
@@ -238,7 +238,115 @@ namespace Nitrogen {
 						}
 						buffer->add(tokens->get(i+1)->getData() + 1);
 						buffer->add(tokens->get(i+2)->getData() + 1);
-						buffer->add(tokens->get(i+3)->getData());
+						Util::writeInt(buffer, tokens->get(i+3)->getData());
+					}
+				}
+				
+				// BCONST
+				else if (tokens->get(i)->getData() == BCONST &&
+						tokens->get(i+1)->getType() == NUM) {
+					buffer->add(_BCONST);
+					buffer->add(tokens->get(i+1)->getData());
+				}
+				
+				// BLOAD
+				else if (tokens->get(i)->getData() == BLOAD &&
+						tokens->get(i+1)->getType() == REG) {
+					buffer->add(_BLOAD);
+					buffer->add(tokens->get(i+1)->getData() + 1);
+				}
+				
+				// BSTORE
+				else if (tokens->get(i)->getData() == BSTORE &&
+						tokens->get(i+1)->getType() == REG) {
+					buffer->add(_BSTORE);
+					buffer->add(tokens->get(i+1)->getData() + 1);
+				}
+				
+				// BMOV
+				else if (tokens->get(i)->getData() == BMOV &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_BMOV_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_BMOV_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData());
+					}
+				}
+				
+				// BADD
+				else if (tokens->get(i)->getData() == BADD &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_BADD_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_BADD_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData());
+					}
+				}
+				
+				// BSUB
+				else if (tokens->get(i)->getData() == BSUB &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_BSUB_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_BSUB_N);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData());
+					}
+				}
+				
+				// BMUL
+				else if (tokens->get(i)->getData() == BMUL &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_BMUL_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_BMUL_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData());
+					}
+				}
+				
+				// BDIV
+				else if (tokens->get(i)->getData() == BDIV &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						buffer->add(_BDIV_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+					} else if (tokens->get(i+2)->getType() == NUM) {
+						buffer->add(_BDIV_N);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData());
+					}
+				}
+				
+				// BADDR
+				else if (tokens->get(i)->getData() == BADDR &&
+						tokens->get(i+1)->getType() == REG) {
+					if (tokens->get(i+2)->getType() == REG) {
+						int offset = tokens->get(i+3)->getData();
+						if (offset < 0) {
+							buffer->add(_BADDR_RS);
+							tokens->get(i+3)->setData(-offset);
+						} else {
+							buffer->add(_BADDR_RA);
+						}
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						buffer->add(tokens->get(i+2)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+3)->getData());
 					}
 				}
 				

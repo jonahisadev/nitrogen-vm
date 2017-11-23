@@ -24,7 +24,6 @@ This will always stay in README. Everything below this should move
 to a separate document later.
 
 * Add instructions:
-	* Byte instructions
 	* Strings
 * Export symbols
 * Heap allocation
