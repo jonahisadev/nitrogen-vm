@@ -20,7 +20,7 @@ main:
 	exit
 	
 print_num:
-	addr eax (ebp)+8
+	get eax (ebp)+8
 	store eax
 	ncall %print_num
 	add esp 4

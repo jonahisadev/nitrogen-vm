@@ -28,7 +28,6 @@ namespace Nitrogen {
 		ISUB,
 		IMUL,
 		IDIV,
-		IADDR,
 		
 		WCONST,
 		WLOAD,
@@ -38,7 +37,6 @@ namespace Nitrogen {
 		WSUB,
 		WMUL,
 		WDIV,
-		WADDR,
 		
 		BCONST,
 		BLOAD,
@@ -48,7 +46,6 @@ namespace Nitrogen {
 		BSUB,
 		BMUL,
 		BDIV,
-		BADDR,
 		
 		DB,
 		DW,
@@ -69,6 +66,15 @@ namespace Nitrogen {
 		
 		PUSHA,
 		POPA,
+		
+		MALLOC,
+		FREE,
+		IGET,
+		WGET,
+		BGET,
+		ISET,
+		WSET,
+		BSET,
 		
 		JMP,
 		JL,			// 0001

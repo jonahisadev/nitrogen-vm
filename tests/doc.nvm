@@ -14,8 +14,8 @@ main:
 	
 ; Add two numbers
 add_nums:
-	addr eax (ebp)+8
-	addr ebx (ebp)+12
+	get eax (ebp)+8
+	get ebx (ebp)+12
 	add eax ebx
 	mov edx eax
 	ret

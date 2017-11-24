@@ -1,0 +1,21 @@
+#section TEXT
+
+start:
+	malloc 8				; x = int[2]
+	load eax
+	set (eax) 4				; x[0] = 4
+	set (eax)+4 2			; x[1] = 2
+	
+	get ebx (eax)			; Print x[0]
+	store ebx
+	ncall %print_num
+	add esp 4
+	
+	get ebx (eax)+4			; Print x[1]
+	store ebx
+	ncall %print_num
+	add esp 4
+	
+	store eax
+	free
+	exit					; Exit

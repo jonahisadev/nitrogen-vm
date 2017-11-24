@@ -19,6 +19,8 @@ namespace Nitrogen {
 		// Data Load Call
 		buffer->add(_NOP);
 		Util::writeInt(buffer, 0);
+		// Heap Initializer
+		buffer->add(_HINIT);
 		// Entry Jump
 		buffer->add(_JMP);
 		Util::writeInt(buffer, 0);
@@ -117,23 +119,6 @@ namespace Nitrogen {
 					}
 				}
 				
-				// IADDR
-				else if (tokens->get(i)->getData() == IADDR &&
-						tokens->get(i+1)->getType() == REG) {
-					if (tokens->get(i+2)->getType() == REG) {
-						int offset = tokens->get(i+3)->getData();
-						if (offset < 0) {
-							buffer->add(_IADDR_RS);
-							tokens->get(i+3)->setData(-offset);
-						} else {
-							buffer->add(_IADDR_RA);
-						}
-						buffer->add(tokens->get(i+1)->getData() + 1);
-						buffer->add(tokens->get(i+2)->getData() + 1);
-						Util::writeInt(buffer, tokens->get(i+3)->getData());
-					}
-				}
-				
 				// WCONST
 				else if (tokens->get(i)->getData() == WCONST &&
 						tokens->get(i+1)->getType() == NUM) {
@@ -225,23 +210,6 @@ namespace Nitrogen {
 					}
 				}
 				
-				// WADDR
-				else if (tokens->get(i)->getData() == WADDR &&
-						tokens->get(i+1)->getType() == REG) {
-					if (tokens->get(i+2)->getType() == REG) {
-						int offset = tokens->get(i+3)->getData();
-						if (offset < 0) {
-							buffer->add(_WADDR_RS);
-							tokens->get(i+3)->setData(-offset);
-						} else {
-							buffer->add(_WADDR_RA);
-						}
-						buffer->add(tokens->get(i+1)->getData() + 1);
-						buffer->add(tokens->get(i+2)->getData() + 1);
-						Util::writeInt(buffer, tokens->get(i+3)->getData());
-					}
-				}
-				
 				// BCONST
 				else if (tokens->get(i)->getData() == BCONST &&
 						tokens->get(i+1)->getType() == NUM) {
@@ -330,23 +298,6 @@ namespace Nitrogen {
 						buffer->add(_BDIV_N);
 						buffer->add(tokens->get(i+1)->getData() + 1);
 						buffer->add(tokens->get(i+2)->getData());
-					}
-				}
-				
-				// BADDR
-				else if (tokens->get(i)->getData() == BADDR &&
-						tokens->get(i+1)->getType() == REG) {
-					if (tokens->get(i+2)->getType() == REG) {
-						int offset = tokens->get(i+3)->getData();
-						if (offset < 0) {
-							buffer->add(_BADDR_RS);
-							tokens->get(i+3)->setData(-offset);
-						} else {
-							buffer->add(_BADDR_RA);
-						}
-						buffer->add(tokens->get(i+1)->getData() + 1);
-						buffer->add(tokens->get(i+2)->getData() + 1);
-						Util::writeInt(buffer, tokens->get(i+3)->getData());
 					}
 				}
 				
@@ -505,6 +456,178 @@ namespace Nitrogen {
 					buffer->add(_POPA);
 				}
 				
+				// MALLOC
+				else if (tokens->get(i)->getData() == MALLOC) {
+					if (tokens->get(i+1)->getType() == NUM) {
+						buffer->add(_MALLOC_N);
+						Util::writeInt(buffer, tokens->get(i+1)->getData());
+					} else if (tokens->get(i+1)->getType() == REG) {
+						buffer->add(_MALLOC_R);
+						buffer->add(tokens->get(i+1)->getData() + 1);
+					}
+				}
+				
+				// IGET
+				else if (tokens->get(i)->getData() == IGET &&
+						tokens->get(i+1)->getType() == REG &&
+						tokens->get(i+2)->getType() == REG &&
+						tokens->get(i+3)->getType() == NUM) {
+					
+					// i+0 = GET
+					// i+1 = Register to load into
+					// i+2 = Register as pointer
+					// i+3 = Address offset
+							
+					int offset = tokens->get(i+3)->getData();
+					if (offset < 0) {
+						buffer->add(_IGET_S);
+						tokens->get(i+3)->setData(-offset);
+					} else {
+						buffer->add(_IGET_A);
+					}
+					buffer->add(tokens->get(i+1)->getData() + 1);
+					buffer->add(tokens->get(i+2)->getData() + 1);
+					Util::writeInt(buffer, tokens->get(i+3)->getData());
+				}
+				
+				// WGET
+				else if (tokens->get(i)->getData() == WGET &&
+						tokens->get(i+1)->getType() == REG &&
+						tokens->get(i+2)->getType() == REG &&
+						tokens->get(i+3)->getType() == NUM) {
+					
+					// i+0 = GET
+					// i+1 = Register to load into
+					// i+2 = Register as pointer
+					// i+3 = Address offset
+							
+					int offset = tokens->get(i+3)->getData();
+					if (offset < 0) {
+						buffer->add(_WGET_S);
+						tokens->get(i+3)->setData(-offset);
+					} else {
+						buffer->add(_WGET_A);
+					}
+					buffer->add(tokens->get(i+1)->getData() + 1);
+					buffer->add(tokens->get(i+2)->getData() + 1);
+					Util::writeInt(buffer, tokens->get(i+3)->getData());
+				}
+				
+				// BGET
+				else if (tokens->get(i)->getData() == BGET &&
+						tokens->get(i+1)->getType() == REG &&
+						tokens->get(i+2)->getType() == REG &&
+						tokens->get(i+3)->getType() == NUM) {
+					
+					// i+0 = GET
+					// i+1 = Register to load into
+					// i+2 = Register as pointer
+					// i+3 = Address offset
+							
+					int offset = tokens->get(i+3)->getData();
+					if (offset < 0) {
+						buffer->add(_BGET_S);
+						tokens->get(i+3)->setData(-offset);
+					} else {
+						buffer->add(_BGET_A);
+					}
+					buffer->add(tokens->get(i+1)->getData() + 1);
+					buffer->add(tokens->get(i+2)->getData() + 1);
+					Util::writeInt(buffer, tokens->get(i+3)->getData());
+				}
+				
+				// ISET
+				else if (tokens->get(i)->getData() == ISET &&
+						tokens->get(i+1)->getType() == REG &&
+						tokens->get(i+2)->getType() == NUM) {
+					if (tokens->get(i+3)->getType() == REG) {
+						int offset = tokens->get(i+2)->getData();
+						if (offset < 0) {
+							buffer->add(_ISET_RS);
+							tokens->get(i+2)->setData(-offset);
+						} else {
+							buffer->add(_ISET_RA);
+						}
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+						buffer->add(tokens->get(i+3)->getData() + 1);
+					} else if (tokens->get(i+3)->getType() == NUM) {
+						int offset = tokens->get(i+2)->getData();
+						if (offset < 0) {
+							buffer->add(_ISET_NS);
+							tokens->get(i+2)->setData(-offset);
+						} else {
+							buffer->add(_ISET_NA);
+						}
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+						Util::writeInt(buffer, tokens->get(i+3)->getData());
+					}
+				}
+				
+				// WSET
+				else if (tokens->get(i)->getData() == WSET &&
+						tokens->get(i+1)->getType() == REG &&
+						tokens->get(i+2)->getType() == NUM) {
+					if (tokens->get(i+3)->getType() == REG) {
+						int offset = tokens->get(i+2)->getData();
+						if (offset < 0) {
+							buffer->add(_WSET_RS);
+							tokens->get(i+2)->setData(-offset);
+						} else {
+							buffer->add(_WSET_RA);
+						}
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+						buffer->add(tokens->get(i+3)->getData() + 1);
+					} else if (tokens->get(i+3)->getType() == NUM) {
+						int offset = tokens->get(i+2)->getData();
+						if (offset < 0) {
+							buffer->add(_WSET_NS);
+							tokens->get(i+2)->setData(-offset);
+						} else {
+							buffer->add(_WSET_NA);
+						}
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+						Util::writeWord(buffer, tokens->get(i+3)->getData());
+					}
+				}
+				
+				// BSET
+				else if (tokens->get(i)->getData() == BSET &&
+						tokens->get(i+1)->getType() == REG &&
+						tokens->get(i+2)->getType() == NUM) {
+					if (tokens->get(i+3)->getType() == REG) {
+						int offset = tokens->get(i+2)->getData();
+						if (offset < 0) {
+							buffer->add(_BSET_RS);
+							tokens->get(i+2)->setData(-offset);
+						} else {
+							buffer->add(_BSET_RA);
+						}
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+						buffer->add(tokens->get(i+3)->getData() + 1);
+					} else if (tokens->get(i+3)->getType() == NUM) {
+						int offset = tokens->get(i+2)->getData();
+						if (offset < 0) {
+							buffer->add(_BSET_NS);
+							tokens->get(i+2)->setData(-offset);
+						} else {
+							buffer->add(_BSET_NA);
+						}
+						buffer->add(tokens->get(i+1)->getData() + 1);
+						Util::writeInt(buffer, tokens->get(i+2)->getData());
+						buffer->add(tokens->get(i+3)->getData());
+					}
+				}
+				
+				// FREE
+				else if (tokens->get(i)->getData() == FREE) {
+					buffer->add(_FREE);
+				}
+				
 				// NCALL
 				else if (tokens->get(i)->getData() == NCALL) {
 					buffer->add(_NCALL);
@@ -554,7 +677,7 @@ namespace Nitrogen {
 				}
 				
 				else {
-					printf("ERR: (%d) Unkown AST token\n", tokens->get(i)->getLine());
+					printf("ERR: (%d) Unkown AST token '%d'\n", tokens->get(i)->getLine(), tokens->get(i)->getData());
 					exit(1);
 				}
 			}
@@ -660,7 +783,7 @@ namespace Nitrogen {
 			if (!strcmp(labels->get(i)->name, this->entry)) {
 				unsigned char* data = Util::itoa(labels->get(i)->addr);
 				for (int j = 0; j < 4; j++)
-					this->buffer->set(8 + j, data[j]);
+					this->buffer->set(9 + j, data[j]);
 				delete[] data;
 				break;
 			}
@@ -681,8 +804,8 @@ namespace Nitrogen {
 			printf("ERR: N7 Corrupt\n");
 			exit(1);
 		}
-		if (buffer->get(7) != _JMP ||
-			Util::atoi(buffer->get(8), buffer->get(9), buffer->get(10), buffer->get(11)) == 0) {
+		if (buffer->get(8) != _JMP ||
+			Util::atoi(buffer->get(9), buffer->get(10), buffer->get(11), buffer->get(12)) == 0) {
 			printf("ERR: Entry '%s' not found!\n", this->entry);
 			exit(1);
 		}

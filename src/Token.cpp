@@ -30,8 +30,6 @@ namespace Nitrogen {
 			return IMUL;
 		else if (!strcmp(str, "IDIV") || !strcmp(str, "DIV"))
 			return IDIV;
-		else if (!strcmp(str, "IADDR") || !strcmp(str, "ADDR"))
-			return IADDR;
 			
 		else if (!strcmp(str, "WCONST"))
 			return WCONST;
@@ -49,8 +47,6 @@ namespace Nitrogen {
 			return WMUL;
 		else if (!strcmp(str, "WDIV"))
 			return WDIV;
-		else if (!strcmp(str, "WADDR"))
-			return WADDR;
 			
 		else if (!strcmp(str, "BCONST"))
 			return BCONST;
@@ -68,8 +64,6 @@ namespace Nitrogen {
 			return BMUL;
 		else if (!strcmp(str, "BDIV"))
 			return BDIV;
-		else if (!strcmp(str, "BADDR"))
-			return BADDR;
 			
 		else if (!strcmp(str, "DB"))
 			return DB;
@@ -102,11 +96,27 @@ namespace Nitrogen {
 			return DEC;
 		else if (!strcmp(str, "NCALL"))
 			return NCALL;
-			
 		else if (!strcmp(str, "PUSHA"))
 			return PUSHA;
 		else if (!strcmp(str, "POPA"))
 			return POPA;
+			
+		else if (!strcmp(str, "MALLOC"))
+			return MALLOC;
+		else if (!strcmp(str, "FREE"))
+			return FREE;
+		else if (!strcmp(str, "IGET") || !strcmp(str, "GET"))
+			return IGET;
+		else if (!strcmp(str, "WGET"))
+			return WGET;
+		else if (!strcmp(str, "BGET"))
+			return BGET;
+		else if (!strcmp(str, "ISET") || !strcmp(str, "SET"))
+			return ISET;
+		else if (!strcmp(str, "WSET"))
+			return WSET;
+		else if (!strcmp(str, "BSET"))
+			return BSET;
 			
 		else if (!strcmp(str, "CMP"))
 			return CMP;
@@ -177,9 +187,6 @@ namespace Nitrogen {
 						printf("ISUB"); break;
 					case IMUL:
 						printf("IMUL"); break;
-					
-					case IADDR:
-						printf("IADDR"); break;
 					
 					case JMP:
 						printf("JMP"); break;

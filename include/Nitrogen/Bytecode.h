@@ -20,8 +20,6 @@ namespace Nitrogen {
 		_IMUL_N = 		0x0B,
 		_IDIV_R = 		0x0C,
 		_IDIV_N = 		0x0D,
-		_IADDR_RA = 	0x0E,
-		_IADDR_RS =		0x0F,
 		
 		// 2 Byte Instructions
 		_WCONST = 		0x11,
@@ -37,8 +35,6 @@ namespace Nitrogen {
 		_WMUL_N = 		0x1B,
 		_WDIV_R = 		0x1C,
 		_WDIV_N = 		0x1D,
-		_WADDR_RA = 	0x1E,
-		_WADDR_RS = 	0x1F,
 		
 		// 1 Byte Instructions
 		_BCONST = 		0x21,
@@ -54,8 +50,6 @@ namespace Nitrogen {
 		_BMUL_N = 		0x2B,
 		_BDIV_R = 		0x2C,
 		_BDIV_N = 		0x2D,
-		_BADDR_RA = 	0x2E,
-		_BADDR_RS = 	0x2F,
 		
 		// Variable Instructions
 		_DB = 			0x31,
@@ -92,7 +86,34 @@ namespace Nitrogen {
 		_DEC = 			0x40,
 		_PUSHA = 		0x50,
 		_POPA = 		0x60,
+		_HINIT = 		0x70,
 		_NCALL = 		0x88,
+		
+		// Heap Memory
+		_MALLOC_N = 	0xB0,
+		_MALLOC_R =		0xB1,
+		
+		_ISET_RA = 		0xC2,
+		_ISET_RS = 		0xC3,
+		_ISET_NA = 		0xC4,
+		_ISET_NS = 		0xC5,
+		_WSET_RA = 		0xC6,
+		_WSET_RS = 		0xC7,
+		_WSET_NA = 		0xC8,
+		_WSET_NS = 		0xC9,
+		_BSET_RA =		0xCA,
+		_BSET_RS =		0xCB,
+		_BSET_NA = 		0xCC,
+		_BSET_NS = 		0xCD,
+		
+		_IGET_A = 		0xD0,
+		_IGET_S = 		0xD1,
+		_WGET_A = 		0xD2,
+		_WGET_S = 		0xD3,
+		_BGET_A = 		0xD4,
+		_BGET_S = 		0xD5,
+		
+		_FREE = 		0xBF,
 		
 		_EXIT = 		0xFF,
 	};

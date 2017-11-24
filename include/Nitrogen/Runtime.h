@@ -7,6 +7,7 @@
 #include <Nitrogen/Bytecode.h>
 #include <Nitrogen/Util.h>
 #include <Nitrogen/Native.h>
+#include <Nitrogen/HeapNode.h>
 #include <api/nitrogen.h>
 
 #define RAM_SIZE 0x8000000			// 128 MB
@@ -26,6 +27,10 @@ namespace Nitrogen {
 		int pc = 0;
 		unsigned int sp = STACK_START;
 		unsigned int bp = STACK_START;
+		
+		// Heap
+		unsigned int HEAP_START;
+		HeapNode* HEAP_ROOT;
 		
 		// Registers
 		unsigned int eax;
@@ -50,6 +55,9 @@ namespace Nitrogen {
 		int start();
 		
 	private:
+		void heap_alloc(unsigned int size);
+		void heap_free(unsigned int addr);
+		
 		void pushi(unsigned char a, unsigned char b, unsigned char c, unsigned char d);
 		void pushi(int x);
 		int popi();

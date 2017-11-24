@@ -260,7 +260,18 @@ namespace Nitrogen {
 			tokens->add(new Token(TokenType::REG, EBP, line));
 		} else if (!strcmp(lex, "esp")) {
 			tokens->add(new Token(TokenType::REG, ESP, line));
-		} else {
+		} else if (!strcmp(lex, "eax")) {
+			tokens->add(new Token(TokenType::REG, EAX, line));
+		} else if (!strcmp(lex, "ebx")) {
+			tokens->add(new Token(TokenType::REG, EBX, line));
+		} else if (!strcmp(lex, "ecx")) {
+			tokens->add(new Token(TokenType::REG, ECX, line));
+		} else if (!strcmp(lex, "edx")) {
+			tokens->add(new Token(TokenType::REG, EDX, line));
+		} else if (!strcmp(lex, "erx")) {
+			tokens->add(new Token(TokenType::REG, ERX, line));
+		}
+		else {
 			printf("ERR: (%d) Invalid address! '%s'\n", line, lex);
 		}
 		
@@ -275,7 +286,17 @@ namespace Nitrogen {
 				lex[lexi++] = str[i++];
 			}
 			
-			int num = Util::convertNum(lex, 10);
+			int num;
+			if (Util::isNumber(lex)) {
+				num = Util::convertNum(lex, 10);
+			} else if (Util::isHex(lex)) {
+				char* str = Util::strDupX(lex, 2, strlen(lex));
+				num = Util::convertNum(lex, 16);
+				delete str;
+			} else {
+				printf("ERR: (%d) Must offset address by a number\n", line);
+				exit(1);
+			}
 			if (c == '+') {
 				tokens->add(new Token(NUM, num, line));
 			} else if (c == '-') {

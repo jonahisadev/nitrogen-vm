@@ -100,20 +100,6 @@ namespace Nitrogen {
 					break;
 				}
 				
-				// IADDR
-				case _IADDR_RA: {
-					printf("IADDR \t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
-					int x;
-					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
-						printf("+%d", x);
-					}
-					break;
-				}
-				case _IADDR_RS: {
-					printf("IADDR \t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
-					break;
-				}
-				
 				// WCONST
 				case _WCONST: {
 					printf("WCONST \t%d", Util::atow(getNext(), getNext()));
@@ -182,20 +168,6 @@ namespace Nitrogen {
 					break;
 				}
 				
-				// WADDR
-				case _WADDR_RA: {
-					printf("WADDR \t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
-					int x;
-					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
-						printf("+%d", x);
-					}
-					break;
-				}
-				case _WADDR_RS: {
-					printf("WADDR \t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
-					break;
-				}
-				
 				// BCONST
 				case _BCONST: {
 					printf("BCONST \t%d", getNext());
@@ -261,20 +233,6 @@ namespace Nitrogen {
 				}
 				case _BDIV_N: {
 					printf("BDIV \t\t%s, %d", Bytecode::getRegister(getNext()), getNext());
-					break;
-				}
-				
-				// WADDR
-				case _BADDR_RA: {
-					printf("BADDR \t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
-					int x;
-					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
-						printf("+%d", x);
-					}
-					break;
-				}
-				case _BADDR_RS: {
-					printf("BADDR \t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
 					break;
 				}
 				
@@ -383,6 +341,154 @@ namespace Nitrogen {
 				// POPA
 				case _POPA: {
 					printf("POPA");
+					break;
+				}
+				
+				// HINIT
+				case _HINIT: {
+					printf("HINIT");
+					break;
+				}
+				
+				// MALLOC
+				case _MALLOC_R: {
+					printf("MALLOC \t%s", Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _MALLOC_N: {
+					printf("MALLOC \t%d", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// IGET
+				case _IGET_A: {
+					printf("IGET \t\t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					int x;
+					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
+						printf("+%d", x);
+					}
+					break;
+				}
+				case _IGET_S: {
+					printf("IGET \t\t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// WGET
+				case _WGET_A: {
+					printf("WGET \t\t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					int x;
+					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
+						printf("+%d", x);
+					}
+					break;
+				}
+				case _WGET_S: {
+					printf("WGET \t\t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// BGET
+				case _BGET_A: {
+					printf("BGET \t\t%s, (%s)", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()));
+					int x;
+					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
+						printf("+%d", x);
+					}
+					break;
+				}
+				case _BGET_S: {
+					printf("BGET \t\t%s, (%s)-%d", Bytecode::getRegister(getNext()), Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// ISET
+				case _ISET_RA: {
+					printf("ISET \t\t(%s)", Bytecode::getRegister(getNext()));
+					int x;
+					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
+						printf("+%d", x);
+					}
+					printf(", %s", Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _ISET_RS: {
+					printf("ISET \t\t(%s)-%d, %s", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _ISET_NA: {
+					printf("ISET \t\t(%s)", Bytecode::getRegister(getNext()));
+					int x;
+					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
+						printf("+%d", x);
+					}
+					printf(", %d", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				case _ISET_NS: {
+					printf("ISET \t\t(%s)-%d, %d", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+				
+				// WSET
+				case _WSET_RA: {
+					printf("WSET \t\t(%s)", Bytecode::getRegister(getNext()));
+					int x;
+					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
+						printf("+%d", x);
+					}
+					printf(", %s", Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _WSET_RS: {
+					printf("WSET \t\t(%s)-%d, %s", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _WSET_NA: {
+					printf("WSET \t\t(%s)", Bytecode::getRegister(getNext()));
+					int x;
+					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
+						printf("+%d", x);
+					}
+					printf(", %d", Util::atow(getNext(), getNext()));
+					break;
+				}
+				case _WSET_NS: {
+					printf("WSET \t\t(%s)-%d, %d", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()), Util::atow(getNext(), getNext()));
+					break;
+				}
+				
+				// BSET
+				case _BSET_RA: {
+					printf("BSET \t\t(%s)", Bytecode::getRegister(getNext()));
+					int x;
+					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
+						printf("+%d", x);
+					}
+					printf(", %s", Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _BSET_RS: {
+					printf("BSET \t\t(%s)-%d, %s", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()), Bytecode::getRegister(getNext()));
+					break;
+				}
+				case _BSET_NA: {
+					printf("BSET \t\t(%s)", Bytecode::getRegister(getNext()));
+					int x;
+					if ((x = Util::atoi(getNext(), getNext(), getNext(), getNext())) != 0) {
+						printf("+%d", x);
+					}
+					printf(", %d", getNext());
+					break;
+				}
+				case _BSET_NS: {
+					printf("BSET \t\t(%s)-%d, %d", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()), getNext());
+					break;
+				}
+				
+				// FREE
+				case _FREE: {
+					printf("FREE");
 					break;
 				}
 				

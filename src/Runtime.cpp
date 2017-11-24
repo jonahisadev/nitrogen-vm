@@ -146,24 +146,6 @@ namespace Nitrogen {
 					break;
 				}
 				
-				// IADDR
-				case ByteInst::_IADDR_RA: {
-					unsigned int* dest = getRegister(getNext());
-					unsigned int* src = getRegister(getNext());
-					int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
-					// printf("%d, %d, %d, %d\n", ram[*src + off + 0], ram[*src + off + 1], ram[*src + off + 2], ram[*src + off + 3]);
-					*dest = (unsigned int)Util::atoi(ram[*src + off + 0], ram[*src + off + 1], ram[*src + off + 2], ram[*src + off + 3]);
-					break;
-				}
-				case ByteInst::_IADDR_RS: {
-					unsigned int* dest = getRegister(getNext());
-					unsigned int* src = getRegister(getNext());
-					int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
-					// printf("%d, %d, %d, %d\n", ram[*src - off + 0], ram[*src - off + 1], ram[*src - off + 2], ram[*src - off + 3]);
-					*dest = (unsigned int)Util::atoi(ram[*src - off + 0], ram[*src - off + 1], ram[*src - off + 2], ram[*src - off + 3]);
-					break;
-				}
-				
 				// WCONST
 				case ByteInst::_WCONST: {
 					pushw(getNext(), getNext());
@@ -276,22 +258,6 @@ namespace Nitrogen {
 					break;
 				}
 				
-				// WADDR
-				case ByteInst::_WADDR_RA: {
-					unsigned int* dest = getRegister(getNext());
-					unsigned int* src = getRegister(getNext());
-					int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
-					*dest = (unsigned short)Util::atow(ram[*src + off + 0], ram[*src + off + 1]);
-					break;
-				}
-				case ByteInst::_WADDR_RS: {
-					unsigned int* dest = getRegister(getNext());
-					unsigned int* src = getRegister(getNext());
-					int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
-					*dest = (unsigned short)Util::atow(ram[*src - off + 0], ram[*src - off + 1]);
-					break;
-				}
-				
 				// BCONST
 				case ByteInst::_BCONST: {
 					pushb(getNext());
@@ -401,22 +367,6 @@ namespace Nitrogen {
 					
 					*reg = (unsigned char)*reg/num;
 					this->erm = r;
-					break;
-				}
-				
-				// BADDR
-				case ByteInst::_BADDR_RA: {
-					unsigned int* dest = getRegister(getNext());
-					unsigned int* src = getRegister(getNext());
-					int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
-					*dest = ram[*src + off];
-					break;
-				}
-				case ByteInst::_BADDR_RS: {
-					unsigned int* dest = getRegister(getNext());
-					unsigned int* src = getRegister(getNext());
-					int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
-					*dest = ram[*src - off];
 					break;
 				}
 				
@@ -630,6 +580,208 @@ namespace Nitrogen {
 					break;
 				}
 				
+				// HINIT
+				case ByteInst::_HINIT: {
+					HEAP_START = GLOBAL_START + vsize;
+					HEAP_ROOT = new HeapNode(nullptr, nullptr, HEAP_START, HEAP_START);
+					break;
+				}
+				
+				// MALLOC
+				case ByteInst::_MALLOC_R: {
+					unsigned int* reg = getRegister(getNext());
+					heap_alloc(*reg);
+					break;
+				}
+				case ByteInst::_MALLOC_N: {
+					unsigned int size = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					heap_alloc(size);
+					break;
+				}
+				
+				// IGET
+				case ByteInst::_IGET_A: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int* src = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					*dest = (unsigned int)Util::atoi(ram[*src + off + 0], ram[*src + off + 1], ram[*src + off + 2], ram[*src + off + 3]);
+					break;
+				}
+				case ByteInst::_IGET_S: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int* src = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					*dest = (unsigned int)Util::atoi(ram[*src - off + 0], ram[*src - off + 1], ram[*src - off + 2], ram[*src - off + 3]);
+					break;
+				}
+				
+				// WGET
+				case ByteInst::_WGET_A: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int* src = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					*dest = (unsigned int)Util::atow(ram[*src + off + 0], ram[*src + off + 1]);
+					break;
+				}
+				case ByteInst::_WGET_S: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int* src = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					*dest = (unsigned int)Util::atow(ram[*src - off + 0], ram[*src - off + 1]);
+					break;
+				}
+				
+				// BGET
+				case ByteInst::_BGET_A: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int* src = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					*dest = ram[*src + off];
+					break;
+				}
+				case ByteInst::_BGET_S: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int* src = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					*dest = ram[*src - off];
+					break;
+				}
+				
+				// ISET
+				case ByteInst::_ISET_RA: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					unsigned int* src = getRegister(getNext());
+					unsigned char* data = Util::itoa(*src);
+					
+					ram[*dest + off + 0] = data[0];
+					ram[*dest + off + 1] = data[1];
+					ram[*dest + off + 2] = data[2];
+					ram[*dest + off + 3] = data[3];
+					
+					break;
+				}
+				case ByteInst::_ISET_RS: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					unsigned int* src = getRegister(getNext());
+					unsigned char* data = Util::itoa(*src);
+					
+					ram[*dest - off + 0] = data[0];
+					ram[*dest - off + 1] = data[1];
+					ram[*dest - off + 2] = data[2];
+					ram[*dest - off + 3] = data[3];
+					
+					break;
+				}
+				case ByteInst::_ISET_NA: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					
+					ram[*dest + off + 0] = getNext();
+					ram[*dest + off + 1] = getNext();
+					ram[*dest + off + 2] = getNext();
+					ram[*dest + off + 3] = getNext();
+					
+					break;
+				}
+				case ByteInst::_ISET_NS: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					
+					ram[*dest - off + 0] = getNext();
+					ram[*dest - off + 1] = getNext();
+					ram[*dest - off + 2] = getNext();
+					ram[*dest - off + 3] = getNext();
+					
+					break;
+				}
+				
+				// WSET
+				case ByteInst::_WSET_RA: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					unsigned int* src = getRegister(getNext());
+					unsigned char* data = Util::wtoa((unsigned short)*src);
+					
+					ram[*dest + off + 0] = data[0];
+					ram[*dest + off + 1] = data[1];
+					
+					break;
+				}
+				case ByteInst::_WSET_RS: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					unsigned int* src = getRegister(getNext());
+					unsigned char* data = Util::wtoa((unsigned short)*src);
+					
+					ram[*dest - off + 0] = data[0];
+					ram[*dest - off + 1] = data[1];
+					
+					break;
+				}
+				case ByteInst::_WSET_NA: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					
+					ram[*dest + off + 0] = getNext();
+					ram[*dest + off + 1] = getNext();
+					
+					break;
+				}
+				case ByteInst::_WSET_NS: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					
+					ram[*dest - off + 0] = getNext();
+					ram[*dest - off + 1] = getNext();
+					
+					break;
+				}
+				
+				// BSET
+				case ByteInst::_BSET_RA: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					unsigned int* src = getRegister(getNext());
+					
+					ram[*dest + off] = (unsigned char)*src;
+					
+					break;
+				}
+				case ByteInst::_BSET_RS: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					unsigned int* src = getRegister(getNext());
+					
+					ram[*dest - off] = (unsigned char)*src;
+					
+					break;
+				}
+				case ByteInst::_BSET_NA: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					
+					ram[*dest + off] = getNext();
+					
+					break;
+				}
+				case ByteInst::_BSET_NS: {
+					unsigned int* dest = getRegister(getNext());
+					unsigned int off = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					
+					ram[*dest - off] = getNext();
+					
+					break;
+				}
+				
+				// FREE
+				case ByteInst::_FREE: {
+					unsigned int addr = popi();
+					heap_free(addr);
+					break;
+				}
+				
 				// NCALL
 				case ByteInst::_NCALL: {
 					char* name = new char[256];
@@ -667,6 +819,49 @@ namespace Nitrogen {
 		
 		exit:
 		return ebx;
+	}
+	
+	void Runtime::heap_alloc(unsigned int size) {
+		if (size == 0) {
+			printf("ERR: Can not allocate zero bytes\n");
+			exit(1);
+		}
+		
+		if (HEAP_ROOT->next == nullptr) {
+			HeapNode* h = new HeapNode(HEAP_ROOT, nullptr, HEAP_START, HEAP_START + size);
+			HEAP_ROOT->next = h;
+			pushi(h->begin);
+		} else {
+			HeapNode* h = HEAP_ROOT->next;
+			while (h->next != nullptr) {
+				if (h->next->begin - h->end >= size) {
+					HeapNode* n = new HeapNode(h, h->next, h->end, h->end + size);
+					h->next->last = n;	// Set child parent to new one
+					h->next = n;		// Set child to new one
+					pushi(n->begin);	// Push the malloc'd address
+					return;
+				}
+				h = h->next;
+			}
+			// Being here means we haven't found enough space
+			// So add onto the end
+			HeapNode* n = new HeapNode(h, nullptr, h->end, h->end + size);
+			h->next = n;
+			pushi(n->begin);
+		}
+	}
+	
+	void Runtime::heap_free(unsigned int addr) {
+		HeapNode* h = HEAP_ROOT;
+		while (h->next != nullptr) {
+			if (h->next->begin == addr) {
+				delete h->next;
+				return;
+			}
+			h = h->next;
+		}
+		printf("ERR: The address 0x%08X can not be freed!\n", addr);
+		exit(1);
 	}
 	
 	void Runtime::pushi(unsigned char a, unsigned char b, unsigned char c, unsigned char d) {

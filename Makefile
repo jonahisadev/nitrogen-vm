@@ -10,6 +10,9 @@ C_OBJ = $(C_SRC:.c=.o)
 EXEC = nvmc
 
 all: $(OBJ) $(EXEC) $(HEAD) $(C_OBJ)
+	
+release: CFLAGS += -O3
+release: all
 
 $(EXEC): $(OBJ) $(C_OBJ)
 	$(CC) $(LDFLAGS) $^ -o $@

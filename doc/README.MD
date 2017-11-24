@@ -32,8 +32,8 @@ main:
 	
 ; Add two numbers
 add_nums:
-	addr eax (ebp)+8
-	addr ebx (ebp)+12
+	get eax (ebp)+8
+	get ebx (ebp)+12
 	add eax ebx
 	mov erx eax
 	ret
@@ -88,7 +88,8 @@ The above table applies the first 9 instructions below
 | SUB		| R , R / N	| Subtract a constant or register value to register |
 | MUL		| R , R / N	| Multiply a constant or register value to register |
 | DIV		| R , R / N	| Subtract a constant or register value to register. Remainder goes in ERM |
-| ADDR		| R, A		| Move an address to a register |
+| GET		| R , A		| Get values from RAM using registers as pointers |
+| SET		| A , R / N	| Set register or constant value in RAM |
 | DB		| N			| Store a byte in variable memory |
 | DW		| N			| Store a word in variable memory |
 | DD		| N			| Store an integer in variable memory |
@@ -98,6 +99,8 @@ The above table applies the first 9 instructions below
 | JMP		| LBL		| Jump to a label |
 | CALL		| LBL		| Call a label |
 | RET		|			| Return from a call |
+| MALLOC	| N	/ R		| Heap allocate a certain number of bytes |
+| FREE		|			| Pops an address and frees that heap address |
 | NCALL		| NLBL		| Call C function |
 | INC		| R			| Increment a register's value |
 | DEC		| R			| Decrement a register's value |
@@ -111,6 +114,17 @@ The above table applies the first 9 instructions below
 | JE		| LBL		| Jump if comparison is equal |
 | JNE		| LBL		| Jump if comparison is not equal |
 | EXIT		|			| Exit the program |
+
+## Heap Allocation
+
+There are two instructions that deal with heap allocation: `MALLOC` and `FREE`.
+`MALLOC` takes a number argument after, which is the amount of bytes to be
+allocated. After the memory is allocated, the address of the memory is pushed
+to the stack.
+
+`FREE` takes no arguments. The address of the originally malloc'd memory must
+be pushed to the stack, and the `FREE` instruction will take that address and
+free it for future use.
 
 ## Call Frame
 

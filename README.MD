@@ -20,13 +20,14 @@ Language support for Atom is [here](https://atom.io/packages/language-nitrogen-v
 
 ### To Do
 
-This will always stay in README. Everything below this should move
-to a separate document later.
+Here are the current features to add for Nitrogen:
 
-* Add instructions:
-	* Strings
-* Export symbols
-* Heap allocation
+* Strings
+* Export Symbols
+* Floats
+
+Below are general features that should be added:
+
 * Implement includes, loads, etc
 	* Include separate source files
 	* Load external libraries
