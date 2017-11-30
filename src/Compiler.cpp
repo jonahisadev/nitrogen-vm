@@ -845,6 +845,31 @@ namespace Nitrogen {
 		fclose(out);
 	}
 
+	void Compiler::symbols(const char* path) {
+		List<unsigned char>* buf = new List<unsigned char>(1);
+		Util::writeInt(buf, labels->getSize());		// Write label count
+		Util::writeInt(buf, vars->getSize());		// Write variable count
+
+		// Write Labels
+		for (int i = 0; i < labels->getSize(); i++) {
+			Util::writeInt(buf, labels->get(i)->addr);
+			Util::writeString(buf, labels->get(i)->name);
+		}
+
+		// Write Variables
+		for (int i = 0; i < vars->getSize(); i++) {
+			Util::writeInt(buf, vars->get(i)->addr);
+			Util::writeString(buf, vars->get(i)->name);
+		}
+
+		FILE* file = fopen(path, "wb");
+		for (int i = 0; i < buf->getSize(); i++) {
+			unsigned char b = buf->get(i);
+			fwrite(&b, 1, 1, file);
+		}
+		fclose(file);
+	}
+
 	void Compiler::setTokens(List<Token*>* tokens) {
 		this->tokens = tokens;
 	}

@@ -25,6 +25,9 @@ int main(int argc, char** argv) {
 		
 		Compiler* c = p->createCompiler();
 		c->start();
+		if (argc > 3 && !strcmp(argv[3], "-g")) {
+			c->symbols(".symdat");
+		}
 		
 		delete c;
 		delete p;

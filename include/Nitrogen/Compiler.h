@@ -37,6 +37,7 @@ namespace Nitrogen {
 		~Compiler();
 		
 		void start();
+		void symbols(const char* path);
 		
 		void setTokens(List<Token*>* tokens);
 		void setLabels(List<Label*>* labels);

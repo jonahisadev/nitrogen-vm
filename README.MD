@@ -22,14 +22,13 @@ Language support for [Atom](https://atom.io/packages/language-nitrogen-vm)
 
 Here are the current features to add for Nitrogen:
 
-* Strings
-* Export Symbols
-* Floats
 * Work on implementing native calls
 	* First be able to load libraries from NSM
 	* Create a sort of API for external C code
-* Include separate source files
+* Floats
 
 Below are general features that should be added:
 
+* Do a **LOT** of documentation work
+* Include separate source files
 * Runtime debugger

@@ -24,4 +24,4 @@ $(EXEC): $(OBJ) $(C_OBJ)
 	g++ $(CFLAGS) $^ -o $@
 
 clean:
-	rm -rf *.o *.nc src/*.o $(EXEC)
+	rm -rf *.o *.nc src/*.o $(EXEC) .symdat

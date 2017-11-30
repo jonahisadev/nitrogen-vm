@@ -5,13 +5,92 @@ namespace Nitrogen {
 	Decomp::Decomp(unsigned char* prog, int len) {
 		this->prog = prog;
 		this->bin_size = len;
+
+		this->labels = new List<Symbol*>(1);
+		this->vars = new List<Symbol*>(1);
 	}
 	
 	Decomp::~Decomp() {
 		delete[] this->prog;
 	}
-	
+
+	void Decomp::loadSymbols() {
+		FILE* file = fopen(".symdat", "rb");
+		if (!file) {
+			printf("****** No symbols located! ******\n");
+			return;
+		}
+
+		fseek(file, 0, SEEK_END);
+		int size = ftell(file);
+		fseek(file, 0, SEEK_SET);
+
+		char* buf = new char[size];
+		fread(buf, 1, size, file);
+		fclose(file);
+
+		int i = 0;
+
+		int lsize = Util::atoi(buf[i], buf[i+1], buf[i+2], buf[i+3]); i += 4;
+		int vsize = Util::atoi(buf[i], buf[i + 1], buf[i + 2], buf[i + 3]); i += 4;
+
+		// TODO: Make this system a lot better
+
+		int x = 0;
+		while (x < lsize) {
+			unsigned int addr = Util::atoi(buf[i], buf[i + 1], buf[i + 2], buf[i + 3]);
+			i += 4;
+			char* str = new char[256];
+			char c;
+			int j = 0;
+			while ((c = buf[i++]) != 0) {
+				str[j++] = c;
+			}
+			// printf("label: %s, \t0x%08X\n", str, addr);
+			labels->add(new Symbol(str, addr));
+			x++;
+			delete[] str;
+		}
+
+		x = 0;
+		while (x < vsize) {
+			unsigned int addr = Util::atoi(buf[i], buf[i + 1], buf[i + 2], buf[i + 3]);
+			i += 4;
+			char *str = new char[256];
+			char c;
+			int j = 0;
+			while ((c = buf[i++]) != 0)
+			{
+				str[j++] = c;
+			}
+			// printf("variable: %s, \t0x%08X\n", str, addr);
+			vars->add(new Symbol(str, addr));
+			x++;
+			delete[] str;
+		}
+	}
+
+	void Decomp::printLabel(unsigned int addr) {
+		for (int i = 0; i < labels->getSize(); i++) {
+			if (labels->get(i)->addr == addr) {
+				printf("\t\t(%s)", labels->get(i)->name);
+				break;
+			}
+		}
+	}
+
+	void Decomp::printVar(unsigned int addr) {
+		for (int i = 0; i < vars->getSize(); i++) {
+			if (vars->get(i)->addr == addr) {
+				printf("\t\t($%s)", vars->get(i)->name);
+				break;
+			}
+		}
+	}
+
 	void Decomp::start() {
+		loadSymbols();
+
 		if (prog[0] == 'N' && prog[1] == '7') {
 			printf(":Nitrogen Binary\n");
 			pc += 2;
@@ -24,6 +103,13 @@ namespace Nitrogen {
 		while (this->pc < this->bin_size) {
 			opcode = prog[pc];
 			
+			// Print labels as they come
+			for (int i = 0; i < labels->getSize(); i++) {
+				if (labels->get(i)->addr == pc) {
+					printf("\n%s:\n", labels->get(i)->name);
+				}
+			}
+
 			printf("%08X: ", pc);
 			switch (opcode) {
 				// NOP
@@ -267,67 +353,95 @@ namespace Nitrogen {
 				
 				// LDB
 				case _LDB: {
-					printf("LDB \t\t%s, 0x%08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					printf("LDB \t\t%s, ", Bytecode::getRegister(getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("0x%08X", addr);
+					printVar(addr);
 					break;
 				}
 				
 				// LDW
 				case _LDW: {
-					printf("LDW \t\t%s, 0x%08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					printf("LDW \t\t%s, ", Bytecode::getRegister(getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("0x%08X", addr);
+					printVar(addr);
 					break;
 				}
 				
 				// LDD
 				case _LDD: {
-					printf("LDD \t\t%s, 0x%08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					printf("LDD \t\t%s, ", Bytecode::getRegister(getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("0x%08X", addr);
+					printVar(addr);
 					break;
 				}
 
 				// LDS
 				case _LDS: {
-					printf("LDS \t\t%s, 0x%08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					printf("LDS \t\t%s, ", Bytecode::getRegister(getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("0x%08X", addr);
+					printVar(addr);
 					break;
 				}
 				
 				// STB
 				case _STB_VR: {
-					printf("STB \t\t0x%08X, %s", Util::atoi(getNext(), getNext(), getNext(), getNext()), Bytecode::getRegister(getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("STB \t\t0x%08X, %s", addr, Bytecode::getRegister(getNext()));
+					printVar(addr);
 					break;
 				}
 				case _STB_VN: {
-					printf("STB \t\t0x%08X, %d", Util::atoi(getNext(), getNext(), getNext(), getNext()), getNext());
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("STB \t\t0x%08X, %d", addr, getNext());
+					printVar(addr);
 					break;
 				}
 				
 				// STW
 				case _STW_VR: {
-					printf("STW \t\t0x%08X, %s", Util::atoi(getNext(), getNext(), getNext(), getNext()), Bytecode::getRegister(getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("STW \t\t0x%08X, %s", addr, Bytecode::getRegister(getNext()));
+					printVar(addr);
 					break;
 				}
 				case _STW_VN: {
-					printf("STW \t\t0x%08X, %d", Util::atoi(getNext(), getNext(), getNext(), getNext()), Util::atow(getNext(), getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("STW \t\t0x%08X, %d", addr, Util::atow(getNext(), getNext()));
+					printVar(addr);
 					break;
 				}
 				
 				// STD
 				case _STD_VR: {
-					printf("STD \t\t0x%08X, %s", Util::atoi(getNext(), getNext(), getNext(), getNext()), Bytecode::getRegister(getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("STD \t\t0x%08X, %s", addr, Bytecode::getRegister(getNext()));
+					printVar(addr);
 					break;
 				}
 				case _STD_VN: {
-					printf("STD \t\t0x%08X, %d", Util::atoi(getNext(), getNext(), getNext(), getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("STD \t\t0x%08X, %d", addr, Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					printVar(addr);
 					break;
 				}
 				
 				// JMP
 				case _JMP: {
-					printf("JMP \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("JMP \t\t0x%08X", addr);
+					printLabel(addr);
 					break;
 				}
 				
 				// CALL
 				case _CALL: {
-					printf("CALL \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("CALL \t\t0x%08X", addr);
+					printLabel(addr);
 					break;
 				}
 				
@@ -531,27 +645,39 @@ namespace Nitrogen {
 				
 				// BRANCHES
 				case _JL: {
-					printf("JL \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("JL \t\t0x%08X", addr);
+					printLabel(addr);
 					break;
 				}
 				case _JG: {
-					printf("JG \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("JG \t\t0x%08X", addr);
+					printLabel(addr);
 					break;
 				}
 				case _JLE: {
-					printf("JLE \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("JLE \t\t0x%08X", addr);
+					printLabel(addr);
 					break;
 				}
 				case _JGE: {
-					printf("JGE \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("JGE \t\t0x%08X", addr);
+					printLabel(addr);
 					break;
 				}
 				case _JE: {
-					printf("JE \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("JE \t\t0x%08X", addr);
+					printLabel(addr);
 					break;
 				}
 				case _JNE: {
-					printf("JNE \t\t0x%08X", Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					unsigned int addr = Util::atoi(getNext(), getNext(), getNext(), getNext());
+					printf("JNE \t\t0x%08X", addr);
+					printLabel(addr);
 					break;
 				}
 				
