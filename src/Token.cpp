@@ -70,13 +70,17 @@ namespace Nitrogen {
 		else if (!strcmp(str, "DW"))
 			return DW;
 		else if (!strcmp(str, "DD"))
-			return DD;	
+			return DD;
+		else if (!strcmp(str, "DS"))
+			return DS;
 		else if (!strcmp(str, "LDB"))
 			return LDB;
 		else if (!strcmp(str, "LDW"))
 			return LDW;
 		else if (!strcmp(str, "LDD"))
 			return LDD;
+		else if (!strcmp(str, "LDS"))
+			return LDS;
 		else if (!strcmp(str, "STB"))
 			return STB;
 		else if (!strcmp(str, "STW"))

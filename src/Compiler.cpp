@@ -321,6 +321,13 @@ namespace Nitrogen {
 					buffer->add(_DD);
 					Util::writeInt(buffer, tokens->get(i+1)->getData());
 				}
+
+				// DS
+				else if (tokens->get(i)->getData() == DS &&
+						tokens->get(i+1)->getType() == STRING) {
+					buffer->add(_DS);
+					Util::writeString(buffer, strings->get(tokens->get(i+1)->getData()));
+				}
 				
 				// LDB
 				else if (tokens->get(i)->getData() == LDB &&
@@ -355,6 +362,17 @@ namespace Nitrogen {
 					Util::writeInt(buffer, 0);
 				}
 				
+				// LDS
+				else if (tokens->get(i)->getData() == LDS &&
+						tokens->get(i+1)->getType() == REG &&
+						tokens->get(i+2)->getType() == LOAD) {
+					buffer->add(_LDS);
+					buffer->add(tokens->get(i+1)->getData() + 1);
+					ldAddr->add(i);
+					tokens->get(i)->setData(this->buffer->getSize());
+					Util::writeInt(buffer, 0);
+				}
+
 				// STB
 				else if (tokens->get(i)->getData() == STB &&
 						tokens->get(i+1)->getType() == LOAD) {
@@ -715,10 +733,13 @@ namespace Nitrogen {
 			else if (tokens->get(i)->getType() == VAR) {
 				if (tokens->get(i+1)->getType() == INST &&
 				tokens->get(i+1)->getData() >= DB &&
-				tokens->get(i+1)->getData() <= DD &&
-				tokens->get(i+2)->getType() == NUM) {
+				tokens->get(i+1)->getData() <= DS &&
+				(tokens->get(i+2)->getType() == NUM || tokens->get(i+2)->getType() == STRING)) {
 					Var* var = vars->get(tokens->get(i)->getData());
-					
+					var->data = tokens->get(i + 2)->getData();
+
+					// printf("Variable: '%s'\n", var->name);
+
 					switch (tokens->get(i+1)->getData()) {
 						case DB:
 							var->size = 1; break;
@@ -726,14 +747,19 @@ namespace Nitrogen {
 							var->size = 2; break;
 						case DD:
 							var->size = 4; break;
+						case DS:
+							var->size = -1; break;
 					}
 					
 					if (var->addr == 0) {
 						var->addr = vsize;
 					}
-					vsize += var->size;
-					
-					var->data = tokens->get(i+2)->getData();
+
+					if (var->size != -1) {
+						vsize += var->size;
+					} else {
+						vsize += strlen(strings->get(var->data)) + 1;
+					}
 					
 					// printf("Variable: %s (addr 0x%08X, size %d, data %d)\n", var->name, var->addr, var->size, var->data);
 				} else {

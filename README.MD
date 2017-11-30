@@ -6,7 +6,7 @@ Yet another VM language
 
 ## Dev Notes
 
-Language support for Atom is [here](https://atom.io/packages/language-nitrogen-vm)
+Language support for [Atom](https://atom.io/packages/language-nitrogen-vm)
 
 ### Adding Opcodes
 
@@ -25,13 +25,11 @@ Here are the current features to add for Nitrogen:
 * Strings
 * Export Symbols
 * Floats
-
-Below are general features that should be added:
-
-* Implement includes, loads, etc
-	* Include separate source files
-	* Load external libraries
-* Runtime debugger
 * Work on implementing native calls
 	* First be able to load libraries from NSM
 	* Create a sort of API for external C code
+* Include separate source files
+
+Below are general features that should be added:
+
+* Runtime debugger

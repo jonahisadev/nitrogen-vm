@@ -17,6 +17,7 @@ namespace Nitrogen {
 		JUMP,
 		LOAD,
 		PREPROC,
+		STRING,
 	};
 	
 	enum TokenInst {
@@ -50,9 +51,11 @@ namespace Nitrogen {
 		DB,
 		DW,
 		DD,
+		DS,
 		LDB,
 		LDW,
 		LDD,
+		LDS,
 		STB,
 		STW,
 		STD,

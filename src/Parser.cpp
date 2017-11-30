@@ -56,6 +56,7 @@ namespace Nitrogen {
 				break;
 			}
 			
+			// Strings
 			else if (source[i] == '"') {
 				delim = '"';
 			}
@@ -65,6 +66,7 @@ namespace Nitrogen {
 		
 		if (delim == '"') {
 			delim = ' ';
+			lex[lexi++] = '"';
 		}
 		
 		int token;
@@ -79,6 +81,7 @@ namespace Nitrogen {
 			goto end;
 		}
 		
+		// HEX
 		else if (Util::isHex(lex)) {
 			char* str = Util::strDupX(lex, 2, strlen(lex));
 			tokens->add(new Token(NUM, Util::convertNum(str, 16), line));
@@ -126,6 +129,16 @@ namespace Nitrogen {
 		// ADDRESSES
 		else if (lex[0] == '(') {
 			handleAddress(lex, line);
+			goto end;
+		}
+
+		// STRINGS
+		else if (lex[0] == '"' && lex[strlen(lex)-1] == '"') {
+			char *str = Util::strDupX(lex, 1, strlen(lex) - 1);
+			// printf("Found a string '%s'!\n", str);
+			strings->add(str);
+			tokens->add(new Token(STRING, strings->getSize()-1, line));
+			i++;
 			goto end;
 		}
 		
@@ -189,21 +202,8 @@ namespace Nitrogen {
 			lex[lexi++] = str[i++];
 		}
 		
-		// LOAD
-		// TODO: VERY BROKEN!!!
-		if (!strcmp(lex, "#load")) {
-			char* path = new char[strlen(str) - 5];
-			int z = 0;
-			for (int x = 5; i < strlen(str); i++) {
-				path[z++] = str[x];
-			}
-			path[z] = '\0';
-			strings->add(path);
-			tokens->add(new Token(LIB_LOAD, strings->getSize()-1, line));
-		}
-		
 		// ENTRY
-		else if (!strcmp(lex, "#entry")) {
+		if (!strcmp(lex, "#entry")) {
 			char* label = new char[strlen(str) - 7];
 			int z = 0;
 			for (int x = 7; x < strlen(str); x++) {

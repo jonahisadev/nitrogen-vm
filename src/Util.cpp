@@ -135,7 +135,7 @@ namespace Nitrogen {
 	
 	void Util::writeString(List<unsigned char>* list, char* str) {
 		for (int i = 0; i < strlen(str); i++) {
-			list->add((char)str[i]);
+			list->add((unsigned char)str[i]);
 		}
 		list->add(0);
 	}

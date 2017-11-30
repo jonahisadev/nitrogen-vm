@@ -253,6 +253,17 @@ namespace Nitrogen {
 					printf("DD \t\t%d", Util::atoi(getNext(), getNext(), getNext(), getNext()));
 					break;
 				}
+
+				// DS
+				case _DS: {
+					printf("DS \t\t\"");
+					char c;
+					while ((c = getNext()) != '\0') {
+						printf("%c", c);
+					}
+					printf("\"");
+					break;
+				}
 				
 				// LDB
 				case _LDB: {
@@ -269,6 +280,12 @@ namespace Nitrogen {
 				// LDD
 				case _LDD: {
 					printf("LDD \t\t%s, 0x%08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
+					break;
+				}
+
+				// LDS
+				case _LDS: {
+					printf("LDS \t\t%s, 0x%08X", Bytecode::getRegister(getNext()), Util::atoi(getNext(), getNext(), getNext(), getNext()));
 					break;
 				}
 				

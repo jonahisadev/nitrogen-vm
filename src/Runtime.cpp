@@ -394,6 +394,16 @@ namespace Nitrogen {
 					vsize += 4;
 					break;
 				}
+
+				// DS
+				case ByteInst::_DS: {
+					unsigned char c;
+					while ((c = getNext()) != '\0') {
+						ram[GLOBAL_START + vsize] = c;
+						vsize++;
+					}
+					break;
+				}
 				
 				// LDB
 				case ByteInst::_LDB: {
@@ -416,6 +426,14 @@ namespace Nitrogen {
 					unsigned int* reg = getRegister(getNext());
 					int addr = GLOBAL_START + Util::atoi(getNext(), getNext(), getNext(), getNext());
 					*reg = Util::atoi(ram[addr], ram[addr + 1], ram[addr + 2], ram[addr + 3]);
+					break;
+				}
+
+				// LDS
+				case ByteInst::_LDS: {
+					unsigned int* reg = getRegister(getNext());
+					int addr = GLOBAL_START + Util::atoi(getNext(), getNext(), getNext(), getNext());
+					*reg = addr;
 					break;
 				}
 				

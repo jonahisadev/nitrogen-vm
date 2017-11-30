@@ -64,6 +64,8 @@ namespace Nitrogen {
 		_STB_VN = 		0x3A,
 		_STW_VN = 		0x3B,
 		_STD_VN = 		0x3C,
+		_DS = 			0x3D,
+		_LDS =			0x3E,
 		
 		// Jump Instructions
 		

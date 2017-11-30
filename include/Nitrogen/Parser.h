@@ -22,7 +22,6 @@ namespace Nitrogen {
 		List<Var*>* vars;
 		List<char*>* jumps;
 		List<char*>* loads;
-		
 		List<char*>* strings;
 		
 		const char* entry = "start";
