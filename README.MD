@@ -29,6 +29,5 @@ Here are the current features to add for Nitrogen:
 
 Below are general features that should be added:
 
-* Do a **LOT** of documentation work
 * Include separate source files
 * Runtime debugger

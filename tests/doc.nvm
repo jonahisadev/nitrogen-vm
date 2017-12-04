@@ -1,26 +1,52 @@
+; ---------------------------------------------------------
+;	doc.nvm
+;
+;	This program prints $str one character at a time.
+;	The main routine loads the string, and then calls
+;	@print_str with the calling NVM calling conventions
+;	around it. 
+;
+;	The print_str routine first loads the string pointer 
+;	from the first argument. The loop gets the character
+;	pointer from memory where EAX points. It then checks
+;	for the end-of-string. If so, it exits. If not, it
+;	calls the native function to print a character. EAX
+;	is then incremented so that EBX can get the next
+; 	character.
+;
+;	Once the function returns, EBX is loaded with constant
+;	0, and the program terminates
+; ---------------------------------------------------------
+
 #entry main
 
 #section TEXT
 
 main:
-	ldd eax $a
-	store eax
-	ldd eax $b
-	store eax
-	call @add_nums
-	mov ebx edx
-	sub esp 8
-	ncall %kill
-	
-; Add two numbers
-add_nums:
-	get eax (ebp)+8
-	get ebx (ebp)+12
-	add eax ebx
-	mov edx eax
-	ret
-	
-#section DATA
+	lds eax $str
 
-a: dd 40
-b: dd 2
+	pusha
+	store eax
+	call @print_str
+	add esp 4
+	popa
+
+	mov ebx 0
+	exit
+
+print_str:
+	get eax (ebp)+8
+loop:
+	bget ebx (eax)
+	cmp ebx 0
+	je @end
+	store ebx
+	ncall %print_char
+	add esp 4
+	inc eax
+	jmp @loop
+end:
+	ret
+
+#section DATA
+str: ds "Hello world!" db 10 db 0

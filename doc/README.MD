@@ -1,7 +1,17 @@
 # Nitrogen Virtual Machine
 
 This is the official documentation for the Nitrogen Virtual Machine.
-This is **NOT** documentation for the Nitrogen Language. 
+This is **NOT** documentation for the Nitrogen Language.
+
+## Table of Contents
+* [Basic Information](#basic-information)
+* [Syntax](#syntax)
+* [Instructions](#instructions)
+* [Heap Allocation](#heap-allocation)
+* [Call Frame](#call-frame)
+* [Header](#header)
+
+---
 
 ## Basic Information
 
@@ -11,9 +21,11 @@ This is **NOT** documentation for the Nitrogen Language.
 * Only one data section is allowed
 * The default entry point is `start`
 
+---
+
 ## Syntax
 
-Below is the contents of the `tests/doc.n`.
+Below is the contents of the `tests/doc.nvm`.
 
 ```
 #entry main
@@ -21,30 +33,36 @@ Below is the contents of the `tests/doc.n`.
 #section TEXT
 
 main:
-	ldd eax $a
-	store eax
-	ldd eax $b
-	store eax
-	call @add_nums
-	mov ebx edx
-	sub esp 8
-	ncall %kill
-	
-; Add two numbers
-add_nums:
-	get eax (ebp)+8
-	get ebx (ebp)+12
-	add eax ebx
-	mov erx eax
-	ret
-	
-#section DATA
+	lds eax $str
 
-a: dd 40
-b: dd 2
+	pusha
+	store eax
+	call @print_str
+	add esp 4
+	popa
+
+	mov ebx 0
+	exit
+
+print_str:
+	get eax (ebp)+8
+loop:
+	bget ebx (eax)
+	cmp ebx 0
+	je @end
+	store ebx
+	ncall %print_char
+	add esp 4
+	inc eax
+	jmp @loop
+end:
+	ret
+
+#section DATA
+str: ds "Hello world!" db 10 db 0
 ```
 A few things to note:
-* The default `const` and `add` instructions default to 32-bit sized
+* The default `store` and `add` instructions default to 32-bit sized
 values. Looking at [Instructions](#instructions) section will show
 that prefixes can be applied to specifize size of data. No prefix will default 32-bit values.
 * Calling local labels (or jumping) requires a `@` to be prepended
@@ -58,15 +76,12 @@ the offset in memory.
 * Sections are declared with the `#section` preprocessor.
 * Entry points are declared with the `#entry` preprocessor. The default entry label is `start`
 * Functions return their value in the `ERX` register.
+* Strings require EOS and new-line characters to appended via the `DB` instruction
 
-The above program loads two variables and pushes them to the stack 
-and then calls an adding sub routine. The sub routine gets the two 
-arguments from the stack and puts them in registers. Using the `add`
-instruction, it adds the two arguments together, and sets `edx` as 
-the return value. It then returns, where the result is moved into 
-`ebx` to be returned by the program. A native call to `kill` 
-(unnecessary with the `exit` instruction) ends the program.
+For a more in depth explanation of what this specific program does, please read
+the actual file. There's info at the top.
 
+---
 
 ## Instructions
 
@@ -93,9 +108,11 @@ The above table applies the first 9 instructions below
 | DB		| N			| Store a byte in variable memory |
 | DW		| N			| Store a word in variable memory |
 | DD		| N			| Store an integer in variable memory |
+| DS		| STR		| Store a string in variable memory |
 | LDB		| R, V		| Load a byte variable into a register |
 | LDW		| R, V		| Load a word variable into a register |
 | LDD		| R, V		| Load a integer variable into a register |
+| LDS		| R, V		| Load a pointer to a string into a register |
 | JMP		| LBL		| Jump to a label |
 | CALL		| LBL		| Call a label |
 | RET		|			| Return from a call |
@@ -115,6 +132,8 @@ The above table applies the first 9 instructions below
 | JNE		| LBL		| Jump if comparison is not equal |
 | EXIT		|			| Exit the program |
 
+---
+
 ## Heap Allocation
 
 There are two instructions that deal with heap allocation: `MALLOC` and `FREE`.
@@ -125,6 +144,8 @@ to the stack.
 `FREE` takes no arguments. The address of the originally malloc'd memory must
 be pushed to the stack, and the `FREE` instruction will take that address and
 free it for future use.
+
+---
 
 ## Call Frame
 
@@ -144,13 +165,15 @@ Below is the specification for calling subroutines
 
 | Stack |
 | ----- |
-| Local variable 2
-| Local variable 1 |
-| EBP |
-| Return address |
-| 1st argument |
-| 2nd argument |
 | 3rd argument |
+| 2nd argument |
+| 1st argument |
+| Return Address |
+| EBP |
+| Local variable 2 |
+| Local variable 2 |
+
+---
 
 ## Header
 
@@ -158,4 +181,5 @@ The header for a nitrogen binary file goes as follows:
 
 * 2 byte "verification" number (0x4E37) which is 'N7' in ASCII
 * 5 byte variable loading address to call
+* 1 byte instruction to initalize the heap
 * 5 byte entry address jump instruction
