@@ -1,0 +1,29 @@
+#entry main
+
+#section TEXT
+
+;main:
+	;openl $lib_test $lib_test_n	; Load library as `test`
+	;ncall %test.print				; Call library function from `test`
+	;closel $lib_test				; Close library
+	;exit
+
+main:
+	; Load external library
+	lds eax $lib_test_n
+	store eax
+	lds eax $lib_test
+	store eax
+	ncall %sys.openl
+	add esp 8
+
+	; Now that the library is loaded
+	const 18
+	ncall %test.age
+	
+	; Exit
+	exit
+
+#section DATA
+lib_test: ds "native/test/test.dylib" db 0
+lib_test_n: ds "test" db 0

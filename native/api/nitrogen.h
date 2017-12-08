@@ -41,6 +41,7 @@ static Env* createEnvironment(
 static unsigned int getEnvRegister(Env* env, int reg);
 static void setEnvRegister(Env* env, int reg, unsigned int value);
 static int getArgument(Env* env, int off);
+static char* getString(Env* env, int ptr);
 
 static unsigned int x_atoi(unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
@@ -116,6 +117,11 @@ int getArgument(Env* env, int off) {
 	int n = *(env->bp);
 	int x = x_atoi(env->memory[n+off+0], env->memory[n+off+1], env->memory[n+off+2], env->memory[n+off+3]);
 	return x;
+}
+
+static char* getString(Env* env, int ptr) {
+	char* str = (char*)&(*(env->memory + ptr));
+	return str;
 }
 
 unsigned int x_atoi(unsigned int a, unsigned int b, unsigned int c, unsigned int d) {

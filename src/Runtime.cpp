@@ -7,6 +7,7 @@ namespace Nitrogen {
 		this->bin_size = bin_size;
 		this->ram = new unsigned char[RAM_SIZE];
 		
+		// Set up native library and environment
 		this->env = createEnvironment(
 			ram,
 			&sp,
@@ -18,12 +19,20 @@ namespace Nitrogen {
 			&erx,
 			&erm
 		);
-		this->lsystem = new NativeLib("native/system.dylib");
-		this->lsystem->bind(this->env);
+		
+		// Load system library
+		this->sys = new NativeLib("native/system.dylib", "sys");
+		this->sys->bind(env);
+
+		// Initialize native library
+		void (*initl)() = (void (*)())dlsym(this->sys->lib, "initl");
+		initl();
 	}
 	
 	Runtime::~Runtime() {
-		delete[] prog;
+		delete[] this->prog;
+		delete this->sys;
+		delete[] this->ram;
 	}
 	
 	int Runtime::start() {
@@ -802,22 +811,7 @@ namespace Nitrogen {
 				
 				// NCALL
 				case ByteInst::_NCALL: {
-					char* name = new char[256];
-					char c;
-					int x = 0;
-					while ((c = getNext()) != '\0')
-						name[x++] = c;
-					
-					pushi(this->pc);
-					pushi(this->bp);
-					this->bp = this->sp;
-					
-					this->erx = lsystem->callFunction(name);
-					
-					this->bp = popi();
-					this->pc = popi();
-					
-					delete[] name;
+					ncall();
 					break;
 				}
 				
@@ -839,6 +833,56 @@ namespace Nitrogen {
 		return ebx;
 	}
 	
+	void Runtime::ncall() {
+		char* pre = new char[256];
+		char* func = new char[256];
+		char c;
+
+		// Get library name
+		int x = 0;
+		while ((c = getNext()) != '.')
+			pre[x++] = c;
+
+		// Get function name
+		x = 0;
+		while ((c = getNext()) != '\0')
+			func[x++] = c;
+
+		pushi(this->pc);
+		pushi(this->bp);
+		this->bp = this->sp;
+
+		// Call natively
+		if (!strcmp(pre, "sys")) {
+			this->erx = this->sys->callFunction(func);
+		} else {
+			int (*native)(char*, char*) = (int (*)(char*, char*))dlsym(sys->lib, "ncall");
+			this->erx = native(pre, func);
+		}
+		
+		// NativeLib* lib = NativeLib::getByName(libs, pre);
+		// if (!lib) {
+		// 	printf("ERR: Could not load native '%s'\n", pre);
+		// 	exit(1);
+		// }
+		// this->erx = lib->callFunction(func);
+		
+		this->bp = popi();
+		this->pc = popi();
+		
+		delete[] pre;
+		delete[] func;
+	}
+
+	void Runtime::openl(int ptr) {
+		// TODO: Nothing
+	}
+
+	void Runtime::addLibrary(NativeLib* lib) {
+		lib->bind(this->env);		// Bind library
+		//this->libs->add(lib);		// Add to list
+	}
+
 	void Runtime::heap_alloc(unsigned int size) {
 		if (size == 0) {
 			printf("ERR: Can not allocate zero bytes\n");

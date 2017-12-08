@@ -59,7 +59,7 @@ end:
 	ret
 
 #section DATA
-str: ds "Hello world!" db 10 db 0
+str: ds "Hello world!"
 ```
 A few things to note:
 * The default `store` and `add` instructions default to 32-bit sized
@@ -76,7 +76,6 @@ the offset in memory.
 * Sections are declared with the `#section` preprocessor.
 * Entry points are declared with the `#entry` preprocessor. The default entry label is `start`
 * Functions return their value in the `ERX` register.
-* Strings require EOS and new-line characters to appended via the `DB` instruction
 
 For a more in depth explanation of what this specific program does, please read
 the actual file. There's info at the top.
@@ -170,7 +169,7 @@ Below is the specification for calling subroutines
 | 1st argument |
 | Return Address |
 | EBP |
-| Local variable 2 |
+| Local variable 1 |
 | Local variable 2 |
 
 ---

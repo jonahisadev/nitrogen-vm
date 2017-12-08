@@ -10,6 +10,8 @@
 #include <Nitrogen/HeapNode.h>
 #include <api/nitrogen.h>
 
+#include <dlfcn.h>
+
 #define RAM_SIZE 0x8000000			// 128 MB
 #define STACK_START (RAM_SIZE - 0x1000 + 1)
 #define GLOBAL_START 0x1000
@@ -43,8 +45,8 @@ namespace Nitrogen {
 		
 		// Native
 		Env* env;
-		NativeLib* lsystem;
-		
+        NativeLib* sys;
+      
 		// Variables
 		int vsize = 0;
 		
@@ -68,6 +70,10 @@ namespace Nitrogen {
 		
 		void pushb(unsigned char a);
 		unsigned char popb();
+
+		void ncall();
+		void openl(int ptr);
+		void addLibrary(NativeLib* lib);
 		
 		unsigned char getNext();
 		bool getCompare(int place);

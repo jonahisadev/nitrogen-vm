@@ -23,8 +23,9 @@ Language support for [Atom](https://atom.io/packages/language-nitrogen-vm)
 Here are the current features to add for Nitrogen:
 
 * Work on implementing native calls
-	* First be able to load libraries from NSM
 	* Create a sort of API for external C code
+	* Check for memory leaks in the library code
+* Special string character parsing
 * Floats
 
 Below are general features that should be added:

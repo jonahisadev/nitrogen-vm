@@ -11,7 +11,7 @@ loop:
     je @end					; If zero, go to the end
 
     store ecx				; Push the character
-    ncall %print_char		; Call the print character
+    ncall %sys.print_char	; Call the print character
     add esp 4				; Clean up
 
     inc ebx					; Increment string pointer
@@ -24,6 +24,6 @@ end:
 #section DATA
 
 x: dd 42
-str: ds "Hello world!" db 10 db 0
+str: ds "Hello world!"
 y: db 126
 z: db 0
