@@ -842,11 +842,13 @@ namespace Nitrogen {
 		int x = 0;
 		while ((c = getNext()) != '.')
 			pre[x++] = c;
+		pre[x] = 0;
 
 		// Get function name
 		x = 0;
 		while ((c = getNext()) != '\0')
 			func[x++] = c;
+		func[x] = 0;
 
 		pushi(this->pc);
 		pushi(this->bp);

@@ -40,10 +40,15 @@ static Env* createEnvironment(
 
 static unsigned int getEnvRegister(Env* env, int reg);
 static void setEnvRegister(Env* env, int reg, unsigned int value);
-static int getArgument(Env* env, int off);
+
+static int getArgumenti(Env* env, unsigned int off);
+static short getArgumentw(Env* env, unsigned int off);
+static char getArgumentb(Env* env, unsigned int off);
+
 static char* getString(Env* env, int ptr);
 
 static unsigned int x_atoi(unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+static unsigned short x_atow(unsigned int a, unsigned int b);
 
 //
 // IMPLEMENTATIONS
@@ -113,19 +118,34 @@ void setEnvRegister(Env* env, int reg, unsigned int value) {
 	}
 }
 
-int getArgument(Env* env, int off) {
+int getArgumenti(Env* env, unsigned int off) {
 	int n = *(env->bp);
-	int x = x_atoi(env->memory[n+off+0], env->memory[n+off+1], env->memory[n+off+2], env->memory[n+off+3]);
+	int x = (int) x_atoi(env->memory[n+off+0], env->memory[n+off+1], env->memory[n+off+2], env->memory[n+off+3]);
 	return x;
 }
 
-static char* getString(Env* env, int ptr) {
-	char* str = (char*)&(*(env->memory + ptr));
+short getArgumentw(Env* env, unsigned int off) {
+	int n = *(env->bp);
+	short x = (short) x_atow(env->memory[n+off+0], env->memory[n+off+1]);
+	return x;
+}
+
+char getArgumentb(Env* env, unsigned int off) {
+	int n = (*env->bp);
+	return env->memory[n + off];
+}
+
+char* getString(Env* env, int ptr) {
+	char* str = (char*) &(*(env->memory + ptr));
 	return str;
 }
 
 unsigned int x_atoi(unsigned int a, unsigned int b, unsigned int c, unsigned int d) {
 	return (a << 24) | (b << 16) | (c << 8) | d;
+}
+
+unsigned short x_atow(unsigned int a, unsigned int b) {
+	return (a << 8) | b;
 }
 
 #endif // NITROGEN_H

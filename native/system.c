@@ -6,12 +6,12 @@
 static NativeList* nlist;
 
 void print_num(Env* env) {
-	int x = getArgument(env, 8);
+	int x = getArgumenti(env, 8);
 	printf("%d", x);
 }
 
 void print_char(Env* env) {
-	char c = getArgument(env, 8);
+	char c = getArgumentb(env, 8);
 	printf("%c", c);
 }
 
@@ -20,8 +20,8 @@ void initl() {
 }
 
 void openl(Env* env) {
-	char* path = getString(env, getArgument(env, 8));
-	char* name = getString(env, getArgument(env, 12));
+	char* path = getString(env, getArgumenti(env, 8));
+	char* name = getString(env, getArgumenti(env, 12));
 
 	NativeLib* n = native_new(path, name);
 	native_bind(n, env);
@@ -33,7 +33,7 @@ int ncall(char* pre, char* func) {
 	if (n) {
 		return native_call_function(n, func);
 	}
-	printf("Native ncall error!\n");
+	printf("SEVERE: ncall error (%s.%s)!\n", pre, func);
 	return -1;
 }
 
