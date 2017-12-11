@@ -40,9 +40,9 @@ loop:
 	bget ebx (eax)
 	cmp ebx 0
 	je @end
-	store ebx
-	ncall %print_char
-	add esp 4
+	bstore ebx
+	ncall %sys.print_char
+	add esp 1
 	inc eax
 	jmp @loop
 end:

@@ -24,6 +24,6 @@ end:
 #section DATA
 
 x: dd 42
-str: ds "Hello world!"
+str: ds "Hello world!" db 0
 y: db 126
 z: db 0

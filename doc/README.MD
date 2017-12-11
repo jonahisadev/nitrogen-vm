@@ -50,16 +50,16 @@ loop:
 	bget ebx (eax)
 	cmp ebx 0
 	je @end
-	store ebx
-	ncall %print_char
-	add esp 4
+	bstore ebx
+	ncall %sys.print_char
+	add esp 1
 	inc eax
 	jmp @loop
 end:
 	ret
 
 #section DATA
-str: ds "Hello world!"
+str: ds "Hello world!" db 10 db 0
 ```
 A few things to note:
 * The default `store` and `add` instructions default to 32-bit sized
@@ -68,6 +68,8 @@ that prefixes can be applied to specifize size of data. No prefix will default 3
 * Calling local labels (or jumping) requires a `@` to be prepended
 to the label name.
 * Calling a native function requires a `%` to be prepended to the label name.
+	* The library name goes before the period, and the function name goes after
+	* The above code calls `print_char` from the `sys` library (loaded by default)
 * Addresses are taken as such `(data)+offset` where the offset is
 the offset in memory.
 * Comments start with `;`

@@ -3,6 +3,8 @@
 
 #include <dlfcn.h>
 #include <api/nitrogen.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef int (*FUNC_PTR)(Env*);
 
