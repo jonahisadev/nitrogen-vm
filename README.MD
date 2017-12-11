@@ -22,7 +22,6 @@ Language support for [Atom](https://atom.io/packages/language-nitrogen-vm)
 
 Here are the current features to add for Nitrogen:
 
-* Include separate source files
 * Special string character parsing (fix strings majorly)
 * Floats
 

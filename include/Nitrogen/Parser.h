@@ -15,6 +15,7 @@ namespace Nitrogen {
 
 	class Parser {
 	private:
+		char* path;
 		char* source;
 		
 		List<Token*>* tokens;
@@ -29,13 +30,14 @@ namespace Nitrogen {
 		int section = 0;
 		
 	public:
-		Parser(char* src);
+		Parser(char* path);
 		~Parser();
 		
 		void start();
 		void printTokens();
 		void handlePreProc(char* str, int line);
 		void handleAddress(char* str, int line);
+		void include(Parser* p, char* path);
 		
 		Compiler* createCompiler();
 	};

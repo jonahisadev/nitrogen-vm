@@ -19,6 +19,7 @@ namespace Nitrogen {
 		void add(T data);
 		T get(int ptr);
 		void set(int ptr, T data);
+		void append(List<T>* list);
 		
 		int getSize() const { return ptr; }
 	};
@@ -57,6 +58,13 @@ namespace Nitrogen {
 	template <class T>
 	void List<T>::set(int ptr, T data) {
 		this->data[ptr] = data;
+	}
+
+	template <class T>
+	void List<T>::append(List<T>* list) {
+		for (int i = 0; i < list->getSize(); i++) {
+			this->add(list->get(i));
+		}
 	}
 
 }

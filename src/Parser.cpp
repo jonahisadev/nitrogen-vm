@@ -2,8 +2,9 @@
 
 namespace Nitrogen {
 
-	Parser::Parser(char* source) {
-		this->source = strdup(source);
+	Parser::Parser(char* path) {
+		this->path = path;
+		this->source = strdup(Util::readFile(path));
 		
 		this->tokens = new List<Token*>(1);
 		this->labels = new List<Label*>(1);
@@ -99,7 +100,7 @@ namespace Nitrogen {
 				tokens->add(new Token(VAR, vars->getSize()-1, line));
 			}
 			else {
-				printf("ERR: (%d) No section defined. Symbols can not be created\n", line);
+				printf("ERR: (%s:%d) No section defined. Symbols can not be created\n", path, line);
 				exit(1);
 			}
 			goto end;
@@ -155,7 +156,7 @@ namespace Nitrogen {
 		}
 		
 		else {
-			printf("ERR: (%d) Invalid token: '%s'\n", line, lex);
+			printf("ERR: (%s:%d) Invalid token: '%s'\n", path, line, lex);
 			exit(1);
 		}
 		
@@ -202,8 +203,22 @@ namespace Nitrogen {
 			lex[lexi++] = str[i++];
 		}
 		
+		// INCLUDE
+		if (!strcmp(lex, "#include")) {
+			// Get path
+			char* path = new char[256];
+			i += 2;
+			int x = 0;
+			while (str[i] != '"') {
+				path[x++] = str[i++];
+			}
+			path[x] = '\0';
+
+			include(this, path);
+		}
+
 		// ENTRY
-		if (!strcmp(lex, "#entry")) {
+		else if (!strcmp(lex, "#entry")) {
 			char* label = new char[strlen(str) - 7];
 			int z = 0;
 			for (int x = 7; x < strlen(str); x++) {
@@ -228,14 +243,14 @@ namespace Nitrogen {
 				tokens->add(new Token(PREPROC, SEC_DATA, line));
 				this->section = SEC_DATA;
 			} else {
-				printf("ERR: (%d) Invalid section '%s'\n", line, type);
+				printf("ERR: (%s:%d) Invalid section '%s'\n", path, line, type);
 				exit(1);
 			}
 		}
 		
 		// WHO KNOWS
 		else {
-			printf("ERR: (%d) Invalid preprocessor '%s'\n", line, str);
+			printf("ERR: (%s:%d) Invalid preprocessor '%s'\n", path, line, str);
 			exit(1);
 		}
 		
@@ -272,7 +287,7 @@ namespace Nitrogen {
 			tokens->add(new Token(TokenType::REG, ERX, line));
 		}
 		else {
-			printf("ERR: (%d) Invalid address! '%s'\n", line, lex);
+			printf("ERR: (%s:%d) Invalid address! '%s'\n", path, line, lex);
 		}
 		
 		i++;
@@ -294,7 +309,7 @@ namespace Nitrogen {
 				num = Util::convertNum(lex, 16);
 				delete str;
 			} else {
-				printf("ERR: (%d) Must offset address by a number\n", line);
+				printf("ERR: (%s:%d) Must offset address by a number\n", path, line);
 				exit(1);
 			}
 			if (c == '+') {
@@ -305,6 +320,48 @@ namespace Nitrogen {
 		} else {
 			tokens->add(new Token(NUM, 0, line));
 		}
+	}
+
+	void Parser::include(Parser* p, char* path) {
+		// Run parser
+		Parser* sub = new Parser(path);
+		sub->start();
+	
+		// Save Sizes
+		int tSize = sub->tokens->getSize();
+		int lblSize = sub->labels->getSize();
+		int vSize = sub->vars->getSize();
+		int jSize = sub->jumps->getSize();
+		int ldSize = sub->loads->getSize();
+		int strSize = sub->strings->getSize();
+
+		// Append data
+		tokens->append(sub->tokens);
+		labels->append(sub->labels);
+		vars->append(sub->vars);
+		jumps->append(sub->jumps);
+		loads->append(sub->loads);
+		strings->append(sub->strings);
+
+		// Adjust pointers
+		for (int i = tSize - 1; i < tokens->getSize(); i++) {
+			Token* t = tokens->get(i);
+			switch (t->getType()) {
+				case LABEL:
+					t->setData(t->getData() + lblSize); break;
+				case JMP:
+					t->setData(t->getData() + jSize); break;
+				case LOAD:
+					t->setData(t->getData() + ldSize); break;
+				case VAR:
+					t->setData(t->getData() + vSize); break;
+				case STRING:
+					t->setData(t->getData() + strSize); break;
+			}
+		}
+
+		// Clean up
+		delete sub;
 	}
 
 }

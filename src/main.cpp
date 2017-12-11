@@ -17,9 +17,7 @@ int main(int argc, char** argv) {
 	}
 	
 	if (!strcmp(argv[1], "-c")) {
-		char* src = Util::readFile(argv[2]);
-		
-		Parser* p = new Parser(src);
+		Parser* p = new Parser(argv[2]);
 		p->start();
 		// p->printTokens();
 		

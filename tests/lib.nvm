@@ -1,0 +1,13 @@
+#section TEXT
+
+n_malloc:
+	get eax (ebp)+8
+	malloc eax
+	load erx
+	ret
+
+n_free:
+	get eax (ebp)+8
+	store eax
+	free
+	ret

@@ -1,0 +1,27 @@
+#entry main
+#include "tests/lib.nvm"
+
+#section TEXT
+
+main:
+	; Call to @n_malloc($size)
+	pusha
+	ldd eax $size
+	store eax
+	call @n_malloc
+	add esp 4
+	popa
+
+	; Call to @n_free(erx)
+	pusha
+	store erx
+	call @n_free
+	add esp 4
+	popa
+
+	; Exit
+	mov ebx 42
+	exit
+
+#section DATA
+size: dd 256
