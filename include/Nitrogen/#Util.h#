@@ -23,7 +23,6 @@ namespace Nitrogen {
 		static char* strDupX(char* str, int start, int end);
 		static int strlen(char* str);
 		static bool strcmp(char* a, char* b);
-		
 		// Data Conversion
 		static unsigned char* itoa(int x);
 		static unsigned int atoi(unsigned char a, unsigned char b, unsigned char c, unsigned char d);
