@@ -89,6 +89,28 @@ namespace Nitrogen {
 		return buf;
 	}
 	
+	int Util::strlen(char* str) {
+	    int len = 0;
+	    while (str[len] != '\0')
+	        len++;
+	    return len;
+	}
+	
+	bool Util::strcmp(char* a, char* b) {
+	    int aLen = strlen(a);
+	    int bLen = strlen(b);
+	    
+	    if (aLen != bLen)
+	        return false;
+	       
+	    for (int i = 0; i < aLen; i++) {
+	        if (a[i] != b[i])
+	            return false;
+	    }
+	    
+	    return true;
+	}
+	
 	unsigned char* Util::itoa(int x) {
 		unsigned char* arr = new unsigned char[4];
 		

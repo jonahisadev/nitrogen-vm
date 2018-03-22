@@ -1,0 +1,21 @@
+#section TEXT
+
+start:
+    pusha
+    ldd eax $x
+    store eax
+    call @square
+    add esp 4
+    popa
+    
+    mov ebx erx
+    exit
+
+square:
+    get eax (ebp)+8
+    mul eax eax
+    mov erx eax
+    ret
+
+#section DATA
+x: dd 5

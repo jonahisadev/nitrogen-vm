@@ -21,7 +21,14 @@ namespace Nitrogen {
 		);
 		
 		// Load system library
-		this->sys = new NativeLib("native/system.dylib", "sys");
+		#ifdef MAC
+		    this->sys = new NativeLib("native/system.dylib", "sys");
+		#endif
+		
+		#ifdef LINUX
+		    this->sys = new NativeLib("native/system.so", "sys");
+		#endif
+		
 		this->sys->bind(env);
 
 		// Initialize native library
